@@ -63,9 +63,10 @@ zhanjing/
 ├── .gitignore
 ├── assets/
 │   ├── logo.svg               # 战镜 Logo（矢量）
-│   └── favicon.svg            # 站点图标
+│   ├── favicon.svg            # 站点图标
+│   └── hero-gnome.png         # Hero 装饰图（构建时由 vendor 源码自动提取，不纳入版本库）
 ├── data/
-│   ├── spells.json            # 41 万+ 法术中文名（约 21MB，对象格式 {items:{id:{name}}}）
+│   ├── spells.json            # 41 万+ 法术中文名（约 21MB，可选，不纳入版本库；缺失不影响基础功能）
 │   └── meta.json              # 副本(215) / 首领(1160) 中文名
 ├── data_core/
 │   └── spell_zh_core.json     # 核心技能映射（163 条，构建时内嵌，fetch 完成前兜底）
@@ -135,8 +136,13 @@ python -m http.server 8080
 
 ```bash
 cd zhanjing
-python build_zh.py     # 输出 index.html
+python build_zh.py     # 输出 index.html, 并自动提取 assets/hero-gnome.png
 ```
+
+> **版本库约定**：`assets/hero-gnome.png`（二进制）与 `data/spells.json`（21MB 可选数据）
+> 已通过 `.gitignore` 排除，不纳入 Git。克隆本仓库后执行 `python build_zh.py` 即可自动还原
+> `hero-gnome.png`；`spells.json` 为可选的全量法术名覆盖（站点内置 163 条核心映射可独立运行），
+> 可从本地部署包复制或自行生成，缺失不影响基础功能。
 
 转换包含：146 条 UI 文案、47 条 JS 字符串、CSS 美化注入、Logo 替换、SPELL_ZH 映射层
 （163 条内嵌 + 外部 41 万+ 法术加载）、`meta.json` 副本 / 首领加载、PKCE 占位符。

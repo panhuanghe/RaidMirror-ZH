@@ -797,15 +797,32 @@ content = content.replace('zone:r.zone?.name||"Unknown Zone"',
 
 # ══════════════════════════════════════════════════════════
 #  ⑨ 修复 Hero 区域破损图片: 3.5MB base64 PNG → 外部 PNG(原站图)
+#     同时把 PNG 二进制提取到 assets/, 使 clone 后 `python build_zh.py`
+#     即可自动还原, 仓库无需提交二进制文件
 # ══════════════════════════════════════════════════════════
 import re as _re
+# 9a. 先提取 PNG 二进制 (替换 src 前, base64 仍在 vendor 中)
+#     以【字节】方式读取 vendor, 直接对 base64 字节解码, 避免 UTF-8 把 base64 中的
+#     高位字节误读为 multibyte 字符而被丢掉, 导致 PNG 缺字节损坏
+with open(SRC, "rb") as _vf:
+    _vraw = _vf.read()
+_m = _re.search(rb'<div class="hero-gnome"[^>]*>\s*<img src="data:image/png;base64,([^"]*)"', _vraw)
+if _m:
+    os.makedirs(ASSETS, exist_ok=True)
+    with open(os.path.join(ASSETS, "hero-gnome.png"), "wb") as _pf:
+        _pf.write(base64.b64decode(_m.group(1)))
+    print("[9a] 提取 hero-gnome.png 二进制 -> assets/hero-gnome.png")
+else:
+    print("[9a] 未找到 hero-gnome base64, 跳过 PNG 提取")
+
+# 9b. 将内联 base64 <img> 替换为外部 PNG 引用
 content = _re.sub(
     r'<div class="hero-gnome" aria-hidden="true">\s*<img src="data:image/png;base64,[^"]*"[^>]*>',
     "<div class=\"hero-gnome\" aria-hidden=\"true\"><img src=\"assets/hero-gnome.png\" alt=\"战镜\">",
     content,
     flags=_re.S,
 )
-print("[9/9] \\u6c42\\u66ff\\u6362 hero-gnome: 3.5MB \\u539f\\u7ad9 base64 PNG \\u2192 \\u5916\\u90e8 assets/hero-gnome.png")
+print("[9b] 替换 hero-gnome src: 3.5MB 原站 base64 PNG → 外部 assets/hero-gnome.png")
 
 # ─── 写入输出 ─────────────────────────────────────────────
 os.makedirs(os.path.dirname(DST), exist_ok=True)

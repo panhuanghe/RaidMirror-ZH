@@ -14,3 +14,9 @@ Thumbs.db
 # 编辑器
 .idea/
 .vscode/
+
+# 二进制资源(由 build_zh.py 从 vendor 源码的 base64 自动提取, clone 后构建即可还原)
+assets/hero-gnome.png
+
+# 可选运行时数据(21MB; 站点内置 163 条核心法术映射可独立运行, 部署包 deploy/ 内含)
+data/spells.json
