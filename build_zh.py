@@ -53,7 +53,7 @@ UI_REPLACEMENTS = [
     ('Deaths + killing blow per pull', '每场死亡记录 + 致命一击'),
     ('Missed offensive CDs flagged', '遗漏爆发技能标红提醒'),
     ('Defensive CD tracking', '防御技能使用追踪'),
-    ('Bloodlust timing + who got it', '嗜血时��� + 覆盖人员'),
+    ('Bloodlust timing + who got it', '嗜血时◆◆ + 覆盖人员'),
     ('Potion &amp; healthstone usage', '合剂 / 药水 / 治疗石使用'),
     ('Mechanic death breakdown', '机制致死分类统计'),
     ('Downtime \u2014 who wasn\u2019t hitting', '空档期 — 谁在划水'),
@@ -272,6 +272,17 @@ UI_REPLACEMENTS = [
      '\u5206\u6790\u540c Boss \u7684\u7b2c\u4e8c\u573a\u621d\u6597\u8fdb\u884c\u5bf9\u6bd4'),
     ('Data is stored per session \u2014 refreshing the page resets it.',
      '\u6570\u636e\u4ec5\u4fdd\u5b58\u5728\u5f53\u524d\u4f1a\u8bdd\uff0c\u5237\u65b0\u9875\u9762\u4f1a\u91cd\u7f6e'),
+
+    # Missing translations (round 2 - from screenshot audit)
+    ('Raid Verdict', '\u6218\u6597\u88c1\u51b3'),
+    ('\u23f1\ufe0f Downtime', '\u23f1\ufe0f \u7a7a\u6863\u671f'),
+    ('Downtime \u2014 who wasn\'t hitting', '\u7a7a\u6863\u671f \u2014 \u8c01\u5728\u5212\u6c34'),
+    ('Shadowclaw Slam', '\u6697\u5f71\u722a\u51fb'),
+    ('\U0001f525 Main killer:', '\U0001f525 \u4e3b\u8981\u6740\u624b\uff1a'),
+    ('Main killer:', '\u4e3b\u8981\u6740\u624b\uff1a'),
+    ('\U0001f525 Primary wipe cause: Shadowclaw Slam', '\U0001f525 \u4e3b\u8981\u706d\u56e2\u539f\u56e0\uff1a\u6697\u5f71\u722a\u51fb'),
+    ('\ud83d\udc80 Main killer: Shadowclaw Slam \u00d7', '\ud83d\udc80 \u4e3b\u8981\u6740\u624b\uff1a\u6697\u5f71\u722a\u51fb \u00d7'),
+    ('Downtime ↕', '\u7a7a\u6863\u671f ↕'),
 ]
 
 print(f"[2/7] UI \u6587\u6848\u7ffb\u8bd1: {len(UI_REPLACEMENTS)} \u6761")
@@ -573,6 +584,27 @@ content = content.replace('<span class="fi-name">${f.name}</span>',
 content = content.replace("zone{name}", "zone{id,name}")
 content = content.replace('zone:r.zone?.name||"Unknown Zone"',
                           'zone:znInst(r.zone?.id,r.zone?.name)||"Unknown Zone"')
+
+# ══════════════════════════════════════════════════════════
+#  ⑨ 修复 Hero 区域破损图片: 3.5MB base64 PNG → 轻量 SVG
+# ══════════════════════════════════════════════════════════
+import re as _re
+content = _re.sub(
+    r'<div class="hero-gnome" aria-hidden="true">\s*<img src="data:image/png;base64,[^"]+"\s*/?\s*>',
+    r'''<div class="hero-gnome" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202 264" fill="none" style="width:100%;height:100%">
+      <rect width="202" height="264" rx="20" fill="#0d1117" stroke="#30363d"/>
+      <circle cx="101" cy="110" r="60" fill="none" stroke="url(#lg2)" stroke-width="3" opacity="0.6"/>
+      <circle cx="101" cy="110" r="40" fill="none" stroke="url(#lg2)" stroke-width="2" opacity="0.4"/>
+      <line x1="101" y1="50" x2="101" y2="170" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
+      <line x1="41" y1="110" x2="161" y2="110" stroke="#7b68ee" stroke-width="1" opacity="0.3"/>
+      <text x="101" y="200" text-anchor="middle" fill="#8b949e" font-size="14" font-family="PingFang SC,Microsoft YaHei,sans-serif">战镜</text>
+      <defs><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#7b68ee"/></linearGradient></defs>
+    </svg>''',
+    content,
+    flags=_re.S,
+)
+print("[9/9] \\u6c42\\u66ff\\u6362 hero-gnome: 3.5MB PNG \\u2192 \\u8f7b\\u91cf SVG")
 
 # ─── 写入输出 ─────────────────────────────────────────────
 os.makedirs(os.path.dirname(DST), exist_ok=True)
