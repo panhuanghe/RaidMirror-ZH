@@ -53,7 +53,7 @@ UI_REPLACEMENTS = [
     ('Deaths + killing blow per pull', '每场死亡记录 + 致命一击'),
     ('Missed offensive CDs flagged', '遗漏爆发技能标红提醒'),
     ('Defensive CD tracking', '防御技能使用追踪'),
-    ('Bloodlust timing + who got it', '嗜血时◆◆ + 覆盖人员'),
+    ('Bloodlust timing + who got it', '嗜血时机 + 覆盖人员'),
     ('Potion &amp; healthstone usage', '合剂 / 药水 / 治疗石使用'),
     ('Mechanic death breakdown', '机制致死分类统计'),
     ('Downtime \u2014 who wasn\u2019t hitting', '空档期 — 谁在划水'),
@@ -108,20 +108,20 @@ UI_REPLACEMENTS = [
      '\u4e00\u952e\u767b\u5f55 \u2014 WCL \u5904\u7406\u8ba4\u8bc1\uff0c\u65e0\u9700 API Key'),
     ('Pick a report & pull', '\u9009\u62e9\u62a5\u544a\u4e0e\u6218\u6597'),
     ('Your recent raid logs load automatically. Pick any fight.',
-     '\u6700\u8fd1\u7684\u56e2\u672c\u65e5\u5fd7\u81ea\u52a8\u52a0\u8f7d\uff0c\u9009\u62e9\u4efb\u610f\u621d\u6597'),
+     '\u6700\u8fd1\u7684\u56e2\u672c\u65e5\u5fd7\u81ea\u52a8\u52a0\u8f7d\uff0c\u9009\u62e9\u4efb\u610f\u6218\u6597'),
     ('Get your raid verdict', '\u83b7\u53d6\u56e2\u961f\u88c1\u51b3'),
     ('Primary wipe cause, missed CDs, deaths, Discord summary \u2014 instant.',
      '\u4e3b\u8981\u706d\u56e2\u539f\u56e0\u3001\u6f0f\u6280\u80fd\u3001\u6b7b\u4ea1\u3001Discord \u603b\u7ed3 \u2014 \u5373\u65f6\u5448\u73b0'),
 
     # Showcase section headers
-    ('What you get after every pull', '\u6bcf\u573a\u621d\u6597\u7ed3\u675f\u540e\u4f60\u5c06\u83b7\u5f97'),
+    ('What you get after every pull', '\u6bcf\u573a\u6218\u6597\u7ed3\u675f\u540e\u4f60\u5c06\u83b7\u5f97'),
 
     # Showcase card titles
     ('Raid Verdict \u2014 instantly know what killed your raid',
      '\u56e2\u961f\u88c1\u51b3 \u2014 \u4e00\u773c\u770b\u51fa\u8c01\u6740\u6b7b\u4e86\u56e2\u961f'),
     ('Deaths + Context + Top Killers', '\u6b7b\u4ea1\u8bb0\u5f55 + \u4e0a\u4e0b\u6587 + \u81f4\u547d\u6392\u884c'),
     ('Discord Copy \u2014 4 formats', 'Discord \u590d\u5236 \u2014 4 \u79cd\u683c\u5f0f'),
-    ('Scorecard \u2014 per player, every pull', '\u8bc4\u5206\u5361 \u2014 \u6bcf\u4f4d\u73a9\u5bb6\uff0c\u6bcf\u573a\u621d\u6597'),
+    ('Scorecard \u2014 per player, every pull', '\u8bc4\u5206\u5361 \u2014 \u6bcf\u4f4d\u73a9\u5bb6\uff0c\u6bcf\u573a\u6218\u6597'),
     ('Pull-over-Pull Comparison', '\u9010\u6b21\u62c9\u602a\u5bf9\u6bd4'),
     ('Timeline \u2014 filterable CD view', '\u65f6\u95f4\u8f74 \u2014 \u53ef\u8fc7\u6ee4\u7684\u6280\u80fd\u89c6\u56fe'),
     ('Auto-scan + Focus Mode', '\u81ea\u52a8\u626b\u63cf + \u805a\u7126\u6a21\u5f0f'),
@@ -141,13 +141,13 @@ UI_REPLACEMENTS = [
     ('Filter by player, by CD type, or both',
      '\u6309\u73a9\u5bb6\u3001\u6309\u6280\u80fd\u7c7b\u578b\uff0c\u6216\u4e24\u8005\u7ec4\u5408\u8fc7\u6ee4'),
     ('See exactly when every CD was used across the whole pull',
-     '\u7cbe\u786e\u770b\u5230\u6bcf\u4e2a\u6280\u80fd\u5728\u621d\u6597\u4e2d\u7684\u4f7f\u7528\u65f6\u673a'),
+     '\u7cbe\u786e\u770b\u5230\u6bcf\u4e2a\u6280\u80fd\u5728\u6218\u6597\u4e2d\u7684\u4f7f\u7528\u65f6\u673a'),
     ('Built for live raid nights \u2014 minimal clicks, maximum clarity',
      '\u4e3a\u5b9e\u65f6\u5f00\u56e2\u8bbe\u8ba1 \u2014 \u6700\u5c11\u70b9\u51fb\uff0c\u6700\u5927\u4fe1\u606f\u91cf'),
     ('WoWAnalyzer opens directly to that player\'s log for deeper class analysis. Armory, Raider.io, and Raidbots sim also one click away.',
      'WoWAnalyzer \u76f4\u63a5\u6253\u5f00\u8be5\u73a9\u5bb6\u65e5\u5fd7\u8fdb\u884c\u6df1\u5165\u5206\u6790\u3002\u82f1\u96c4\u6bb5/Raider.io/Raidbots \u540c\u6837\u4e00\u952e\u5230\u4f4d'),
     ('See which mechanic is murdering the raid each pull',
-     '\u770b\u6e05\u6bcf\u573a\u621d\u6597\u4e2d\u54ea\u4e2a\u673a\u5236\u5728\u5927\u9762\u79ef\u6295\u653e'),
+     '\u770b\u6e05\u6bcf\u573a\u6218\u6597\u4e2d\u54ea\u4e2a\u673a\u5236\u5728\u5927\u9762\u79ef\u6295\u653e'),
 
     # Setup area
     ('Connect with WarcraftLogs', '\u8fde\u63a5 WarcraftLogs \u8d26\u53f7'),
@@ -181,7 +181,7 @@ UI_REPLACEMENTS = [
     ('You can verify exactly what it does \u2014 nothing hidden.',
      '\u4f60\u53ef\u4ee5\u6838\u5b9e\u5b83\u7684\u6bcf\u4e00\u4e2a\u884c\u4e3a \u2014 \u5b8c\u5168\u900f\u660e'),
     ('This is NOT your WarcraftLogs username or password. It\'s a separate free API key you create specifically for tools like this.',
-     '\u8fd9 **\u4e0d** \u662f\u4f60\u7684 WCL \u7528\u540d\u6216\u5bc6\u7801\uff0c\u800c\u662f\u4e00\u4e2a\u5355\u72ec\u7684\u514d\u8d39 API Key\uff0c\u4e13\u95e8\u4e3a\u6b64\u7c7b\u5de5\u5177\u521b\u5efa'),
+     '\u8fd9 **\u4e0d** \u662f\u4f60\u7684 WCL \u7528\u6237\u540d\u6216\u5bc6\u7801\uff0c\u800c\u662f\u4e00\u4e2a\u5355\u72ec\u7684\u514d\u8d39 API Key\uff0c\u4e13\u95e8\u4e3a\u6b64\u7c7b\u5de5\u5177\u521b\u5efa'),
 
     # Setup steps
     ('Name it anything. Set redirect URL to ',
@@ -205,7 +205,7 @@ UI_REPLACEMENTS = [
     # Step indicators
     ('Pick a log source', '\u9009\u62e9\u65e5\u5fd7\u6765\u6e90'),
     ('Nothing here yet. Load a report and it\'ll show up.', '\u8fd8\u6ca1\u6709\u65e5\u5fd7\u3002\u52a0\u8f7d\u4e00\u4efd\u62a5\u544a\u5373\u53ef\u67e5\u770b'),
-    ('Pick a fight', '\u9009\u62e9\u621d\u6597'),
+    ('Pick a fight', '\u9009\u62e9\u6218\u6597'),
 
     # Tab labels (table headers)
     ('Player \u2195', '\u73a9\u5bb6 \u2195'),
@@ -234,21 +234,21 @@ UI_REPLACEMENTS = [
 
     # Tab descriptions
     ('Personal defensive cooldowns cast during the fight \u2014 tracked from combat log cast events.',
-     '\u621d\u6597\u4e2d\u4f7f\u7528\u7684\u4e2a\u4eba\u51cf\u4f24\u6280\u80fd \u2014 \u6765\u6e90\u4e8e\u6218\u6597\u65e5\u5fd7\u4e8b\u4ef6'),
+     '\u6218\u6597\u4e2d\u4f7f\u7528\u7684\u4e2a\u4eba\u51cf\u4f24\u6280\u80fd \u2014 \u6765\u6e90\u4e8e\u6218\u6597\u65e5\u5fd7\u4e8b\u4ef6'),
     ('Potion and Healthstone usage per player during the fight.', '\u6bcf\u4f4d\u73a9\u5bb6\u7684\u836f\u6c34/\u6cbb\u7597\u77f3\u4f7f\u7528\u60c5\u51b5'),
     ('Offensive cooldowns each player used (or didn\'t use). Red = missed entirely.',
      '\u6bcf\u4f4d\u73a9\u5bb6\u7684\u7206\u53d1\u6280\u80fd\u4f7f\u7528\u60c5\u51b5(\u7ea2\u8272=\u5b8c\u5168\u6f0f\u6389)'),
     ('Who interrupted what and how many times.', '\u8c01\u6253\u65ad\u4e86\u4ec0\u4e48\uff0c\u6253\u65ad\u4e86\u591a\u5c11\u6b21'),
     ('Who dispelled what.', '\u8c01\u9a71\u6563\u4e86\u4ec0\u4e48'),
     ('Crowd control abilities used on adds or bosses during the fight.',
-     '\u621d\u6597\u4e2d\u5bf9\u5c0f\u602a/Boss \u4f7f\u7528\u7684\u63a7\u5236\u6280\u80fd'),
+     '\u6218\u6597\u4e2d\u5bf9\u5c0f\u602a/Boss \u4f7f\u7528\u7684\u63a7\u5236\u6280\u80fd'),
     ('Damage taken per player, broken down by ability. Good for spotting who\'s standing in bad stuff or taking avoidable damage.',
      '\u6bcf\u4f4d\u73a9\u5bb6\u7684\u627f\u4f24\u660e\u7ec6(\u6309\u6cd5\u672f\u5206\u89e3)\uff0c\u53d1\u73b0\u8c01\u7ad9\u9519\u4f4d\u7f6e\u6216\u8eb2\u4e0d\u5f00\u578c\u5bb3'),
     ('DPS for the fight. Click any player to see their full breakdown.',
-     '\u621d\u6597 DPS \u3002\u70b9\u51fb\u73a9\u5bb6\u540d\u67e5\u770b\u8be6\u7ec6\u5206\u89e3'),
+     '\u6218\u6597 DPS \u3002\u70b9\u51fb\u73a9\u5bb6\u540d\u67e5\u770b\u8be6\u7ec6\u5206\u89e3'),
     ('Detailed damage breakdown per DPS player \u2014 total damage, DPS, damage taken, and key CDs at a glance.',
      'DPS \u73a9\u5bb6\u8be6\u7ec6\u5206\u89e3 \u2014 \u603b\u4f24\u5bb3/DPS/\u627f\u4f24/\u5173\u952e\u6280\u80fd\u4e00\u89c8\u65e0\u997e'),
-    ('Scorecard for this pull.', '\u672c\u573a\u621d\u6597\u8bc4\u5206\u5361'),
+    ('Scorecard for this pull.', '\u672c\u573a\u6218\u6597\u8bc4\u5206\u5361'),
     ('Deaths grouped by what killed them. Good for spotting which mechanic is murdering the raid.',
      '\u6309\u81f4\u547d\u539f\u56e0\u5206\u7c7b\u7684\u6b7b\u4ea1\u8bb0\u5f55\uff0c\u5feb\u901f\u5b9a\u4f4d\u706d\u56e2\u5143\u51f6'),
     ('Detailed healing breakdown per healer \u2014 effective healing, overhealing, and absorbs.',
@@ -263,13 +263,13 @@ UI_REPLACEMENTS = [
     ('Estimated main-target vs other NPC damage per player. Good for a fast read on boss focus, but treat it as an encounter-level estimate rather than a perfect enemy-name split.',
      '\u6bcf\u4f4d\u73a9\u5bb6\u7684 Boss \u4f24\u5bb3 vs \u5c0f\u602a\u4f24\u5bb3\u4f30\u8ba1(\u4ec5\u4f5c\u53c2\u8003)'),
     ('Estimated seconds each player spent doing zero damage. \U0001f7e2 Active \u00b7 \U0001f534 Downtime. Even 10% downtime on a 5-minute fight is 30 wasted seconds.',
-     '\u6bcf\u4f4d\u73a9\u5bb6\u7684\u7a7a\u6863\u65f6\u957f\u3002\U0001f7e2 \u6b63\u5e38\u8f93\u51fa \u00b7 \U0001f534 \u5212\u6c34\u3002 5 \u5206\u949f\u621d\u6597 10% \u7a7a\u6863 = \u6d6a\u8d39 30 \u79d2'),
+     '\u6bcf\u4f4d\u73a9\u5bb6\u7684\u7a7a\u6863\u65f6\u957f\u3002\U0001f7e2 \u6b63\u5e38\u8f93\u51fa \u00b7 \U0001f534 \u5212\u6c34\u3002 5 \u5206\u949f\u6218\u6597 10% \u7a7a\u6863 = \u6d6a\u8d39 30 \u79d2'),
     ('Seconds of zero damage output as a % of fight duration. &gt;10% on a long fight is a red flag.',
-     '\u96f6\u8f93\u51fa\u65f6\u957f\u5360\u621d\u6597\u65f6\u957f\u7684\u767e\u5206\u6bd4\u3002\u8d85\u8fc7 10% \u9700\u8981\u5173\u6ce8'),
+     '\u96f6\u8f93\u51fa\u65f6\u957f\u5360\u6218\u6597\u65f6\u957f\u7684\u767e\u5206\u6bd4\u3002\u8d85\u8fc7 10% \u9700\u8981\u5173\u6ce8'),
     ('Pull-over-pull comparison for this boss. Analyze multiple pulls and see DPS trends, death reduction, and CD improvement over attempts.',
      '\u540c Boss \u591a\u6b21\u5c1d\u8bd5\u5bf9\u6bd4 \u2014 DPS \u8d8b\u52bf\u3001\u6b7b\u4ea1\u51cf\u5c11\u3001\u6280\u80fd\u8986\u76d6\u7387\u53d8\u5316'),
     ('Analyze a second pull of the same boss to see the comparison.',
-     '\u5206\u6790\u540c Boss \u7684\u7b2c\u4e8c\u573a\u621d\u6597\u8fdb\u884c\u5bf9\u6bd4'),
+     '\u5206\u6790\u540c Boss \u7684\u7b2c\u4e8c\u573a\u6218\u6597\u8fdb\u884c\u5bf9\u6bd4'),
     ('Data is stored per session \u2014 refreshing the page resets it.',
      '\u6570\u636e\u4ec5\u4fdd\u5b58\u5728\u5f53\u524d\u4f1a\u8bdd\uff0c\u5237\u65b0\u9875\u9762\u4f1a\u91cd\u7f6e'),
 
@@ -283,10 +283,179 @@ UI_REPLACEMENTS = [
     ('\U0001f525 Primary wipe cause: Shadowclaw Slam', '\U0001f525 \u4e3b\u8981\u706d\u56e2\u539f\u56e0\uff1a\u6697\u5f71\u722a\u51fb'),
     ('\ud83d\udc80 Main killer: Shadowclaw Slam \u00d7', '\ud83d\udc80 \u4e3b\u8981\u6740\u624b\uff1a\u6697\u5f71\u722a\u51fb \u00d7'),
     ('Downtime ↕', '\u7a7a\u6863\u671f ↕'),
+
+    # ── Round 3：全面补全遗漏的英文 UI 标签 / 图标标签 / 长句 ──
+    ('% of Raid ↕', '团队占比 ↕'),
+    ('Active ↕', '正常输出 ↕'),
+    ('Activity', '活动'),
+    ('Add DPS ↕', '附加 DPS ↕'),
+    ('Add Damage', '附加伤害'),
+    ('Aftershock', '余震'),
+    ('Analyze Selected Fight', '分析选中战斗'),
+    ('Applications', '职业'),
+    ('Applications ↕', '职业 ↕'),
+    ('Auto-generated pull summary — ready to paste into Discord.', '自动生成的战斗总结 — 可直接粘贴到 Discord'),
+    ('Avoidable', '可避免'),
+    ('Avoidable %', '可避免%'),
+    ('Avoidable % ↕', '可避免% ↕'),
+    ('Avoidable ↕', '可避免 ↕'),
+    ('Build Links', '构建链接'),
+    ('CC Used', '控制使用'),
+    ('CC used per player — stuns, roots, incaps.', '每位玩家的控制技能 — 眩晕、定身、禁锢'),
+    ('Client ID', '客户端 ID'),
+    ('Client Secret', '客户端密钥'),
+    ('Consumables', '消耗品'),
+    ('Consumables ↕', '消耗品 ↕'),
+    ('Counts are what Warcraft Logs reported in the snapshot, not guaranteed maximum possible slots. Consumables only show the auras Warcraft Logs exposed for that pull.', '数据来自 Warcraft Logs 快照中的记录，并非最大可能槽位数。消耗品仅显示该次战斗中 WCL 实际出现的光环'),
+    ('Detailed', '详细'),
+    ('Discord Detailed', 'Discord 详细'),
+    ('Discord Short', 'Discord 简洁'),
+    ('Dmg Taken ↕', '承伤 ↕'),
+    ('DTPS', '死亡/秒'),
+    ('DTPS ↕', '死亡/秒 ↕'),
+    ('Effective ↕', '有效 ↕'),
+    ('Enchant Count', '附魔数'),
+    ('Enchant Count ↕', '附魔数 ↕'),
+    ('Fix Next Pull / Why It Matters', '修正下一次开怪 / 为什么重要'),
+    ('Format:', '格式:'),
+    ('Go to', '跳转至'),
+    ('Guild Logs', '公会日志'),
+    ('Guild Search', '公会搜索'),
+    ('Healer HPS for the fight.', '本场战斗治疗量 HPS'),
+    ('Huntmaster', '猎人大师'),
+    ('Load Fights', '加载战斗'),
+    ('Loading Raider.io profiles...', '正在加载 Raider.io 档案...'),
+    ('Longest Hold', '最长承受'),
+    ('Longest Hold ↕', '最长承受 ↕'),
+    ('Looks like:', '示例如:'),
+    ('Main Target % ↕', '主目标% ↕'),
+    ('Main Target DPS ↕', '主目标 DPS ↕'),
+    ('Main Target Damage', '主目标伤害'),
+    ('Mechanic ↕', '机制 ↕'),
+    ('Missed ↕', '漏掉 ↕'),
+    ('Missing Prep', '缺失准备'),
+    ('Missing Prep ↕', '缺失准备 ↕'),
+    ('Officer', '干部'),
+    ('Officer Notes', '干部笔记'),
+    ('Off CDs ↕', '防御冷却 ↕'),
+    ('Overheal ↕', '过疗 ↕'),
+    ('Parse % ↕', '分数% ↕'),
+    ('Paste URL', '粘贴 URL'),
+    ('Personal Profile', '个人档案'),
+    ('Pick a Raid Night', '选择团本日'),
+    ('Pings', '提示'),
+    ('Player Detail', '玩家详情'),
+    ('Player Pings', '玩家提示'),
+    ('Player:', '玩家:'),
+    ('Player ↕', '玩家 ↕'),
+    ('Players Hit', '命中玩家'),
+    ('Players ↕', '玩家 ↕'),
+    ('Pull duration:', '战斗时长:'),
+    ('Raid roster', '团队名册'),
+    ('Rank ↕', '排名 ↕'),
+    ('Ready Check+', '就位确认+'),
+    ('Ready Check+ ↕', '就位确认+ ↕'),
+    ('Reset Setup', '重置设置'),
+    ('Role ↕', '定位 ↕'),
+    ('Save &amp; Continue', '保存并继续'),
+    ('Search', '搜索'),
+    ('Short', '简洁'),
+    ('Show:', '显示:'),
+    ('Socketed Gems', '镶嵌宝石'),
+    ('Socketed Gems ↕', '镶嵌宝石 ↕'),
+    ('Sort by Avoidable or Avoidable % first when you want the fastest coaching read.', '想快速给出教练建议时，先按可避免或可避免%排序'),
+    ('Sort by players hit or longest hold when the same mechanic keeps derailing pulls.', '当同一机制反复导致灭团时，按命中玩家或最长承受排序'),
+    ('Sort:', '排序:'),
+    ('Spec ↕', '专精 ↕'),
+    ('Spell Detail', '技能详情'),
+    ('Start with the first death, then switch to repeats if the same player or same mechanic keeps ending pulls.', '从第一次死亡开始，若同一玩家或同一机制反复导致灭团，再切换到重复死亡'),
+    ('Time ↕', '时间 ↕'),
+    ('Total Dmg ↕', '总伤害 ↕'),
+    ('Total Taken', '总承受'),
+    ('Total Taken ↕', '总承受 ↕'),
+    ('Used ↕', '使用 ↕'),
+    ('Void Eruption', '虚空爆发'),
+    ('Watch', '查看'),
+    ('Zoom:', '缩放:'),
+    ('Prev:', '上一次:'),
+    ('iLvl', '装等'),
+    ('iLvl ↕', '装等 ↕'),
+    ('Sim ↗', '模拟 ↗'),
+    ('>Pot<', '>药水<'),
+    ('Killing Ability', '击杀方式'),
+    ('Killing Blow', '致命一击'),
+    ('Killing blow', '致命一击'),
+    ('All Players', '全部玩家'),
+    ('All Reports', '全部报告'),
+    ('All player deaths ordered by time. Killing Blow shown where available.', '按时间排序的全部玩家死亡记录，致命一击若可用则显示'),
+    ('All player deaths ordered by time. Killing blow shown where available.', '按时间排序的全部玩家死亡记录，致命一击若可用则显示'),
+    # 图标标签
+    ('Open source', '开源'),
+    ('🛑 CC', '🛑 控制'),
+    ('⚔️ Offensive CDs', '⚔️ 爆发冷却'),
+    ('🛡️ Defensives', '🛡️ 减伤'),
+    ('💥 Dmg Taken', '💥 承伤'),
+    ('🎯 Mechanic Deaths', '🎯 机制死亡'),
+    ('🎯 Mechanic Deaths by Ability', '🎯 按技能分类的机制死亡'),
+    ('🧿 Mechanics', '🧿 机制'),
+    ('⚠️ Wipe Summary', '⚠️ 灭团总结'),
+    ('🔁 Pull Compare', '🔁 拉怪对比'),
+    ('🔄 CD Timeline', '🔄 冷却时间轴'),
+    ('📊 DPS Breakdown', '📊 DPS 分解'),
+    ('💊 Heal Breakdown', '💊 治疗分解'),
+    ('💚 Raid CDs', '💚 团队冷却'),
+    ('👹 Boss Abilities', '👹 首领技能'),
+    ('📋 Copy to Clipboard', '📋 复制到剪贴板'),
+    ('🔍 Open source', '🔍 开源'),
+    ('🚫 Not your WCL login', '🚫 不是你的 WCL 登录'),
+    ('🔑 3 steps — takes 2 minutes:', '🔑 3 步 — 只需 2 分钟：'),
+    ('🧬 Build + Ready', '🧬 配置 + 就位'),
+    ('🌿 Made by Sumanis — Resto Druid', '🌿 由 Sumanis 制作 — 恢复德鲁伊'),
+    ('🛡️ Tank died — almost always the wipe cause', '🛡️ 坦克阵亡 — 几乎总是灭团原因'),
+    ('🛡️ TANK DIED — almost always the wipe cause', '🛡️ 坦克阵亡 — 几乎总是灭团原因'),
+    ('Wipefest-style mechanic clarity: dangerous debuffs, repeat offenders, and raid damage pressure without burying you in raw log spam.', '灭团风格的机制梳理：精准定位危险 debuff、重复犯错者，以及团伤压力，而不被原始日志淹没'),
+    # 第四轮增补 — tab标签 / 表头 / hero feature
+    ('Players Killed', '被击杀'),
+    ('⚡ Interrupts', '⚡ 打断'),
+    ('✨ Dispels', '✨ 驱散'),
+    ('📈 Summary', '📈 汇总'),
+    ('💚 Raid CDs', '💚 团队技能'),
+    ('Mechanic death breakdown', '机制致死分解'),
+    ('Mechanic Deaths', '机制死亡'),
+    ('⚡ Bloodlust', '⚡ 嗜血'),
+    ('Rank', '排名'),
+    ('Player Detail', '玩家详情'),
+    ('Personal Profile', '个人档案'),
+    ('Player Pings', '玩家提示'),
+    ('WarcraftLogs API Credentials', 'WarcraftLogs API 凭据'),
+    ('WarcraftLogs username', 'WarcraftLogs 用户名'),
+    ('and log in, then click', '登录后点击'),
+    (', copy that URL.', '，复制该链接。'),
+    ('in the top right', '点击右上角'),
+    ('+ Create Client', '+ 创建客户端'),
+    ('warcraftlogs.com/api/clients/', 'warcraftlogs.com/api/clients/（WCL 开发者页面）'),
+    ('warcraftlogs.com', 'warcraftlogs.com'),
+    ('RaidMirror', '战镜'),
+    # 第四轮补强 — Discord 复制区与死亡次数
+    ('Vorasius · ❌ Wipe · 3:51 · 4 deaths', 'Vorasius · ❌ 灭团 · 3:51 · 4 次死亡'),
+    ('0 deaths · 4.2M DPS', '0 次死亡 · 4.2M DPS'),
+    ('4 deaths · 3.8M DPS', '4 次死亡 · 3.8M DPS'),
+    (' deaths', ' 次死亡'),
+    # 碎片阻挡规则 — 防止短词规则误伤长词（必须比 Kill/Potion 等短规则长）
+    ('Killing Spree', '杀戮盛筵'),
+    ('Killing Blow', '致命一击'),
+    ('Killing Ability', '击杀方式'),
+    ('Top Killers', '致命 TOP3'),
+    ('Potions are slipping', '有玩家漏用药水'),
+    ('Potions ', '药水 '),
+    ('Potions Used', '已用药水'),
+    ('Potion and Healthstone usage per player during the fight.', '每位玩家的药水/治疗石使���情况'),
+    ('Wipefest', '灭团风格'),
 ]
 
 print(f"[2/7] UI \u6587\u6848\u7ffb\u8bd1: {len(UI_REPLACEMENTS)} \u6761")
-for old, new in UI_REPLACEMENTS:
+# 长串优先：避免短词规则先把长句拆碎导致整句匹配失败
+for old, new in sorted(UI_REPLACEMENTS, key=lambda kv: -len(kv[0])):
     content = content.replace(old, new)
 
 
@@ -302,9 +471,9 @@ JS_REPLACEMENTS = [
     ('Error fetching report data. Please try again.',
      '\u83b7\u53d6\u62a5\u544a\u6570\u636e\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5'),
     ('No fights found in this report.',
-     '\u8be5\u62a5\u544a\u4e2d\u6ca1\u6709\u627e\u5230\u621d\u6597'),
+     '\u8be5\u62a5\u544a\u4e2d\u6ca1\u6709\u627e\u5230\u6218\u6597'),
     ('Please select a fight to analyze.',
-     '\u8bf7\u9009\u62e9\u4e00\u573a\u621d\u6597\u8fdb\u884c\u5206\u6790'),
+     '\u8bf7\u9009\u62e9\u4e00\u573a\u6218\u6597\u8fdb\u884c\u5206\u6790'),
     ('Analyzing...', '\u6b63\u5728\u5206\u6790...'),
     ('Loading...', '\u6b63\u5728\u52a0\u8f7d...'),
     ('No data available for this tab.',
@@ -329,7 +498,7 @@ JS_REPLACEMENTS = [
     ('Kill', '\u51fb\u6740'),
     ('Wipe', '\u706d\u56e2'),
     ('Top Killers', '\u81f4\u547d TOP3'),
-    ('prepots not trackable', '\u5f00\u57ce\u836f\u6c34\u65e0\u6cd5\u8ddf\u8e2a'),
+    ('prepots not trackable', '\u5f00\u6218\u836f\u6c34\u65e0\u6cd5\u8ddf\u8e2a'),
 
     # Pull compare
     ('trending right', '\u8d8b\u52bf\u826f\u597d'),
@@ -345,10 +514,10 @@ JS_REPLACEMENTS = [
     # Auto-scan labels
     ('Auto: Latest Pull', '\u81ea\u52a8: \u6700\u65b0\u4e00\u573A'),
     ('One click \u2014 pulls the most recent fight automatically',
-     '\u4e00\u952e\u81ea\u52a8\u52a0\u8f7d\u6700\u65b0\u621d\u6597'),
+     '\u4e00\u952e\u81ea\u52a8\u52a0\u8f7d\u6700\u65b0\u6218\u6597'),
     ('Auto-scan: On', '\u81ea\u52a8\u626b\u63cf: \u5df2\u5f00\u542f'),
     ('Polls every 90s for new pulls while you raid',
-     '\u5f00\u56e2\u671f\u95f4\u6bcf 90 \u79d2\u81ea\u52a8\u68c0\u6d4b\u65b0\u621d\u6597'),
+     '\u5f00\u56e2\u671f\u95f4\u6bcf 90 \u79d2\u81ea\u52a8\u68c0\u6d4b\u65b0\u6218\u6597'),
     ('Focus Mode', '\u805a\u7126\u6a21\u5f0f'),
     ('Hides landing content, sticks tabs \u2014 just the data',
      '\u9690\u85cf\u9996\u9875\uff0c\u56fa\u5b9a\u6807\u7b7e\u9875 \u2014 \u53ea\u7559\u6570\u636e'),
@@ -364,15 +533,51 @@ JS_REPLACEMENTS = [
     # Misc
     ('or use manual API credentials below (for advanced users / existing setup)',
      '\u6216\u4f7f\u7528\u4e0b\u65b9\u624b\u52a8 API \u51ed\u636e(\u9ad8\u7ea7\u7528\u6237)'),
+
+    # JS \u6a21\u677f\u5b57\u7b26\u4e32 (运行时动态拼接)
+    (' \u00b7 Boss at ', ' \u00b7 Boss \u8840\u91cf '),
+    (' \u00b7 first @ ', ' \u00b7 \u9996\u6b21 @ '),
+    ('\U0001f6e1\ufe0f Tank death: ', '\U0001f6e1\ufe0f \u5766\u514b\u9635\u4ea1: '),
+    (' \u2014 almost always the wipe cause', ' \u2014 \u51e0\u4e4e\u603b\u662f\u706d\u56e2\u539f\u56e0'),
+    (' \U0001f6e1\ufe0f TANK DIED', ' \U0001f6e1\ufe0f \u5766\u514b\u9635\u4ea1'),
+    ('\U0001f525 Primary wipe cause: ', '\U0001f525 \u4e3b\u8981\u706d\u56e2\u539f\u56e0: '),
+    ('\U0001f480 First death: ', '\U0001f480 \u9996\u6b21\u6b7b\u4ea1: '),
+    ('\u2694\ufe0f Critical CD failures: ', '\u2694\ufe0f \u5173\u952e\u6280\u80fd\u9057\u6f0f: '),
+    ('\U0001f9ea No potion detected: ', '\U0001f9ea \u672a\u68c0\u6d4b\u5230\u836f\u6c34: '),
+    (' (prepots may not always be visible in logs)', ' (\u5f00\u6218\u836f\u6c34\u53ef\u80fd\u4e0d\u53ef\u89c1)'),
+    ('\u2139\ufe0f Short pull (', '\u2139\ufe0f \u77ed\u6682\u6218\u6597 ('),
+    ('\u2705 Clean pull \u2014 no major issues detected', '\u2705 \u5e72\u51c0\u6218\u6597 \u2014 \u672a\u53d1\u73b0\u91cd\u5927\u95ee\u9898'),
+    ('\U0001f480 Wipe', '\U0001f480 \u706d\u56e2'),
+
+    # Discord 复制区 — 死亡次数
+    ('+deathList.length+\' deaths\'', '+deathList.length+\' \u6b21\u6b7b\u4ea1\''),
+    ('\' death\'+(p.deaths.length>1?\'s\':\'\')', '\' \u6b21\u6b7b\u4ea1\''),
 ]
 
 print(f"[3/7] JS \u5b57\u7b26\u4e32\u7ffb\u8bd1: {len(JS_REPLACEMENTS)} \u6761")
-for old, new in JS_REPLACEMENTS:
+# 长串优先：避免短词规则先把长句拆碎导致整句匹配失败
+for old, new in sorted(JS_REPLACEMENTS, key=lambda kv: -len(kv[0])):
     content = content.replace(old, new)
 
 
 # ══════════════════════════════════════════════════════════
-#  ③ CSS 美化 (中文字体栈 / 配色微调 / 圆角增强)
+#  ③ 职业/专精 → 国服中文 (显示层替换, 不改变 SPEC_OFFS 判定用的英文键)
+# ══════════════════════════════════════════════════════════
+CLASS_DISP = [
+    ('${p.spec||p.cls}', '${znSpec(p.spec)||znCls(p.cls)}'),
+    ('${player.spec||player.cls}', '${znSpec(player.spec)||znCls(player.cls)}'),
+    ('${r.spec||""} ${r.class||""}', '${znSpec(r.spec)||""} ${znCls(r.class)||""}'),
+    ('${p.cls||"?"}${p.spec?" · "+p.spec:""}', '${znCls(p.cls)||"?"}${p.spec?" · "+znSpec(p.spec):""}'),
+    ('const ROLE_LABEL = {tanks:"Tank", healers:"Healer", dps:"DPS"};',
+     'const ROLE_LABEL = {tanks:"\u5766\u514b", healers:"\u6cbb\u7597", dps:"\u8f93\u51fa"};'),
+]
+for old, new in CLASS_DISP:
+    content = content.replace(old, new)
+print("[3.5/7] \u804c\u4e1a/\u4e13\u7cbe \u2192 \u56fd\u670d\u4e2d\u6587: 5 \u5904\u663e\u793a\u70b9")
+
+
+# ══════════════════════════════════════════════════════════
+#  ④ CSS 美化 (中文字体栈 / 配色微调 / 圆角增强)
 # ══════════════════════════════════════════════════════════
 CSS_ENHANCEMENTS = """
 /* ===== 战镜 ZhanJing - 中文版样式增强 ===== */
@@ -509,11 +714,16 @@ SPELL_ZH_JS = f'''
 // ===== 战镜 ZhanJing - 技能中文名映射层 =====
 const SPELL_ZH = {spell_zh_json};
 function zn(id, fallback) {{ return SPELL_ZH[id] || (fallback ?? ""); }}
-function znName(en) {{ /* EN→ZH fallback for SPEC_OFFS matches */ const m={{"Recklessness":"鲁莽","Avenging Wrath":"复仇之怒","Arcane Power":"奥术强化","Tranquility":"宁静","Bloodlust":"嗜血","Heroism":"英勇","Time Warp":"时间扭曲","Power Infusion":"力量灌注","Dark Ascension":"黑暗飞升","Celestial Alignment":"星辰连结","Guardian of Azeroth":"艾泽拉斯的守护者","Synod Synapse":"突触神经"}}; return m[en] || (en || ""); }}
+function znName(en) {{ /* EN→ZH fallback for SPEC_OFFS matches */ const m={{"Recklessness":"鲁莽","Avenging Wrath":"复仇之怒","Arcane Power":"奥术强化","Tranquility":"宁静","Bloodlust":"嗜血","Heroism":"英勇","Time Warp":"时间扭曲","Power Infusion":"力量灌注","Dark Ascension":"黑暗飞升","Celestial Alignment":"星辰连结","Guardian of Azeroth":"艾泽拉斯的守护者","Synod Synapse":"突触神经","Barkskin":"树皮术","Survival Instincts":"生存本能","Frenzied Regeneration":"狂暴恢复","Shield Wall":"盾墙","Last Stand":"破釜沉舟","Icebound Fortitude":"冰封之韧","Divine Shield":"圣盾术","Metamorphosis":"恶魔变形"}}; return m[en] || (en || ""); }}
 var ZN_ENC={{}}, ZN_ENC_NAME={{}}, ZN_INST={{}}, ZN_INST_NAME={{}};
 function _fill(map,nameMap,obj){{ if(!obj) return; for(var k in obj){{ var v=obj[k]; if(k) map[k]=v; if(v) nameMap[v]=v; }} }}
 function znEnc(id,en){{ return (id&&ZN_ENC[id])||(en&&ZN_ENC_NAME[en])||(en||""); }}
 function znInst(id,en){{ return (id&&ZN_INST[id])||(en&&ZN_INST_NAME[en])||(en||""); }}
+// ===== 职业/专精 → 国服中文名 (显示层, 不改 SPEC_OFFS 逻辑键) =====
+const CLS_ZH={{"Warrior":"战士","Paladin":"圣骑士","Hunter":"猎人","Rogue":"盗贼","Priest":"牧师","DeathKnight":"死亡骑士","Death Knight":"死亡骑士","Shaman":"萨满祭司","Mage":"法师","Warlock":"术士","Monk":"武僧","Druid":"德鲁伊","DemonHunter":"恶魔猎手","Demon Hunter":"恶魔猎手","Evoker":"唤魔师"}};
+const SPEC_ZH={{"Arms":"武器","Fury":"狂怒","Protection":"防护","Retribution":"惩戒","Holy":"神圣","Discipline":"戒律","Beast Mastery":"野兽控制","Marksmanship":"射击","Survival":"生存","Outlaw":"狂徒","Assassination":"刺杀","Subtlety":"敏锐","Shadow":"暗影","Unholy":"邪恶","Frost":"冰霜","Blood":"鲜血","Enhancement":"增强","Elemental":"元素","Restoration":"恢复","Fire":"火焰","Arcane":"奥术","Affliction":"痛苦","Demonology":"恶魔学识","Destruction":"毁灭","Windwalker":"踏风","Mistweaver":"织雾","Brewmaster":"酒仙","Balance":"平衡","Feral":"野性","Guardian":"守护","Havoc":"浩劫","Vengeance":"复仇","Devourer":"噬灭","Devastation":"毁灭","Augmentation":"增辉","Preservation":"恩护"}};
+function znCls(en){{ return CLS_ZH[en] || (en||""); }}
+function znSpec(en){{ return SPEC_ZH[en] || (en||""); }}
 // 外部全量法术名加载(可选): 将 spells.json 放到 data/ 目录下即可自动加载
 (function(){{ try{{ fetch("data/spells.json").then(r=>r.json()).then(d=>{{ if(d&&Array.isArray(d)){{ d.forEach(function(s){{ if(s.id&&!SPELL_ZH[s.id]) SPELL_ZH[s.id]=(s.name_zhCN||s.name)||""; }}); }}
   else if(d&&d.items){{ Object.keys(d.items).forEach(function(k){{ var o=d.items[k]; var nm=o&&(o.name_zhCN||o.name); if(k&&nm&&!SPELL_ZH[k]) SPELL_ZH[k]=nm; }}); }}; }}).catch(()=>{{}});   fetch("data/meta.json").then(r=>r.json()).then(function(d){{ _fill(ZN_ENC,ZN_ENC_NAME,d&&d.encounters); _fill(ZN_INST,ZN_INST_NAME,d&&d.instances); }}).catch(function(){{}});
@@ -586,25 +796,16 @@ content = content.replace('zone:r.zone?.name||"Unknown Zone"',
                           'zone:znInst(r.zone?.id,r.zone?.name)||"Unknown Zone"')
 
 # ══════════════════════════════════════════════════════════
-#  ⑨ 修复 Hero 区域破损图片: 3.5MB base64 PNG → 轻量 SVG
+#  ⑨ 修复 Hero 区域破损图片: 3.5MB base64 PNG → 外部 PNG(原站图)
 # ══════════════════════════════════════════════════════════
 import re as _re
 content = _re.sub(
-    r'<div class="hero-gnome" aria-hidden="true">\s*<img src="data:image/png;base64,[^"]+"\s*/?\s*>',
-    r'''<div class="hero-gnome" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202 264" fill="none" style="width:100%;height:100%">
-      <rect width="202" height="264" rx="20" fill="#0d1117" stroke="#30363d"/>
-      <circle cx="101" cy="110" r="60" fill="none" stroke="url(#lg2)" stroke-width="3" opacity="0.6"/>
-      <circle cx="101" cy="110" r="40" fill="none" stroke="url(#lg2)" stroke-width="2" opacity="0.4"/>
-      <line x1="101" y1="50" x2="101" y2="170" stroke="#00d4ff" stroke-width="1" opacity="0.3"/>
-      <line x1="41" y1="110" x2="161" y2="110" stroke="#7b68ee" stroke-width="1" opacity="0.3"/>
-      <text x="101" y="200" text-anchor="middle" fill="#8b949e" font-size="14" font-family="PingFang SC,Microsoft YaHei,sans-serif">战镜</text>
-      <defs><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#7b68ee"/></linearGradient></defs>
-    </svg>''',
+    r'<div class="hero-gnome" aria-hidden="true">\s*<img src="data:image/png;base64,[^"]*"[^>]*>',
+    "<div class=\"hero-gnome\" aria-hidden=\"true\"><img src=\"assets/hero-gnome.png\" alt=\"战镜\">",
     content,
     flags=_re.S,
 )
-print("[9/9] \\u6c42\\u66ff\\u6362 hero-gnome: 3.5MB PNG \\u2192 \\u8f7b\\u91cf SVG")
+print("[9/9] \\u6c42\\u66ff\\u6362 hero-gnome: 3.5MB \\u539f\\u7ad9 base64 PNG \\u2192 \\u5916\\u90e8 assets/hero-gnome.png")
 
 # ─── 写入输出 ─────────────────────────────────────────────
 os.makedirs(os.path.dirname(DST), exist_ok=True)

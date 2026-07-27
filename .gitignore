@@ -1,4 +1,6 @@
 # 临时校验文件
+_*.py
+_*.js
 _check.js
 
 # Python
