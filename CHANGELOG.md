@@ -9,6 +9,14 @@
 
 - 暂无（下一次修改后继续迭代版本）。
 
+## [v1.0.14] - 2026-07-28
+
+### 日志加载错误修复
+
+- 修复点击日志时 WCL GraphQL 返回 `Unknown argument "translate" on field "report" of type "ReportData"` 的错误。
+- 移除 `ReportData.report` 不支持的 `translate:true` 参数，保留受支持的 `masterData(translate:true)` 技能名称本地化查询。
+- 新增 GraphQL 查询契约回归检查，并重新通过整页 JavaScript 语法与未定义变量扫描。
+
 ## [v1.0.13] - 2026-07-28
 
 ### 错误修复

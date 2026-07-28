@@ -2855,7 +2855,7 @@ async function searchGuild(){
   // 按需预热法术字典(异步, 不阻塞)
   kickSpellDictLoad();
   reportCode=code;log(`📋 正在加载战斗：${code}...`);
-  const data=await gql(token,`{reportData{report(code:"${code}", translate:true){title startTime endTime zone{id,name} fights{id startTime endTime name kill bossPercentage encounterID keystoneLevel keystoneAffixes keystoneTime} masterData(translate:true){abilities{gameID name}}}}}`);
+  const data=await gql(token,`{reportData{report(code:"${code}"){title startTime endTime zone{id,name} fights{id startTime endTime name kill bossPercentage encounterID keystoneLevel keystoneAffixes keystoneTime} masterData(translate:true){abilities{gameID name}}}}}`);
   const rpt=data?.reportData?.report;
   if(!rpt)throw new Error("can't find that report — is it set to public on WCL?");
   abilities=rpt.masterData.abilities;

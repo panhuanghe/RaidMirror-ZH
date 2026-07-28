@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022
+  },
+  "globals": {
+    "dataLayer": "readonly"
+  },
+  "rules": {
+    "no-undef": "error"
+  }
+}
