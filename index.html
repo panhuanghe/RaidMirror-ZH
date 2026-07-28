@@ -461,14 +461,7 @@ body, * {
   letter-spacing: 0.02em;
 }
 
-/* Hero 标题渐变 */
-.hero-title-raid { color: var(--zh-accent) !important; }
-.hero-title-lens {
-  background: var(--zh-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* 保留原版 hero 标题色调（Raid/Lens），这里不覆盖 */
 
 /* 表格��化 */
 table { border-collapse: separate; border-spacing: 0; }
@@ -525,6 +518,195 @@ button:hover, .connect-cta:hover {
 /* 数字高亮 */
 .num { font-variant-numeric: tabular-nums !important; }
 
+/* ===== Uncodixfy UI pass: calmer, flatter, more readable ===== */
+:root{
+  --ui-bg:#0b0f14;
+  --ui-surface:#111722;
+  --ui-surface-2:#0f1520;
+  --ui-border:#263244;
+  --ui-border-strong:#4b5f7a;
+  --ui-text:#d6deea;
+  --ui-muted:#8a98ad;
+}
+body{
+  background:var(--ui-bg) !important;
+  color:var(--ui-text) !important;
+}
+body::before{display:none !important;}
+body>*{position:relative;z-index:1;}
+
+button,.tab,.rtab,.card,.fi,.type-btn,.hero-feat,.roster-card,.score-card,.copy-mode-btn,.agent-btn,.sim-btn,.armory-btn,.rio-btn{
+  transition:background-color .14s ease,border-color .14s ease,color .14s ease !important;
+}
+
+/* flatten decorative effects */
+.hero,.setupbox,.v5-band,.score-card,.roster-card,.card,.fi,.logbox,.errbox,.infobox,.wipe-box,.modal,.readybar,.bl-used,.bl-missing{
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+}
+.hero-gridline,.hero-aurora{display:none !important;}
+.hero::before,.hero::after{display:none !important;}
+
+/* hero cleanup + overlap fix */
+.hero{
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:10px !important;
+  padding:24px 24px 20px !important;
+  overflow:hidden !important;
+}
+.hero-title{
+  font-size:36px !important;
+  letter-spacing:-.02em !important;
+  text-shadow:none !important;
+}
+.hero-sub{color:var(--ui-muted) !important;}
+.hero-top{
+  gap:24px !important;
+  margin-bottom:18px !important;
+  /* 给绝对定位侏儒图预留垂直空间，避免压到下方 feature 行 */
+  min-height:272px !important;
+}
+.hero-side{
+  width:320px !important;
+  max-width:100% !important;
+}
+/* 侏儒图回归原版 RaidLens 布局风格 */
+.hero-gnome{
+  position:absolute !important;
+  top:32px !important;
+  right:21.8% !important;
+  width:202px !important;
+  height:264px !important;
+  margin:0 !important;
+  border-radius:20px !important;
+  border:1px solid #55667a !important;
+  box-shadow:0 16px 30px #00000040,inset 0 1px 0 #ffffff18 !important;
+  pointer-events:none !important;
+  overflow:hidden !important;
+}
+.hero-gnome::after{
+  display:block !important;
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  background:linear-gradient(180deg,rgba(9,16,24,.06),rgba(9,16,24,.2)) !important;
+}
+
+.hero-features{
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr)) !important;
+  gap:10px !important;
+  margin-bottom:16px !important;
+}
+.hero-feat,.hero-stat,.hero-preview-card,.hero-mini,.hero-badge{
+  background:var(--ui-surface-2) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:10px !important;
+}
+.hero-badge{border-radius:8px !important;}
+
+/* tabs / cards / buttons */
+.tabs,.rtabs{
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;
+  backdrop-filter:none !important;
+}
+.tab,.rtab{
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:8px !important;
+}
+.tab.active,.rtab.active{
+  border-color:var(--ui-border-strong) !important;
+  box-shadow:none !important;
+}
+button:not(.connect-cta),.card,.fi,.roster-card,.score-card,.summary-note-card,.v5-band,.setupbox,.logbox,.modal,.wipe-box,.infobox,.errbox{
+  background:var(--ui-surface) !important;
+  border:1px solid var(--ui-border) !important;
+  border-radius:10px !important;
+}
+button:not(.connect-cta):hover,.card:hover,.fi:hover,.roster-card:hover,.tab:hover,.rtab:hover{
+  transform:none !important;
+}
+.fi:hover,.card:hover,.roster-card:hover{
+  border-color:var(--ui-border-strong) !important;
+}
+
+.summary-note-title,.detail-title,.target-header,.hero-stat-k,.hero-preview-label,.hero-mini-k{
+  color:var(--ui-muted) !important;
+}
+th{
+  background:#141c29 !important;
+}
+
+@media(max-width:900px){
+  .hero{padding:20px 16px 16px !important;}
+  .hero-gnome{
+    display:none !important;
+  }
+  .hero-features{grid-template-columns:1fr !important;}
+}
+
+/* ===== Restore previous connect-panel look ===== */
+.connect-panel{
+  background:linear-gradient(135deg,rgba(18,24,34,.95),rgba(20,34,49,.95)) !important;
+  border:1px solid #f97316 !important;
+  border-radius:14px !important;
+  padding:28px 24px !important;
+  margin-bottom:16px !important;
+  align-items:center !important;
+  gap:20px !important;
+  flex-wrap:wrap !important;
+  box-shadow:0 18px 50px #00000030,inset 0 1px 0 #ffffff08 !important;
+}
+.connect-title{
+  font-size:22px !important;
+  font-weight:800 !important;
+  color:#f8a54d !important;
+  margin-bottom:8px !important;
+  letter-spacing:-.02em !important;
+}
+.connect-copy{
+  font-size:13px !important;
+  color:#d4dde8 !important;
+  margin-bottom:10px !important;
+  line-height:1.7 !important;
+  max-width:560px !important;
+}
+.connect-badge{
+  background:#151f2b !important;
+  border:1px solid #324355 !important;
+  border-radius:999px !important;
+  padding:4px 9px !important;
+  font-size:10px !important;
+  font-weight:700 !important;
+  letter-spacing:.06em !important;
+  text-transform:uppercase !important;
+  color:#8ea2b8 !important;
+}
+.connect-cta{
+  background:linear-gradient(135deg,#f97316,#ff9a3d) !important;
+  border:none !important;
+  color:#fff !important;
+  padding:13px 28px !important;
+  border-radius:10px !important;
+  font-size:15px !important;
+  font-weight:800 !important;
+  cursor:pointer !important;
+  box-shadow:0 16px 34px #f9731635 !important;
+}
+.connect-cta:hover{
+  transform:translateY(-1px) !important;
+  filter:brightness(1.04) !important;
+}
+
+/* keep hero title + badge tone aligned with original Raidlenshosted */
+.hero-gnome img{
+  object-position:30% center !important;
+  filter:saturate(1.02) brightness(.98) !important;
+}
+
 </style>
 </head>
 <body>
@@ -537,27 +719,11 @@ button:hover, .connect-cta:hover {
   <div class="hero-top">
     <div class="hero-copy">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56" fill="none" style="display:block;max-width:320px;height:auto">
-  <defs>
-    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#7b68ee"/></linearGradient>
-    <filter id="gl"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  </defs>
-  <circle cx="28" cy="28" r="22" fill="none" stroke="url(#lg)" stroke-width="2"/>
-  <circle cx="28" cy="28" r="18" fill="#0a0e14" stroke="#21262d" stroke-width="1"/>
-  <line x1="28" y1="10" x2="28" y2="15" stroke="#00d4ff" stroke-width="1.5" opacity="0.7" filter="url(#gl)"/>
-  <line x1="28" y1="41" x2="28" y2="46" stroke="#00d4ff" stroke-width="1.5" opacity="0.7" filter="url(#gl)"/>
-  <line x1="10" y1="28" x2="15" y2="28" stroke="#00d4ff" stroke-width="1.5" opacity="0.7" filter="url(#gl)"/>
-  <line x1="41" y1="28" x2="46" y2="28" stroke="#00d4ff" stroke-width="1.5" opacity="0.7" filter="url(#gl)"/>
-  <circle cx="28" cy="28" r="2.5" fill="#00d4ff" filter="url(#gl)"/>
-  <circle cx="28" cy="28" r="11" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.25" stroke-dasharray="2 2"/>
-  <text x="60" y="36" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="28" font-weight="900" fill="#ffffff" letter-spacing="3">战镜</text>
-  <text x="128" y="36" font-family="'SF Pro Display',sans-serif" font-size="14" font-weight="600" fill="#8b949e" letter-spacing="1">RaidMirror</text>
-  <line x1="60" y1="44" x2="210" y2="44" stroke="url(#lg)" stroke-width="1.5" opacity="0.5"/>
-</svg>
+        <span style="font-size:56px;line-height:1;filter:drop-shadow(0 0 12px #ffd70060)">🔭</span>
         <div class="hero-title-wrap">
           <div class="hero-brand">
             <div class="hero-brand-badge">团本分析工具</div>
-            <div class="hero-title"><span class="hero-title-raid" style="color:#00d4ff">战</span><span class="hero-title-lens" style="background:linear-gradient(135deg,#00d4ff,#7b68ee);-webkit-background-clip:text;-webkit-text-fill-color transparent;background-clip:text">镜</span></div>
+            <div class="hero-title"><span class="hero-title-raid">战</span><span class="hero-title-lens">镜</span></div>
           </div>
           <div class="hero-title-rule"></div>
           <div class="hero-sub">连接你的 WarcraftLogs 账号，即刻分析最新团本战斗记录。<br>无需安装 · 无需配置 · 无需 API Key · 即刻出结果</div>
@@ -2601,6 +2767,8 @@ async function searchGuild(){
   }
   async function loadFights(token,code){
   if(!token)token=await getValidToken();
+  // 按需预热法术字典(异步, 不阻塞)
+  kickSpellDictLoad();
   reportCode=code;log(`📋 Loading fights for ${code}...`);
   const data=await gql(token,`{reportData{report(code:"${code}"){title startTime endTime zone{id,name} fights{id startTime endTime name kill bossPercentage encounterID keystoneLevel keystoneAffixes keystoneTime} masterData(translate:true){abilities{gameID name}}}}}`);
   const rpt=data?.reportData?.report;
@@ -3104,6 +3272,8 @@ async function loadRosterProfiles(players){
 async function analyze(){
   if(!fightId||!reportCode)return;
   let token;try{token=await getValidToken();}catch(e){showErr(e.message);return;}
+  // 按需加载大体积 spells.json, 但不等待它完成, 保持分析流程不阻塞
+  kickSpellDictLoad();
   clrErr();clrLog();hideResults();
   const btn=document.getElementById("analyzeBtn");btn.disabled=true;btn.innerHTML='<span class="spin"></span>正在分析...';
   try{
@@ -4558,9 +4728,41 @@ const CLS_ZH={"Warrior":"战士","Paladin":"圣骑士","Hunter":"猎人","Rogue"
 const SPEC_ZH={"Arms":"武器","Fury":"狂怒","Protection":"防护","Retribution":"惩戒","Holy":"神圣","Discipline":"戒律","Beast Mastery":"野兽控制","Marksmanship":"射击","Survival":"生存","Outlaw":"狂徒","Assassination":"刺杀","Subtlety":"敏锐","Shadow":"暗影","Unholy":"邪恶","Frost":"冰霜","Blood":"鲜血","Enhancement":"增强","Elemental":"元素","Restoration":"恢复","Fire":"火焰","Arcane":"奥术","Affliction":"痛苦","Demonology":"恶魔学识","Destruction":"毁灭","Windwalker":"踏风","Mistweaver":"织雾","Brewmaster":"酒仙","Balance":"平衡","Feral":"野性","Guardian":"守护","Havoc":"浩劫","Vengeance":"复仇","Devourer":"噬灭","Devastation":"毁灭","Augmentation":"增辉","Preservation":"恩护"};
 function znCls(en){ return CLS_ZH[en] || (en||""); }
 function znSpec(en){ return SPEC_ZH[en] || (en||""); }
-// 外部全量法术名加载(可选): 将 spells.json 放到 data/ 目录下即可自动加载
-(function(){ try{ fetch("data/spells.json").then(r=>r.json()).then(d=>{ if(d&&Array.isArray(d)){ d.forEach(function(s){ if(s.id&&!SPELL_ZH[s.id]) SPELL_ZH[s.id]=(s.name_zhCN||s.name)||""; }); }
-  else if(d&&d.items){ Object.keys(d.items).forEach(function(k){ var o=d.items[k]; var nm=o&&(o.name_zhCN||o.name); if(k&&nm&&!SPELL_ZH[k]) SPELL_ZH[k]=nm; }); }; }).catch(()=>{});   fetch("data/meta.json").then(r=>r.json()).then(function(d){ _fill(ZN_ENC,ZN_ENC_NAME,d&&d.encounters); _fill(ZN_INST,ZN_INST_NAME,d&&d.instances); }).catch(function(){});
+// 外部全量法术名加载(可选): 改为按需异步加载, 避免页面初次打开就拉 21MB 文件
+var SPELL_ZH_EXT_LOADED=false, SPELL_ZH_EXT_LOADING=null, SPELL_ZH_EXT_LAST_TRY=0;
+function _mergeSpellDict(d){
+  if(d&&Array.isArray(d)){
+    d.forEach(function(s){ if(s&&s.id&&!SPELL_ZH[s.id]) SPELL_ZH[s.id]=(s.name_zhCN||s.name)||""; });
+    return;
+  }
+  if(d&&d.items){
+    Object.keys(d.items).forEach(function(k){
+      var o=d.items[k];
+      var nm=o&&(o.name_zhCN||o.name);
+      if(k&&nm&&!SPELL_ZH[k]) SPELL_ZH[k]=nm;
+    });
+  }
+}
+function kickSpellDictLoad(){
+  if(SPELL_ZH_EXT_LOADED)return Promise.resolve(true);
+  if(SPELL_ZH_EXT_LOADING)return SPELL_ZH_EXT_LOADING;
+  var now=Date.now();
+  // 防止失败后每次点击都重试刷请求; 60s 后再试
+  if(SPELL_ZH_EXT_LAST_TRY && now-SPELL_ZH_EXT_LAST_TRY<60000)return Promise.resolve(false);
+  SPELL_ZH_EXT_LAST_TRY=now;
+  SPELL_ZH_EXT_LOADING=fetch("data/spells.json",{cache:"force-cache"})
+    .then(function(r){ if(!r.ok) throw new Error("spells.json HTTP "+r.status); return r.json(); })
+    .then(function(d){ _mergeSpellDict(d); SPELL_ZH_EXT_LOADED=true; return true; })
+    .catch(function(){ return false; })
+    .finally(function(){ SPELL_ZH_EXT_LOADING=null; });
+  return SPELL_ZH_EXT_LOADING;
+}
+// meta 数据体积小，保留页面初始化加载
+(function(){ try{
+  fetch("data/meta.json").then(r=>r.json()).then(function(d){
+    _fill(ZN_ENC,ZN_ENC_NAME,d&&d.encounters);
+    _fill(ZN_INST,ZN_INST_NAME,d&&d.instances);
+  }).catch(function(){});
 }catch(e){} })();
 
 function initV5(){
