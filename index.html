@@ -2540,7 +2540,7 @@ function renderReportPager(id,page,totalItems,onChange){
   if(totalItems<=REPORTS_PER_PAGE){el.className="report-grid-pager";el.innerHTML="";return;}
   el.className="report-grid-pager show";
   el.innerHTML=`<div class="report-grid-pager-meta">Showing ${page*REPORTS_PER_PAGE+1}-${Math.min((page+1)*REPORTS_PER_PAGE,totalItems)} of ${totalItems}</div><div class="report-grid-pager-controls"><button class="report-grid-pager-btn" ${page<=0?"disabled":""} data-dir="-1">← Prev</button><div class="report-grid-pager-meta">Page ${page+1} / ${totalPages}</div><button class="report-grid-pager-btn" ${page>=totalPages-1?"disabled":""} data-dir="1">Next →</button></div>`;
-  el.querySelector全部("[data-dir]").forEach(btn=>btn.onclick=()=>onChange(Number(btn.dataset.dir)));
+  el.querySelectorAll("[data-dir]").forEach(btn=>btn.onclick=()=>onChange(Number(btn.dataset.dir)));
 }
 
 // setup -- runs once, never again unless you reset
@@ -2671,15 +2671,15 @@ function buildRptObj(r){
 
 // tab switching
 function switchTab(n,el){
-  document.querySelector全部(".tab").forEach(t=>t.classList.remove("active"));
-  document.querySelector全部(".tab-panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
   el.classList.add("active");document.getElementById("panel-"+n).classList.add("active");
   clrErr();clrLog();hideFights();hideResults();
   if(n==="mine")renderMyLogs();
 }
 
 function getRTabEl(n){
-  return [...document.querySelector全部(".rtab")].find(el=>el.getAttribute("onclick")&&el.getAttribute("onclick").indexOf("'"+n+"'")>-1)||null;
+  return [...document.querySelectorAll(".rtab")].find(el=>el.getAttribute("onclick")&&el.getAttribute("onclick").indexOf("'"+n+"'")>-1)||null;
 }
 
 function activateRTab(n,el,preserveScroll){
@@ -2687,8 +2687,8 @@ function activateRTab(n,el,preserveScroll){
   const targetPanel=document.getElementById("rtab-"+n);
   if(!targetEl||!targetPanel)return;
   const sy=preserveScroll?window.scrollY:null;
-  document.querySelector全部(".rtab").forEach(t=>t.classList.remove("active"));
-  document.querySelector全部(".rtab-panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".rtab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".rtab-panel").forEach(p=>p.classList.remove("active"));
   targetEl.classList.add("active");
   targetPanel.classList.add("active");
   refreshWowheadTooltips();
@@ -2706,7 +2706,7 @@ function selectFightById(id,autoAnalyze){
   if(!chosen)return;
   fightId=id;
   document.getElementById("analyzeBtn").disabled=false;
-  document.querySelector全部(".fi,.mplus-dung-hdr").forEach(x=>{x.classList.remove("selected");x.style.borderColor="";});
+  document.querySelectorAll(".fi,.mplus-dung-hdr").forEach(x=>{x.classList.remove("selected");x.style.borderColor="";});
   const selectedEl=document.querySelector(`[data-fight-id="${id}"]`);
   if(selectedEl){
     selectedEl.classList.add("selected");
@@ -2733,7 +2733,7 @@ function renderMyLogs(){
   pageItems.forEach(r=>{
     const card=document.createElement("div");card.className="card";
     card.innerHTML=`<button class="c-del" onclick="event.stopPropagation();delMyLog('${r.code}')">×</button><div class="c-zone">${r.zone||""}</div><div class="c-date">${r.date||r.code}</div><div class="c-title">${r.title||r.code}</div><div class="c-meta">${r.meta||""}</div>`;
-    card.onclick=()=>{document.querySelector全部("#myLogsGrid .card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");clrErr();clrLog();hideFights();hideResults();loadFights(getToken(),r.code).catch(e=>showErr(e.message));};
+    card.onclick=()=>{document.querySelectorAll("#myLogsGrid .card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");clrErr();clrLog();hideFights();hideResults();loadFights(getToken(),r.code).catch(e=>showErr(e.message));};
     grid.appendChild(card);
   });
 }
@@ -2757,7 +2757,7 @@ function renderGuildReports(){
   _guildReports.slice(_guildPage*REPORTS_PER_PAGE,(_guildPage+1)*REPORTS_PER_PAGE).forEach(r=>{
     const obj=buildRptObj(r);const card=document.createElement("div");card.className="card";
     card.innerHTML=`<div class="c-zone">${obj.zone}</div><div class="c-date">${obj.date}</div><div class="c-title">${obj.title}</div><div class="c-meta">${obj.meta}</div>`;
-    card.onclick=()=>{document.querySelector全部("#searchGuildGrid .card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");clrErr();clrLog();hideFights();hideResults();loadFights(getToken(),r.code).catch(e=>showErr(e.message));};
+    card.onclick=()=>{document.querySelectorAll("#searchGuildGrid .card").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");clrErr();clrLog();hideFights();hideResults();loadFights(getToken(),r.code).catch(e=>showErr(e.message));};
     grid.appendChild(card);
   });
 }
@@ -2934,8 +2934,8 @@ async function searchGuild(){
 // click column header to sort. SS tracks asc/desc state per table
 const SS={};
 function srt(id,col){
-  const tb=document.getElementById(id),body=tb.querySelector("tbody"),rows=[...body.querySelector全部("tr")];
-  body.querySelector全部("tr[data-detail='1']").forEach(r=>r.remove());
+  const tb=document.getElementById(id),body=tb.querySelector("tbody"),rows=[...body.querySelectorAll("tr")];
+  body.querySelectorAll("tr[data-detail='1']").forEach(r=>r.remove());
   const cleanRows=rows.filter(r=>r.dataset.detail!=="1");
   const asc=SS[id+col]===undefined?true:!SS[id+col];SS[id+col]=asc;
   cleanRows.sort((a,b)=>{const av=a.cells[col]?.dataset?.val??a.cells[col]?.textContent??"",bv=b.cells[col]?.dataset?.val??b.cells[col]?.textContent??"",an=parseFloat(av),bn=parseFloat(bv);if(!isNaN(an)&&!isNaN(bn))return asc?an-bn:bn-an;return asc?av.localeCompare(bv):bv.localeCompare(av);});
@@ -2946,8 +2946,8 @@ function sortTableBy(id,col,desc){
   if(!tb)return;
   const body=tb.querySelector("tbody");
   if(!body)return;
-  body.querySelector全部("tr[data-detail='1']").forEach(r=>r.remove());
-  const cleanRows=[...body.querySelector全部("tr")].filter(r=>r.dataset.detail!=="1");
+  body.querySelectorAll("tr[data-detail='1']").forEach(r=>r.remove());
+  const cleanRows=[...body.querySelectorAll("tr")].filter(r=>r.dataset.detail!=="1");
   cleanRows.sort((a,b)=>{
     const av=a.cells[col]?.dataset?.val??a.cells[col]?.textContent??"";
     const bv=b.cells[col]?.dataset?.val??b.cells[col]?.textContent??"";
@@ -3167,7 +3167,7 @@ function toggleBreakdownRow(anchor,p,kind,colspan){
   const key=`${p.name}-${kind}`;
   const next=anchor.nextElementSibling;
   if(next&&next.dataset.detailFor===key){next.remove();return;}
-  anchor.parentNode.querySelector全部("tr[data-detail='1']").forEach(r=>r.remove());
+  anchor.parentNode.querySelectorAll("tr[data-detail='1']").forEach(r=>r.remove());
   const detail=document.createElement("tr");
   detail.className="detail-row";
   detail.dataset.detail="1";
@@ -3462,7 +3462,7 @@ async function analyze(){
     dmgD.forEach(ev=>{const p=ownerForSource(ev.sourceID);if(!p)return;const amt=(ev.amount||0),sid=ev.abilityGameID,n=aName[sid]||`Spell#${sid}`;p.ddealt+=amt;p.dmgBySpell[n]=p.dmgBySpell[n]||{id:sid,amount:0,hits:0};p.dmgBySpell[n].amount+=amt;p.dmgBySpell[n].hits++;const idx=Math.max(0,Math.min(bucketCount-1,Math.floor((ev.timestamp-fight.startTime)/bucketMs)));p.damageBuckets[idx]+=amt;});
     log("📡 Healing...");const heals=await fetchEvts(token,reportCode,fight.id,fight.startTime,fight.endTime,"Healing");log(`✅ ${heals.length}`);
     heals.forEach(ev=>{const p=ownerForSource(ev.sourceID);if(!p)return;const sid=ev.abilityGameID,n=aName[sid]||`Spell#${sid}`,amt=(ev.amount||0);p.healed+=amt;p.overheal+=(ev.overheal||0);p.absorbs+=(ev.absorbed||0);p.healBySpell[n]=p.healBySpell[n]||{id:sid,amount:0,hits:0};p.healBySpell[n].amount+=amt;p.healBySpell[n].hits++;const idx=Math.max(0,Math.min(bucketCount-1,Math.floor((ev.timestamp-fight.startTime)/bucketMs)));p.healBuckets[idx]+=amt;});
-    log("📡 死亡...");const 次死亡=await fetchEvts(token,reportCode,fight.id,fight.startTime,fight.endTime,"死亡");log(`✅ ${deaths.length}`);
+    log("📡 死亡...");const 次死亡=await fetchEvts(token,reportCode,fight.id,fight.startTime,fight.endTime,"Deaths");log(`✅ ${次死亡.length}`);
     const mechanicRows=buildMechanicRows(debuffs,P,fight.startTime,fight.endTime,aName);
     bossTimelineRows=buildBossAbilityRows(dmgT,debuffs,P,petOwnerMap,fight.startTime,fight.endTime,aName);
     coverageSummary=buildCoverageSummary(bossTimelineRows,casts,aName,fight.startTime);
@@ -4480,8 +4480,8 @@ function toggleTL(k){
 }
 function applyTLFilters(){
   const sel=document.getElementById('tlPlayerSel');const player=sel?sel.value:'all';
-  document.querySelector全部('#timelineContent [data-tl-player]').forEach(row=>{row.style.display=(row.dataset.tlFixed==='1'||player==='all'||row.dataset.tlPlayer===player)?'':'none';});
-  document.querySelector全部('#timelineContent [data-kind]').forEach(m=>{
+  document.querySelectorAll('#timelineContent [data-tl-player]').forEach(row=>{row.style.display=(row.dataset.tlFixed==='1'||player==='all'||row.dataset.tlPlayer===player)?'':'none';});
+  document.querySelectorAll('#timelineContent [data-kind]').forEach(m=>{
     const k=m.dataset.kind;
     const show=(k==='off'&&_tlKind.off)||(k==='def'&&_tlKind.def)||(k==='raid'&&_tlKind.raid)||(k==='lust'&&_tlKind.lust)||(k==='boss'&&_tlKind.boss)||!k;
     m.style.opacity=show?'1':'0.05';m.style.pointerEvents=show?'':'none';
@@ -4682,8 +4682,8 @@ function buildSummaryBand(ctx){
 }
 
 function v5RoleFilter(role){
-  document.querySelector全部('[data-filter]').forEach(el=>el.classList.toggle('on',el.dataset.filter===role));
-  document.getElementById('v5f-all')&&document.querySelector全部('#tSumBody tr').forEach(tr=>{
+  document.querySelectorAll('[data-filter]').forEach(el=>el.classList.toggle('on',el.dataset.filter===role));
+  document.getElementById('v5f-all')&&document.querySelectorAll('#tSumBody tr').forEach(tr=>{
     const r=tr.dataset.role||'',hi=tr.dataset.hasIssue==='1';
     tr.style.display=(role==='all'||(role==='issues'&&hi)||r===role)?'':'none';
   });
@@ -4762,8 +4762,8 @@ async function agentLatest(){
     await loadFights(token,saved[0].code);
     if(!allFights.length){showErr('No boss fights in that report.');return;}
     fightId=allFights[allFights.length-1].id;
-    document.querySelector全部('.fi').forEach(el=>el.classList.remove('selected'));
-    const fis=document.querySelector全部('.fi');if(fis.length)fis[fis.length-1].classList.add('selected');
+    document.querySelectorAll('.fi').forEach(el=>el.classList.remove('selected'));
+    const fis=document.querySelectorAll('.fi');if(fis.length)fis[fis.length-1].classList.add('selected');
     document.getElementById('analyzeBtn').disabled=false;
     await analyze();
   }catch(e){showErr('Auto error: '+e.message);}
