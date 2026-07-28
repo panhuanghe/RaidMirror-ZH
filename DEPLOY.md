@@ -20,7 +20,7 @@
 ## 1.1 部署包命名规范（统一）
 
 - 统一命名：`zhanjing-deploy-vX.Y.Z.zip`
-- 示例：`zhanjing-deploy-v1.0.8.zip`
+- 示例：`zhanjing-deploy-v1.0.9.zip`
 - 不再使用旧命名：`zhanjing-release.zip`
 
 可直接用脚本打包（自动读取 README 里的当前版本号）：
@@ -32,7 +32,7 @@
 也可手动指定版本号：
 
 ```powershell
-.\package_release.ps1 -Version 1.0.8
+.\package_release.ps1 -Version 1.0.9
 ```
 
 ## 2. 宝塔面板部署
@@ -72,13 +72,14 @@
 必须修改：
 
 - `index.html` 里的 `PKCE_CLIENT_ID`
-- `index.html` 里的 `PKCE_REDIRECT`
+  
+默认情况下 `PKCE_REDIRECT` 已使用 `window.location.origin` 自动取当前域名，通常无需手工修改。
 
 示例：
 
 ```js
 const PKCE_CLIENT_ID="你的ClientID";
-const PKCE_REDIRECT="https://你的域名";
+const PKCE_REDIRECT=window.location.origin;
 ```
 
 如果你会重新执行 `build_zh.py` 生成 `index.html`，还要同步改 `build_zh.py` 中对应替换值，否则会被构建覆盖。

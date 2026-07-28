@@ -9,6 +9,19 @@
 
 - 暂无（下一次修改后继续迭代版本）。
 
+## [v1.0.9] - 2026-07-28
+
+### 登录修复（PKCE）
+
+- 修复点击“开始分析我的团本（通过 WCL）”时报错：
+  - Connect error: Cannot read properties of undefined (reading digest)
+- 为 PKCE code challenge 增加 SHA-256 fallback：当 crypto.subtle 不可用时，自动走内置实现，不再直接报错。
+- PKCE_REDIRECT 改为 window.location.origin，自动匹配当前访问域名。
+
+### 构建一致性
+
+- 在 build_zh.py 中同步注入上述 PKCE 兼容逻辑，避免重建后回退。
+
 ## [v1.0.8] - 2026-07-28
 
 ### 性能优化（图片加载）

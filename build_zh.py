@@ -739,14 +739,19 @@ if 'function initV5(){' in content:
 
 # ══════════════════════════════════════════════════════════
 #  ⑥ PKCE 配置占位符 (方便部署时修改)
+#    兼容有/无空格写法：const A="x"; 或 const A = "x";
 # ══════════════════════════════════════════════════════════
-content = content.replace(
-    'const PKCE_CLIENT_ID = "a15ff79c-4eb3-49a8-9aa5-8ff9049308df"',
-    'const PKCE_CLIENT_ID = "019fa737-306d-73f6-9327-1225f5b6edc6"'
+content = re.sub(
+    r'const\s+PKCE_CLIENT_ID\s*=\s*"[^"]*";',
+    'const PKCE_CLIENT_ID="019fa737-306d-73f6-9327-1225f5b6edc6";',
+    content,
+    count=1
 )
-content = content.replace(
-    'const PKCE_REDIRECT = "https://raidlens.org"',
-    'const PKCE_REDIRECT = window.location.origin // ⬅ 自动取当前域名，或改为你的实际域名如 "https://your-domain.com"'
+content = re.sub(
+    r'const\s+PKCE_REDIRECT\s*=\s*"[^"]*";',
+    'const PKCE_REDIRECT=window.location.origin; // auto use current domain',
+    content,
+    count=1
 )
 
 # ══════════════════════════════════════════════════════════
@@ -876,6 +881,109 @@ try:
         print("[9c] 未找到 hero-gnome.png，跳过 WebP 生成")
 except Exception as _e:
     print(f"[9c] WebP 生成失败(已回退 PNG): {_e}")
+
+# ══════════════════════════════════════════════════════════
+#  ⑩ PKCE 兼容修复：crypto.subtle 不可用时提供 SHA-256 fallback
+# ══════════════════════════════════════════════════════════
+_pkce_block = '''
+// PKCE crypto helpers -- generate verifier + challenge
+function _pkceRightRotate(v,a){ return (v>>>a) | (v<<(32-a)); }
+function _pkceSha256AsciiBuffer(ascii){
+  // Fallback SHA-256 for environments where crypto.subtle is unavailable (e.g. some HTTP contexts).
+  const mathPow=Math.pow,maxWord=mathPow(2,32),lengthProperty="length";
+  let i,j,words=[],asciiBitLength=ascii[lengthProperty]*8;
+  let hash=_pkceSha256AsciiBuffer.h=_pkceSha256AsciiBuffer.h||[];
+  let k=_pkceSha256AsciiBuffer.k=_pkceSha256AsciiBuffer.k||[];
+  let primeCounter=k[lengthProperty];
+  const isComposite={};
+  if(primeCounter===0){
+    for(let candidate=2; primeCounter<64; candidate++){
+      if(!isComposite[candidate]){
+        for(i=0; i<313; i+=candidate) isComposite[i]=candidate;
+        hash[primeCounter]=((mathPow(candidate,.5)*maxWord)|0);
+        k[primeCounter++]=((mathPow(candidate,1/3)*maxWord)|0);
+      }
+    }
+  }
+  ascii += "\\x80";
+  while(ascii[lengthProperty]%64 - 56) ascii += "\\x00";
+  for(i=0;i<ascii[lengthProperty];i++){
+    j=ascii.charCodeAt(i);
+    if(j>>8) throw new Error("PKCE verifier contains non-ASCII chars");
+    words[i>>2] |= j << ((3 - i) % 4) * 8;
+  }
+  words[words[lengthProperty]] = ((asciiBitLength / maxWord) | 0);
+  words[words[lengthProperty]] = (asciiBitLength);
+  for(j=0; j<words[lengthProperty];){
+    const w = words.slice(j, j += 16);
+    const oldHash = hash;
+    hash = hash.slice(0,8);
+    for(i=0;i<64;i++){
+      const w15 = w[i-15], w2 = w[i-2];
+      const a = hash[0], e = hash[4];
+      const temp1 = hash[7]
+        + (_pkceRightRotate(e,6) ^ _pkceRightRotate(e,11) ^ _pkceRightRotate(e,25))
+        + ((e & hash[5]) ^ ((~e) & hash[6]))
+        + k[i]
+        + (w[i] = (i<16) ? w[i] : (
+            w[i-16]
+            + (_pkceRightRotate(w15,7) ^ _pkceRightRotate(w15,18) ^ (w15>>>3))
+            + w[i-7]
+            + (_pkceRightRotate(w2,17) ^ _pkceRightRotate(w2,19) ^ (w2>>>10))
+          ) | 0
+        );
+      const temp2 = (_pkceRightRotate(a,2) ^ _pkceRightRotate(a,13) ^ _pkceRightRotate(a,22))
+        + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash = [(temp1 + temp2) | 0].concat(hash);
+      hash[4] = (hash[4] + temp1) | 0;
+      hash.pop();
+    }
+    for(i=0;i<8;i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+  }
+  const out = new Uint8Array(32);
+  for(i=0;i<8;i++){
+    out[i*4]   = (hash[i]>>>24) & 0xff;
+    out[i*4+1] = (hash[i]>>>16) & 0xff;
+    out[i*4+2] = (hash[i]>>>8) & 0xff;
+    out[i*4+3] = hash[i] & 0xff;
+  }
+  return out.buffer;
+}
+
+async function _pkceSha256BufferFromVerifier(verifier){
+  const subtle = window.crypto && window.crypto.subtle;
+  if(subtle && typeof subtle.digest === "function"){
+    const enc = new TextEncoder().encode(verifier);
+    return await subtle.digest("SHA-256", enc);
+  }
+  // fallback path
+  return _pkceSha256AsciiBuffer(verifier);
+}
+
+async function pkceChallenge(){
+  // generate a 32-byte random verifier, base64url encoded
+  if(!(window.crypto && typeof window.crypto.getRandomValues==="function")){
+    throw new Error("Browser crypto not available. Please use a modern browser.");
+  }
+  const arr=new Uint8Array(32);
+  window.crypto.getRandomValues(arr);
+  const verifier=btoa(String.fromCharCode.apply(null,arr))
+    .replace(/[+]/g,"-").replace(/[/]/g,"_").replace(/[=]/g,"");
+  // S256 only -- WCL requires this, plain is not accepted
+  const hash=await _pkceSha256BufferFromVerifier(verifier);
+  const challenge=btoa(String.fromCharCode.apply(null,new Uint8Array(hash)))
+    .replace(/[+]/g,"-").replace(/[/]/g,"_").replace(/[=]/g,"");
+  return {verifier,challenge,method:"S256"};
+}
+'''
+content = re.sub(
+    r'// PKCE crypto helpers -- generate verifier \+ challenge\s*async function pkceChallenge\(\)\{.*?return \{verifier,challenge,method:"S256"\};\s*\}',
+    _pkce_block,
+    content,
+    count=1,
+    flags=re.S
+)
+print("[10] PKCE fallback: crypto.subtle 不可用时改用内置 SHA-256")
 
 # ─── 写入输出 ─────────────────────────────────────────────
 os.makedirs(os.path.dirname(DST), exist_ok=True)
