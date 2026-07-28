@@ -714,7 +714,10 @@ th{
 <div class="hero">
   <div class="hero-gridline"></div>
   <div class="hero-aurora"></div>
-  <div class="hero-gnome" aria-hidden="true"><img src="assets/hero-gnome.png" alt="战镜">
+  <div class="hero-gnome" aria-hidden="true"><picture>
+    <source type="image/webp" srcset="assets/hero-gnome-202x264.webp 1x, assets/hero-gnome-404x528.webp 2x">
+    <img src="assets/hero-gnome.png" alt="战镜" width="202" height="264" decoding="async" fetchpriority="high">
+  </picture>
   </div>
   <div class="hero-top">
     <div class="hero-copy">

@@ -834,14 +834,48 @@ if _m:
 else:
     print("[9a] 未找到 hero-gnome base64, 跳过 PNG 提取")
 
-# 9b. 将内联 base64 <img> 替换为外部 PNG 引用
+# 9b. 将内联 base64 <img> 替换为外部引用（WebP + PNG 回退）
 content = _re.sub(
     r'<div class="hero-gnome" aria-hidden="true">\s*<img src="data:image/png;base64,[^"]*"[^>]*>',
-    "<div class=\"hero-gnome\" aria-hidden=\"true\"><img src=\"assets/hero-gnome.png\" alt=\"战镜\">",
+    "<div class=\"hero-gnome\" aria-hidden=\"true\"><picture><source type=\"image/webp\" srcset=\"assets/hero-gnome-202x264.webp 1x, assets/hero-gnome-404x528.webp 2x\"><img src=\"assets/hero-gnome.png\" alt=\"战镜\" width=\"202\" height=\"264\" decoding=\"async\" fetchpriority=\"high\"></picture>",
     content,
     flags=_re.S,
 )
-print("[9b] 替换 hero-gnome src: 3.5MB 原站 base64 PNG → 外部 assets/hero-gnome.png")
+print("[9b] 替换 hero-gnome src: base64 → 外部 picture(WebP) + PNG 回退")
+
+# 9c. 生成 WebP 尺寸变体（显著降低首屏图片体积）
+try:
+    from PIL import Image
+    _src = os.path.join(ASSETS, "hero-gnome.png")
+    if os.path.exists(_src):
+        _im = Image.open(_src).convert("RGB")
+
+        def _make_variant(_w, _h, _name):
+            _target_ratio = _w / _h
+            _sw, _sh = _im.size
+            _src_ratio = _sw / _sh
+            if _src_ratio > _target_ratio:
+                _new_w = int(_sh * _target_ratio)
+                _left = int((_sw - _new_w) * 0.30)  # x 对齐 ~ object-position:30%
+                _left = max(0, min(_left, _sw - _new_w))
+                _box = (_left, 0, _left + _new_w, _sh)
+            else:
+                _new_h = int(_sw / _target_ratio)
+                _top = (_sh - _new_h) // 2        # y 对齐 center
+                _top = max(0, min(_top, _sh - _new_h))
+                _box = (0, _top, _sw, _top + _new_h)
+            _out = _im.crop(_box).resize((_w, _h), Image.Resampling.LANCZOS)
+            _out_path = os.path.join(ASSETS, _name)
+            _out.save(_out_path, "WEBP", quality=80, method=6)
+            return _out_path
+
+        _v1 = _make_variant(202, 264, "hero-gnome-202x264.webp")
+        _v2 = _make_variant(404, 528, "hero-gnome-404x528.webp")
+        print(f"[9c] 生成 WebP 变体: {_v1}, {_v2}")
+    else:
+        print("[9c] 未找到 hero-gnome.png，跳过 WebP 生成")
+except Exception as _e:
+    print(f"[9c] WebP 生成失败(已回退 PNG): {_e}")
 
 # ─── 写入输出 ─────────────────────────────────────────────
 os.makedirs(os.path.dirname(DST), exist_ok=True)
