@@ -109,6 +109,22 @@ jobs:
             exit 1
           fi
 
+          # Sync release body from CHANGELOG section for this tag.
+          BODY_FILE="$(mktemp)"
+          awk -v tag="$TAG" '
+            $0 ~ "^## \\["tag"\\]" {in_section=1; next}
+            in_section && $0 ~ "^## \\[" {exit}
+            in_section {print}
+          ' CHANGELOG.md | awk 'f || NF {print; f=1}' > "$BODY_FILE"
+          if [ -s "$BODY_FILE" ]; then
+            BODY_JSON="$(jq -Rs . < "$BODY_FILE")"
+            curl -fsSL -X PATCH \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "$API/releases/$RELEASE_ID" \
+              -d "{\"name\":\"$TAG\",\"body\":$BODY_JSON}" >/dev/null
+          fi
+
           # Delete old same-name asset to ensure current package is refreshed.
           echo "$RELEASE_JSON" | jq -r --arg n "$ASSET" '.assets[]? | select(.name == $n) | .id' | while read -r AID; do
             [ -z "$AID" ] && continue
@@ -150,6 +166,22 @@ jobs:
             RELEASE_ID="$(echo "$RELEASE_JSON" | jq -r '.id')"
             [ -z "$RELEASE_ID" ] || [ "$RELEASE_ID" = "null" ] && continue
 
+            # Sync historical release body from CHANGELOG if section exists.
+            BODY_FILE="$(mktemp)"
+            awk -v tag="$TAG" '
+              $0 ~ "^## \\["tag"\\]" {in_section=1; next}
+              in_section && $0 ~ "^## \\[" {exit}
+              in_section {print}
+            ' CHANGELOG.md | awk 'f || NF {print; f=1}' > "$BODY_FILE"
+            if [ -s "$BODY_FILE" ]; then
+              BODY_JSON="$(jq -Rs . < "$BODY_FILE")"
+              curl -fsSL -X PATCH \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                "$API/releases/$RELEASE_ID" \
+                -d "{\"name\":\"$TAG\",\"body\":$BODY_JSON}" >/dev/null
+            fi
+
             # Remove legacy zip names for consistency.
             echo "$RELEASE_JSON" | jq -r --arg keep "$ASSET" '
               .assets[]?
@@ -176,4 +208,3 @@ jobs:
               "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$ASSET" \
               >/dev/null
           done
-
