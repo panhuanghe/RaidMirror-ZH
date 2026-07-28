@@ -4077,7 +4077,7 @@ drows.forEach(d=>{
     const tSumBody=document.getElementById("tSumBody");
     const avg可避免NonTank=sorted.filter(p=>p.role!=="tanks").length?sorted.filter(p=>p.role!=="tanks").reduce((s,p)=>s+(p.avoidableTaken||0),0)/sorted.filter(p=>p.role!=="tanks").length:0;
     sorted.forEach(p=>{
-      const 次死亡=p.deaths.length;
+      const deaths=p.deaths.length;
       const ints=Object.values(p.ints).reduce((s,c)=>s+c,0);
       const disps=Object.values(p.disps).reduce((s,c)=>s+c,0);
       const defTotal=Object.values(p.defs).reduce((s,c)=>s+c,0);
