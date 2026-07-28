@@ -6,7 +6,7 @@
 RaidLens（© Fisheye3D），
 并进行了**完整中文化**与 **UI 美化**。
 
-当前源码版本：**v1.0.5**（2026-07-28）
+当前源码版本：**v1.0.6**（2026-07-28）
 
 - 连接 WarcraftLogs 账号，一键分析最近一次（或任意指定）团本战斗日志
 - 防御 / 进攻大招时间轴、减伤覆盖、打断 / 驱散统计、Boss 机制复盘建议
@@ -97,8 +97,9 @@ python -m http.server 8080
 详细部署步骤（含宝塔发布、Client ID 申请、代码替换、常见问题）见：
 [DEPLOY.md](DEPLOY.md)
 
-部署包命名统一为：`zhanjing-deploy-vX.Y.Z.zip`（例如 `zhanjing-deploy-v1.0.5.zip`）。
+部署包命名统一为：`zhanjing-deploy-vX.Y.Z.zip`（例如 `zhanjing-deploy-v1.0.6.zip`）。
 发布时通过 GitHub Release 资产分发（推送 `v*` tag 后自动上传标准命名部署包）。
+CI 会在主分支校验：若有代码改动，必须同步更新 `README.md` 与 `CHANGELOG.md`。
 
 ---
 

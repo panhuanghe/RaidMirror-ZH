@@ -18,6 +18,54 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Validate README + CHANGELOG sync for code changes
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BEFORE="$(jq -r '.before // ""' "$GITHUB_EVENT_PATH")"
+          AFTER="$GITHUB_SHA"
+
+          # Fallback for rare zero-before pushes.
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            BEFORE="$(git rev-list --max-count=1 "$AFTER^" || true)"
+          fi
+
+          if [ -z "$BEFORE" ]; then
+            echo "No valid before SHA found, skip sync check."
+            exit 0
+          fi
+
+          CHANGED="$(git diff --name-only "$BEFORE" "$AFTER" || true)"
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          if [ -z "$CHANGED" ]; then
+            echo "No file changes detected."
+            exit 0
+          fi
+
+          NEED_DOC_SYNC="false"
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              README.md|CHANGELOG.md|DEPLOY.md|*.md|.github/workflows/*|.gitignore|package_release.ps1)
+                ;;
+              *)
+                NEED_DOC_SYNC="true"
+                ;;
+            esac
+          done <<< "$CHANGED"
+
+          if [ "$NEED_DOC_SYNC" = "true" ]; then
+            echo "$CHANGED" | grep -qx "README.md" || { echo "Code changed but README.md not updated."; exit 1; }
+            echo "$CHANGED" | grep -qx "CHANGELOG.md" || { echo "Code changed but CHANGELOG.md not updated."; exit 1; }
+            echo "README.md and CHANGELOG.md are synced with code changes."
+          else
+            echo "No code-scope changes requiring README/CHANGELOG sync."
+          fi
+
       - name: Fetch tags
         run: git fetch --tags --force
 
@@ -98,4 +146,3 @@ jobs:
 
             echo "Uploaded $ASSET to release $TAG"
           done
-
