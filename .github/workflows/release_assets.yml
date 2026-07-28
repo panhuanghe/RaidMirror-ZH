@@ -41,11 +41,18 @@ jobs:
             ASSET="zhanjing-deploy-$TAG.zip"
             echo "==> Processing $TAG ($ASSET)"
 
-            RELEASE_JSON="$(curl -fsSL +              -H "Authorization: Bearer $GH_TOKEN" +              -H "Accept: application/vnd.github+json" +              "$API/releases/tags/$TAG" || true)"
+            RELEASE_JSON="$(curl -fsSL \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "$API/releases/tags/$TAG" || true)"
 
             if [ -z "$RELEASE_JSON" ]; then
               echo "Release for $TAG not found, creating..."
-              RELEASE_JSON="$(curl -fsSL -X POST +                -H "Authorization: Bearer $GH_TOKEN" +                -H "Accept: application/vnd.github+json" +                "$API/releases" +                -d "{\"tag_name\":\"$TAG\",\"name\":\"$TAG\",\"generate_release_notes\":true}")"
+              RELEASE_JSON="$(curl -fsSL -X POST \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                "$API/releases" \
+                -d "{\"tag_name\":\"$TAG\",\"name\":\"$TAG\",\"generate_release_notes\":true}")"
             fi
 
             RELEASE_ID="$(echo "$RELEASE_JSON" | jq -r '.id')"
@@ -67,7 +74,10 @@ jobs:
             ' | while read -r AID; do
               if [ -n "$AID" ]; then
                 echo "Deleting legacy asset id=$AID for $TAG"
-                curl -fsSL -X DELETE +                  -H "Authorization: Bearer $GH_TOKEN" +                  -H "Accept: application/vnd.github+json" +                  "$API/releases/assets/$AID" >/dev/null
+                curl -fsSL -X DELETE \
+                  -H "Authorization: Bearer $GH_TOKEN" \
+                  -H "Accept: application/vnd.github+json" \
+                  "$API/releases/assets/$AID" >/dev/null
               fi
             done
 
@@ -79,7 +89,12 @@ jobs:
 
             git archive --format=zip --output "$ASSET" "$TAG" index.html assets data data_core
 
-            curl -fsSL -X POST +              -H "Authorization: Bearer $GH_TOKEN" +              -H "Content-Type: application/zip" +              --data-binary @"$ASSET" +              "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$ASSET" +              >/dev/null
+            curl -fsSL -X POST \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Content-Type: application/zip" \
+              --data-binary @"$ASSET" \
+              "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$ASSET" \
+              >/dev/null
 
             echo "Uploaded $ASSET to release $TAG"
           done
