@@ -899,7 +899,7 @@ th{
       <div style="padding:0 12px 12px;font-size:11px;color:#6e7681;font-style:italic">最后使用的减伤、药水状态、治疗石状态 — 每个死亡都有上下文</div>
     </div>
 
-    <!-- DISCORD COPY FORMATS -->
+    <!-- DISCORD 复制格式 -->
     <div style="background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden">
       <div style="background:#1a1200;border-bottom:1px solid #21262d;padding:8px 14px;font-size:11px;color:#ffd700;font-weight:600">⚠️ Discord 复制 — 4 种格式</div>
       <div style="padding:12px">
@@ -954,7 +954,7 @@ th{
       <div style="padding:0 12px 12px;font-size:11px;color:#6e7681;font-style:italic">看看团队是否在逐次进步</div>
     </div>
 
-    <!-- TIMELINE FILTERS -->
+    <!-- 时间轴筛选 -->
     <div style="background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden">
       <div style="background:#0d2318;border-bottom:1px solid #21262d;padding:8px 14px;font-size:11px;color:#3fb950;font-weight:600">🔄 时间轴 — 可过滤的技能视图</div>
       <div style="padding:12px">
@@ -1381,7 +1381,7 @@ th{
   <div class="rtab-panel" id="rtab-mechanics">
     <div class="sn">灭团风格的机制梳理：精准定位危险 debuff、重复犯错者，以及团伤压力，而不被原始日志淹没</div>
     <div id="mechanicSummaryGrid" class="summary-grid-2"></div>
-  <div class="table-tools"><div class="table-tools-note">当同一机制反复导致灭团时，按命中玩家或最长承受排序</div><div class="table-sort"><span>排序:</span><select id="mechanicSort"><option value="players">命中玩家</option><option value="apps">职业</option><option value="hold">最长承受</option><option value="mechanic">Mechanic</option></select></div></div><div class="tw"><table id="tMechDebuffs"><thead><tr><th onclick="srt('tMechDebuffs',0)">机制 ↕</th><th onclick="srt('tMechDebuffs',1)" class="num">玩家 ↕</th><th onclick="srt('tMechDebuffs',2)" class="num">职业 ↕</th><th onclick="srt('tMechDebuffs',3)">最长承受 ↕</th><th>修正下一次开怪 / 为什么重要</th></tr></thead><tbody id="bMechDebuffs"></tbody></table></div>
+  <div class="table-tools"><div class="table-tools-note">当同一机制反复导致灭团时，按命中玩家或最长承受排序</div><div class="table-sort"><span>排序:</span><select id="mechanicSort"><option value="players">命中玩家</option><option value="apps">次数</option><option value="hold">最长承受</option><option value="mechanic">机制</option></select></div></div><div class="tw"><table id="tMechDebuffs"><thead><tr><th onclick="srt('tMechDebuffs',0)">机制 ↕</th><th onclick="srt('tMechDebuffs',1)" class="num">玩家 ↕</th><th onclick="srt('tMechDebuffs',2)" class="num">次数 ↕</th><th onclick="srt('tMechDebuffs',3)">最长承受 ↕</th><th>下次尝试修正 / 影响</th></tr></thead><tbody id="bMechDebuffs"></tbody></table></div>
   </div>
   <!-- HEALING BREAKDOWN -->
   <div class="rtab-panel" id="rtab-healbreak">
@@ -1829,13 +1829,13 @@ function snapshotBuffsHtml(p,compact){
   if(entries.length){
     return `<div class="snapshot-buffs">${entries.map(e=>`<span class="snapshot-chip ${e.tone}" title="${escAttr(e.value)}">${e.label}</span>`).join("")}</div>`;
   }
-  if(p.auraSnapshotAvailable)return `<span class="none-t">No consumable auras in snapshot</span>`;
-  return `<span class="none-t">Consumable snapshot unavailable</span>`;
+  if(p.auraSnapshotAvailable)return `<span class="none-t">快照中无消耗品光环</span>`;
+  return `<span class="none-t">消耗品快照不可用</span>`;
 }
 function snapshotBuffSummaryText(p){
   const entries=snapshotBuffEntries(p);
   if(entries.length)return entries.map(e=>`${e.label}: ${e.value}`).join(" · ");
-  return p.auraSnapshotAvailable?"No consumable auras in snapshot":"Consumable snapshot unavailable";
+  return p.auraSnapshotAvailable?"快照中无消耗品光环":"消耗品快照不可用";
 }
 function roleGraphCoach(p){
   if(p?.role==="healers")return "Healer view: check whether ramps and raid CDs were already rolling before the amber boss windows landed.";
@@ -1844,10 +1844,10 @@ function roleGraphCoach(p){
 }
 function buildConsumableStatusCards(p){
   const cards=[
-    {label:"Food",value:p.foodBuff||"No food snapshot",tone:p.foodBuff?"good":"warn"},
-    {label:"Phial",value:p.flaskBuff||"No phial snapshot",tone:p.flaskBuff?"good":"warn"},
-    {label:"Augment Rune",value:p.runeBuff||"No rune snapshot",tone:p.runeBuff?"info":"warn"},
-    {label:"Weapon Buff",value:p.weaponBuff||"No weapon snapshot",tone:p.weaponBuff?"good":"warn"},
+    {label:"食物",value:p.foodBuff||"无食物快照",tone:p.foodBuff?"good":"warn"},
+    {label:"合剂",value:p.flaskBuff||"无合剂快照",tone:p.flaskBuff?"good":"warn"},
+    {label:"增益符文",value:p.runeBuff||"无符文快照",tone:p.runeBuff?"info":"warn"},
+    {label:"武器增益",value:p.weaponBuff||"无武器增益快照",tone:p.weaponBuff?"good":"warn"},
     {label:"药水",value:p.pots?`${p.potName||"Used"} ×${p.pots}`:"未使用战斗药水",tone:p.pots?"good":"warn"},
     {label:"治疗石",value:p.hs?"Used":"Not used",tone:p.hs?"good":"warn"}
   ];
@@ -1911,7 +1911,7 @@ function extractCombatantInfo(entry){
   if(!ci){
     return{
       ilvl:0,enchants:0,gems:0,weaponBuffs:[],passiveBuffs:[],talentNames:[],
-      readyIssues:["Snapshot unavailable"],readyStatus:"warn",readyText:"Snapshot unavailable",stats:null,
+      readyIssues:["快照不可用"],readyStatus:"warn",readyText:"快照不可用",stats:null,
       auraSnapshotAvailable:false,foodBuff:null,flaskBuff:null,runeBuff:null,weaponBuff:null
     };
   }
@@ -1931,9 +1931,9 @@ function extractCombatantInfo(entry){
   const weaponBuffs=uniq([weaponBuff].filter(Boolean));
   const passiveBuffs=uniq([foodBuff,flaskBuff,runeBuff].filter(Boolean));
   const issues=[];
-  if(gear.length&&enchants===0)issues.push("No enchants seen");
-  else if(gear.length&&enchants<Math.max(2,Math.floor(gear.length*0.35)))issues.push("Few enchants seen");
-  if(gear.length&&gems===0)issues.push("No gems seen");
+  if(gear.length&&enchants===0)issues.push("未发现附魔");
+  else if(gear.length&&enchants<Math.max(2,Math.floor(gear.length*0.35)))issues.push("附魔较少");
+  if(gear.length&&gems===0)issues.push("未发现宝石");
   const readyStatus=issues.length===0?"good":issues.length===1?"warn":"bad";
   return{
     ilvl:ilvl||0,enchants,gems,weaponBuffs,passiveBuffs,talentNames:talents,
@@ -2112,30 +2112,30 @@ function infer可避免Pressure(P,bossRows){
   return watchRows;
 }
 function mechanicFixText(row){
-  if(!row)return"Review this mechanic on the next pull.";
+  if(!row)return"下次尝试复盘这个机制。";
   const tips=[];
-  if((row.longestMs||0)>=10000)tips.push("clear or pass it faster");
-  if((row.playersCount||0)>=8)tips.push("tighten raid positioning");
-  else if((row.playersCount||0)>=4)tips.push("clean up targeted assignments");
-  if((row.applications||0)>=10)tips.push("reduce repeat touches");
-  if(!tips.length)tips.push("review who handled it and when");
-  return tips[0].charAt(0).toUpperCase()+tips[0].slice(1)+(tips[1]?` · ${tips[1]}`:"");
+  if((row.longestMs||0)>=10000)tips.push("更快解除或传递");
+  if((row.playersCount||0)>=8)tips.push("收紧团队站位");
+  else if((row.playersCount||0)>=4)tips.push("明确点名任务");
+  if((row.applications||0)>=10)tips.push("减少重复触发");
+  if(!tips.length)tips.push("复盘处理人员和时间点");
+  return tips[0]+(tips[1]?` · ${tips[1]}`:"");
 }
 function build干部Notes(ctx){
   const notes=[];
   const {fight,drows,漏掉OffTotal,noPotDps,coverageSummary,mechanicRows,readiness查看,avoidable查看}=ctx;
   const cause=ctx.cause||pick灭团Cause(drows||[]);
   const tank死亡=ctx.tank死亡||(safeArr(drows).filter(d=>d.dcount>0&&d.role==="tanks"));
-  if(!fight.kill&&cause?.top击杀er)notes.push(`Cover ${cause.top击杀er.name} better before the next wipe point.`);
-  if(tank死亡?.length)notes.push(`Review tank defensive coverage first — tank 次死亡 are ending pulls.`);
+  if(!fight.kill&&cause?.top击杀er)notes.push(`下一次灭团点前加强对 ${cause.top击杀er.name} 的处理。`);
+  if(tank死亡?.length)notes.push(`优先检查坦克减伤覆盖——坦克死亡正在导致灭团。`);
   const gap=coverageSummary?.find(r=>r.uncovered>0);
-  if(gap)notes.push(`Assign coverage for ${gap.name}; ${gap.uncovered}/${gap.total} boss windows were uncovered.`);
+  if(gap)notes.push(`为 ${gap.name} 安排减伤覆盖；${gap.uncovered}/${gap.total} 个 Boss 技能窗口没有覆盖。`);
   const mech=mechanicRows?.find(r=>r.watch);
   if(mech)notes.push(`${mech.name}: ${mechanicFixText(mech)}.`);
-  if(漏掉OffTotal>=3)notes.push(`Enforce offensive cooldown usage — ${漏掉OffTotal} tracked CDs were 漏掉.`);
-  if(noPotDps?.length>=3)notes.push(`有玩家漏用药水: ${noPotDps.length} DPS 漏掉 one.`);
-  if(avoidable查看?.[0]?.avoidableTaken)notes.push(`Reduce avoidable damage on ${avoidable查看[0].name}; they ate ${fmt(avoidable查看[0].avoidableTaken)} of likely avoidable pressure.`);
-  if(readiness查看?.length)notes.push(`Prep check still matters: ${readiness查看[0].name} is flagged for ${readiness查看[0].readyText.toLowerCase()}.`);
+  if(漏掉OffTotal>=3)notes.push(`落实爆发技能使用——有 ${漏掉OffTotal} 次已跟踪技能未施放。`);
+  if(noPotDps?.length>=3)notes.push(`有 ${noPotDps.length} 名 DPS 未检测到药水。`);
+  if(avoidable查看?.[0]?.avoidableTaken)notes.push(`降低 ${avoidable查看[0].name} 的可避免伤害；承受了 ${fmt(avoidable查看[0].avoidableTaken)} 点疑似可避免伤害。`);
+  if(readiness查看?.length)notes.push(`战前检查仍需处理：${readiness查看[0].name} 标记为 ${readiness查看[0].readyText}。`);
   return uniq(notes).slice(0,3);
 }
 function summarizePullTrends(pullHistory){
@@ -2174,7 +2174,7 @@ async function fetchRIO(name, realm, region="us"){
 function renderPullCompare(pullHistory,bossName){
   const div=document.getElementById("pullCompareContent");if(!div)return;
   if(pullHistory.length<2){
-    div.innerHTML='<div style="color:#6e7681;font-size:13px;padding:16px;background:#161b22;border:1px dashed #30363d;border-radius:8px;text-align:center;line-height:1.8">Only 1 pull of <strong style="color:#ffd700">'+bossName+'</strong> this session. Do another pull to see the comparison.</div>';
+    div.innerHTML='<div style="color:#6e7681;font-size:13px;padding:16px;background:#161b22;border:1px dashed #30363d;border-radius:8px;text-align:center;line-height:1.8">本次会话只有 1 次 <strong style="color:#ffd700">'+bossName+'</strong> 尝试。再完成一次即可查看对比。</div>';
     return;
   }
   const trends=summarizePullTrends(pullHistory);
@@ -2184,12 +2184,12 @@ function renderPullCompare(pullHistory,bossName){
     const sign=obj.flat?"±":obj.diff>0?"+":"";
     return `<span class="hero-badge" style="border-color:${color}60;color:${color}">${label} ${sign}${obj.diff}</span>`;
   };
-  let html=(trends?`<div class="summary-note-card" style="margin-bottom:12px"><div class="summary-note-title">Pull Trend Summary</div><div class="summary-note-body">We have ${trends.pulls} pulls of <span style="color:#ffd700;font-weight:700">${bossName}</span> in this session. Read this left to right before diving into the raw table.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">${trendChip("死亡",trends.deaths,true)}${trendChip("团队 DPS",trends.raidDps,false)}${trendChip("Missed Off CDs",trends.漏掉,true)}${trendChip("No Pot DPS",trends.pots,true)}</div><div class="summary-note-sub">${trends.deaths.good||trends.漏掉.good||trends.pots.good?"You’re trending in the right direction. Keep the improvements that stuck.":"No obvious trend improvement yet — look at 次死亡 and mechanic failures first."}</div></div>`:"")+
+  let html=(trends?`<div class="summary-note-card" style="margin-bottom:12px"><div class="summary-note-title">尝试趋势</div><div class="summary-note-body">本次会话包含 ${trends.pulls} 次 <span style="color:#ffd700;font-weight:700">${bossName}</span> 尝试。进入原始表格前，请从左到右查看趋势。</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">${trendChip("死亡",trends.deaths,true)}${trendChip("团队 DPS",trends.raidDps,false)}${trendChip("遗漏爆发技能",trends.漏掉,true)}${trendChip("未用药水的 DPS",trends.pots,true)}</div><div class="summary-note-sub">${trends.deaths.good||trends.漏掉.good||trends.pots.good?"趋势正在改善，请保持已奏效的调整。":"暂未出现明显改善；优先检查死亡和机制失误。"}</div></div>`:"")+
     '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'+
-    pullHistory.map(ph=>'<div style="background:#161b22;border:1px solid '+(ph.kill?"#3fb950":"#30363d")+';border-radius:8px;padding:10px 12px;font-size:12px;min-width:220px;flex:1 1 220px"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px"><span style="color:#ffd700;font-weight:700">Pull '+ph.pull+'</span><span class="kb '+(ph.kill?"kill":"wipe")+'">'+(ph.kill?"击杀":"灭团")+'</span><span style="color:#8b949e">'+ph.duration+'</span></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px"><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">死亡</div><div style="color:'+(ph.deaths>0?"#f85149":"#3fb950")+';font-weight:700">'+ph.deaths+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">团队 DPS</div><div style="color:#79c0ff;font-weight:700">'+fmtNum(ph.raidDps||0)+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">团队 HPS</div><div style="color:#3fb950;font-weight:700">'+fmtNum(ph.raidHps||0)+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">Missed Off CDs</div><div style="color:'+((ph.漏掉OffTotal||0)>0?"#f85149":"#3fb950")+';font-weight:700">'+((ph.漏掉OffTotal||0)||"✓")+'</div></div><div style="grid-column:1 / -1"><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">No 药水 DPS</div><div style="color:'+((ph.noPotDps||0)>0?"#e3a008":"#3fb950")+';font-weight:700">'+((ph.noPotDps||0)>0?(ph.noPotDps+" player"+((ph.noPotDps||0)===1?"":"s")):"None ✓")+'</div></div></div></div>').join("")+
-    '</div><div style="font-size:11px;color:#8b949e;margin:0 0 10px">Missed Off CDs = tracked offensive cooldowns that were expected for that spec on that pull but never cast.</div><div class="tw"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr>'+
-    '<th style="background:#161b22;color:#ffd700;padding:8px 10px;border-bottom:2px solid #30363d">Player</th>'+
-    pullHistory.map(ph=>'<th style="background:#161b22;color:#ffd700;padding:8px 10px;border-bottom:2px solid #30363d;text-align:right">P'+ph.pull+' DPS</th><th style="background:#161b22;color:#ffd700;padding:8px 4px;border-bottom:2px solid #30363d;text-align:right">💀</th><th title="Tracked offensive cooldowns not used on that pull" style="background:#161b22;color:#ffd700;padding:8px 4px;border-bottom:2px solid #30363d;text-align:right">Missed Off CDs</th>').join("")+
+    pullHistory.map(ph=>'<div style="background:#161b22;border:1px solid '+(ph.kill?"#3fb950":"#30363d")+';border-radius:8px;padding:10px 12px;font-size:12px;min-width:220px;flex:1 1 220px"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px"><span style="color:#ffd700;font-weight:700">尝试 '+ph.pull+'</span><span class="kb '+(ph.kill?"kill":"wipe")+'">'+(ph.kill?"击杀":"灭团")+'</span><span style="color:#8b949e">'+ph.duration+'</span></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px"><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">死亡</div><div style="color:'+(ph.deaths>0?"#f85149":"#3fb950")+';font-weight:700">'+ph.deaths+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">团队 DPS</div><div style="color:#79c0ff;font-weight:700">'+fmtNum(ph.raidDps||0)+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">团队 HPS</div><div style="color:#3fb950;font-weight:700">'+fmtNum(ph.raidHps||0)+'</div></div><div><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">遗漏爆发技能</div><div style="color:'+((ph.漏掉OffTotal||0)>0?"#f85149":"#3fb950")+';font-weight:700">'+((ph.漏掉OffTotal||0)||"✓")+'</div></div><div style="grid-column:1 / -1"><div style="font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em">未用药水的 DPS</div><div style="color:'+((ph.noPotDps||0)>0?"#e3a008":"#3fb950")+';font-weight:700">'+((ph.noPotDps||0)>0?(ph.noPotDps+" 名玩家"):"无 ✓")+'</div></div></div></div>').join("")+
+    '</div><div style="font-size:11px;color:#8b949e;margin:0 0 10px">遗漏爆发技能 = 该专精在本次尝试中应使用但未施放的已跟踪爆发技能。</div><div class="tw"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr>'+
+    '<th style="background:#161b22;color:#ffd700;padding:8px 10px;border-bottom:2px solid #30363d">玩家</th>'+
+    pullHistory.map(ph=>'<th style="background:#161b22;color:#ffd700;padding:8px 10px;border-bottom:2px solid #30363d;text-align:right">第 '+ph.pull+' 次 DPS</th><th style="background:#161b22;color:#ffd700;padding:8px 4px;border-bottom:2px solid #30363d;text-align:right">💀</th><th title="本次尝试中未使用的已跟踪爆发技能" style="background:#161b22;color:#ffd700;padding:8px 4px;border-bottom:2px solid #30363d;text-align:right">遗漏爆发技能</th>').join("")+
     '</tr></thead><tbody>';
   allPlayers.forEach(name=>{
     const rows=pullHistory.map(ph=>ph.players.find(p=>p.name===name));
@@ -2995,19 +2995,19 @@ function buildPrepIssues(p){
 }
 function buildPlayerSuggestions(p,shortPull){
   const notes=[];
-  if(p.readyStatus==="bad"||p.readyStatus==="warn")notes.push(`Prep: ${p.readyText}.`);
-  if(!p.pots&&(p.role==="dps"||p.role==="healers"))notes.push("未使用战斗药水ion detected.");
+  if(p.readyStatus==="bad"||p.readyStatus==="warn")notes.push(`战前准备：${p.readyText}。`);
+  if(!p.pots&&(p.role==="dps"||p.role==="healers"))notes.push("未检测到战斗药水。");
   if(p.deaths.length){
     const first=p.deaths[0];
-    if(String(first?.ctx||"").includes("No recent defensive"))notes.push(`First death had no recent defensive before ${first.killer}.`);
-    else notes.push(`Review the first death at ${first.timeStr||"?"} on ${first.killer}.`);
+    if(String(first?.ctx||"").includes("No recent defensive"))notes.push(`首次死亡前未针对 ${first.killer} 使用近期减伤。`);
+    else notes.push(`复盘 ${first.timeStr||"?"} 由 ${first.killer} 导致的首次死亡。`);
   }
   const expected=SPEC_OFFS[(p.cls||"")+"|"+(p.spec||"")]||SPEC_OFFS[(p.cls||"").replace(/ /g,"")+"|"+(p.spec||"")]||null;
   if(expected&&!shortPull){
     const 漏掉=expected.filter(cd=>Array.isArray(cd)?!cd.some(opt=>p.offs[opt]):!p.offs[cd]).length;
-    if(漏掉)notes.push(`Missed ${漏掉} tracked offensive cooldown${漏掉===1?"":"s"}.`);
+    if(漏掉)notes.push(`遗漏 ${漏掉} 个已跟踪的爆发技能。`);
   }
-  if((p.avoidableTaken||0)>1500000||(p.avoidableHits||0)>=3)notes.push(`可避免 pressure: ${fmt(p.avoidableTaken)} across ${p.avoidableHits||0} hits.`);
+  if((p.avoidableTaken||0)>1500000||(p.avoidableHits||0)>=3)notes.push(`可避免伤害压力：${p.avoidableHits||0} 次命中，共 ${fmt(p.avoidableTaken)}。`);
   if(!notes.length)notes.push("No major issues flagged on this pull.");
   return notes.slice(0,3);
 }
@@ -3173,7 +3173,7 @@ function localizeModalCopy(html){
     ["Interrupts","打断"],
     ["Dispels","驱散"],
     ["Def CDs Used","减伤次数"],
-    ["Off CDs Used","爆发次数"],
+    ["爆发技能使用","爆发次数"],
     ["可避免 Pressure","可避免压力"],
     ["Pets Counted","宠物统计"],
     ["Quick Coaching","简要建议"],
@@ -3194,14 +3194,14 @@ function localizeModalCopy(html){
 
 function renderSpellBreakdown(map,total,variant,context){
   const rows=Object.entries(map||{}).map(([name,v])=>({name,id:v.id||findAbilityIdByName(name),amount:v.amount||0,hits:v.hits||0})).sort((a,b)=>b.amount-a.amount).slice(0,12);
-  if(!rows.length)return`<div class="detail-empty">No spell breakdown available.</div>`;
-  return `<table class="detail-table"><thead><tr><th>Spell</th><th class="num">Amount</th><th class="num">Hits</th><th class="num">Share</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${spellChip(r.name,null,r.id,variant,context)}</td><td class="num">${fmt(r.amount)}</td><td class="num">${r.hits}</td><td class="num">${total?((r.amount/total)*100).toFixed(1):"0.0"}%</td></tr>`).join("")}</tbody></table>`;
+  if(!rows.length)return`<div class="detail-empty">暂无法术分解数据。</div>`;
+  return `<table class="detail-table"><thead><tr><th>技能</th><th class="num">数值</th><th class="num">次数</th><th class="num">占比</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${spellChip(r.name,null,r.id,variant,context)}</td><td class="num">${fmt(r.amount)}</td><td class="num">${r.hits}</td><td class="num">${total?((r.amount/total)*100).toFixed(1):"0.0"}%</td></tr>`).join("")}</tbody></table>`;
 }
 
 function renderHealingBreakdown(map,total){
   const rows=Object.entries(map||{}).map(([name,v])=>({name,id:v.id||findAbilityIdByName(name),amount:v.amount||0,hits:v.hits||0})).sort((a,b)=>b.amount-a.amount).slice(0,12);
-  if(!rows.length)return`<div class="detail-empty">No healing breakdown available.</div>`;
-  return `<table class="detail-table"><thead><tr><th>Spell</th><th class="num">Healing</th><th class="num">Casts/Hits</th><th class="num">Share</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${spellChip(r.name,null,r.id,"good","healing spell")}</td><td class="num">${fmt(r.amount)}</td><td class="num">${r.hits}</td><td class="num">${total?((r.amount/total)*100).toFixed(1):"0.0"}%</td></tr>`).join("")}</tbody></table>`;
+  if(!rows.length)return`<div class="detail-empty">暂无治疗分解数据。</div>`;
+  return `<table class="detail-table"><thead><tr><th>技能</th><th class="num">治疗量</th><th class="num">施放或命中</th><th class="num">占比</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${spellChip(r.name,null,r.id,"good","治疗技能")}</td><td class="num">${fmt(r.amount)}</td><td class="num">${r.hits}</td><td class="num">${total?((r.amount/total)*100).toFixed(1):"0.0"}%</td></tr>`).join("")}</tbody></table>`;
 }
 
 function toggleBreakdownRow(anchor,p,kind,colspan){
@@ -3216,15 +3216,15 @@ function toggleBreakdownRow(anchor,p,kind,colspan){
   const isTaken=kind==="taken";
   const isHealing=kind==="healing";
   const total=isTaken?p.dtaken:isHealing?p.healed:p.ddealt;
-  const title=isTaken?"Damage Taken Breakdown":isHealing?"Healing Breakdown":"Damage Breakdown";
-  const body=isTaken?renderSpellBreakdown(p.takenBySpell,total,"danger","damage taken"):isHealing?renderHealingBreakdown(p.healBySpell,total):renderSpellBreakdown(p.dmgBySpell,total,"cool","damage done");
-  detail.innerHTML=`<td colspan="${colspan}"><div class="detail-panel"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="detail-title">${p.name} · ${title}</div><button class="mini-link" onclick="event.stopPropagation();openPlayerModalByName('${escJs(p.name)}')">Player Modal</button></div>${body}</div></td>`;
+  const title=isTaken?"承伤分解":isHealing?"治疗分解":"伤害分解";
+  const body=isTaken?renderSpellBreakdown(p.takenBySpell,total,"danger","承受伤害"):isHealing?renderHealingBreakdown(p.healBySpell,total):renderSpellBreakdown(p.dmgBySpell,total,"cool","造成伤害");
+  detail.innerHTML=`<td colspan="${colspan}"><div class="detail-panel"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><div class="detail-title">${p.name} · ${title}</div><button class="mini-link" onclick="event.stopPropagation();openPlayerModalByName('${escJs(p.name)}')">玩家详情</button></div>${body}</div></td>`;
   anchor.insertAdjacentElement("afterend",detail);
   refreshWowheadTooltips();
 }
 
 function compactNameCell(p,context){
-  return `${p.name}<button class="mini-link" onclick="event.stopPropagation();openPlayerModalByName('${escJs(p.name)}')">👤</button>${context==="expand"?'<span style="margin-left:6px;color:#6f8296;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">expand</span>':""}`;
+  return `${p.name}<button class="mini-link" onclick="event.stopPropagation();openPlayerModalByName('${escJs(p.name)}')">👤</button>${context==="expand"?'<span style="margin-left:6px;color:#6f8296;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase">展开</span>':""}`;
 }
 
 function openPlayerModal(p,fSec){
@@ -3246,9 +3246,9 @@ function openPlayerModal(p,fSec){
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
         ${rioUrl?`<a href="${rioUrl}" target="_blank" class="rio-btn">Raider.io ↗</a>`:""}
-        ${simUrl?`<a href="${simUrl}" target="_blank" class="sim-btn">🎮 Sim on Raidbots ↗</a>`:""}
-                ${p.server?'<a href="'+armoryUrl(p.name,p.server,p.region||'us')+'" target="_blank" class="armory-btn">⚔️ Armory ↗</a>':''}
-        <a href="https://wowanalyzer.com/report/${reportCode}/${fightId}/${encodeURIComponent(p.name)}" target="_blank" style="background:#161b22;border:1px solid #30363d;color:#79c0ff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px" title="Analyze ${p.name} in WoWAnalyzer">🔬 WoWAnalyzer ↗</a>
+        ${simUrl?`<a href="${simUrl}" target="_blank" class="sim-btn">🎮 Raidbots 模拟 ↗</a>`:""}
+                ${p.server?'<a href="'+armoryUrl(p.name,p.server,p.region||'us')+'" target="_blank" class="armory-btn">⚔️ 英雄榜 ↗</a>':''}
+        <a href="https://wowanalyzer.com/report/${reportCode}/${fightId}/${encodeURIComponent(p.name)}" target="_blank" style="background:#161b22;border:1px solid #30363d;color:#79c0ff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px" title="在 WoWAnalyzer 中分析 ${p.name}">🔬 WoWAnalyzer ↗</a>
       </div>
     </div>`;
   const defs=Object.entries(p.defs);
@@ -3260,46 +3260,46 @@ function openPlayerModal(p,fSec){
   const hps=fSec>0?fmtNum(Math.round(p.healed/fSec)):0;
   const total=p.healed+p.overheal;
   const ohPct=total>0?Math.round(p.overheal/total*100):0;
-  const tagList=(entries,variant,label)=>entries.length?entries.map(([n,c])=>spellChip(n,c,findAbilityIdByName(n),variant,label)).join(""):"<span style='color:#6e7681'>None</span>";
+  const tagList=(entries,variant,label)=>entries.length?entries.map(([n,c])=>spellChip(n,c,findAbilityIdByName(n),variant,label)).join(""):"<span style='color:#6e7681'>无</span>";
   const statRow=(label,val,color="#c9d1d9")=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #21262d;font-size:13px"><span style="color:#8b949e">${label}</span><span style="font-weight:600;color:${color}">${val}</span></div>`;
   let html=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-    <div>${statRow("Role",'<span style="color:'+ROLE_COLOR[p.role]+'">'+(ROLE_LABEL[p.role]||p.role)+'</span>')}${statRow("死亡",p.deaths.length,p.deaths.length>0?"#f85149":"#3fb950")}${statRow("药水",p.pots?`✓ ${p.potName||"Used"} (${p.pots})`:"✗ None detected",p.pots?"#3fb950":"#6e7681")}${statRow("治疗石",p.hs?"✓":"✗",p.hs?"#3fb950":"#f85149")}${statRow("就位确认+",p.readyText||"No snapshot",p.readyStatus==="good"?"#3fb950":p.readyStatus==="bad"?"#f85149":"#e3a008")}${p.ilvl?statRow("Snapshot 装等",fmtIlvl(p.ilvl),"#c9d1d9"):""}${p.ddealt>0?statRow("Total Damage",fmtNum(p.ddealt),"#79c0ff"):""} ${p.ddealt>0?statRow("DPS",dps,"#79c0ff"):""}${p.healed>0?statRow("Total Healing",fmtNum(p.healed),"#3fb950"):""}${p.healed>0?statRow("HPS",hps,"#3fb950"):""}${p.healed>0?statRow("Overheal",ohPct+"%",ohPct>40?"#f85149":ohPct>25?"#e3a008":"#3fb950"):""}</div>
-    <div>${statRow("Damage Taken",fmtNum(p.dtaken))}${statRow("Interrupts",Object.values(p.ints).reduce((s,c)=>s+c,0),"#79c0ff")}${statRow("Dispels",Object.values(p.disps).reduce((s,c)=>s+c,0),"#3fb950")}${statRow("控制使用",Object.values(p.cc).reduce((s,c)=>s+c,0),"#79c0ff")}${statRow("Def CDs Used",Object.values(p.defs).reduce((s,c)=>s+c,0),"#ffd700")}${statRow("Off CDs Used",Object.values(p.offs).reduce((s,c)=>s+c,0),"#ffd700")}${(p.avoidableTaken||0)?statRow("可避免 Pressure",fmtNum(p.avoidableTaken),(p.avoidableTaken||0)>1500000?"#f85149":"#ffdd75"):""}${p.pets?.length?statRow("Pets Counted",p.pets.length,"#8b949e"):""}</div></div>`;
+    <div>${statRow("职责",'<span style="color:'+ROLE_COLOR[p.role]+'">'+(ROLE_LABEL[p.role]||p.role)+'</span>')}${statRow("死亡",p.deaths.length,p.deaths.length>0?"#f85149":"#3fb950")}${statRow("药水",p.pots?`✓ ${p.potName||"已使用"} (${p.pots})`:"✗ 未检测到",p.pots?"#3fb950":"#6e7681")}${statRow("治疗石",p.hs?"✓":"✗",p.hs?"#3fb950":"#f85149")}${statRow("就位确认+",p.readyText||"无快照",p.readyStatus==="good"?"#3fb950":p.readyStatus==="bad"?"#f85149":"#e3a008")}${p.ilvl?statRow("快照装等",fmtIlvl(p.ilvl),"#c9d1d9"):""}${p.ddealt>0?statRow("总伤害",fmtNum(p.ddealt),"#79c0ff"):""} ${p.ddealt>0?statRow("DPS",dps,"#79c0ff"):""}${p.healed>0?statRow("总治疗",fmtNum(p.healed),"#3fb950"):""}${p.healed>0?statRow("HPS",hps,"#3fb950"):""}${p.healed>0?statRow("过量治疗",ohPct+"%",ohPct>40?"#f85149":ohPct>25?"#e3a008":"#3fb950"):""}</div>
+    <div>${statRow("总承伤",fmtNum(p.dtaken))}${statRow("打断",Object.values(p.ints).reduce((s,c)=>s+c,0),"#79c0ff")}${statRow("驱散",Object.values(p.disps).reduce((s,c)=>s+c,0),"#3fb950")}${statRow("控制使用",Object.values(p.cc).reduce((s,c)=>s+c,0),"#79c0ff")}${statRow("减伤次数",Object.values(p.defs).reduce((s,c)=>s+c,0),"#ffd700")}${statRow("爆发次数",Object.values(p.offs).reduce((s,c)=>s+c,0),"#ffd700")}${(p.avoidableTaken||0)?statRow("可避免压力",fmtNum(p.avoidableTaken),(p.avoidableTaken||0)>1500000?"#f85149":"#ffdd75"):""}${p.pets?.length?statRow("宠物统计",p.pets.length,"#8b949e"):""}</div></div>`;
   const quickSuggestions=buildPlayerSuggestions(p,window._raidLens简洁Pull||false);
   if(quickSuggestions.length){
-    html+=`<div class="modal-section"><h4>Quick Coaching</h4><div class="spell-grid">${quickSuggestions.map(note=>`<div style="min-width:220px;flex:1 1 220px;background:#111923;border:1px solid #263340;border-radius:10px;padding:12px"><div style="font-size:12px;color:#c9d1d9;line-height:1.65">${note}</div></div>`).join("")}</div></div>`;
+    html+=`<div class="modal-section"><h4>简要建议</h4><div class="spell-grid">${quickSuggestions.map(note=>`<div style="min-width:220px;flex:1 1 220px;background:#111923;border:1px solid #263340;border-radius:10px;padding:12px"><div style="font-size:12px;color:#c9d1d9;line-height:1.65">${note}</div></div>`).join("")}</div></div>`;
   }
   if(p.buildCode||p.readyIssues?.length||p.enchantCount||p.gemCount){
     const calcUrl=escAttr(wowheadTalentCalcUrl(p));
-    const buildLinks=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${p.buildCode?`<button class="mini-link" onclick="copyTiny(this,'${escJs(p.buildCode)}','✓ Copied')">Copy Build</button>`:""}<a href="${calcUrl}" target="_blank" class="mini-link">Calc ↗</a></div>`;
+    const buildLinks=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${p.buildCode?`<button class="mini-link" onclick="copyTiny(this,'${escJs(p.buildCode)}','✓ 已复制')">复制构建</button>`:""}<a href="${calcUrl}" target="_blank" class="mini-link">天赋计算器 ↗</a></div>`;
     const prepRows=[
-      statRow("附魔数",countLabel(p.enchantCount,"enchant","enchants"),(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"),
-      statRow("镶嵌宝石",countLabel(p.gemCount,"gem","gems"),(p.gemCount||0)===0?"#f85149":"#3fb950"),
+      statRow("附魔数",countLabel(p.enchantCount,"个附魔","个附魔"),(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"),
+      statRow("镶嵌宝石",countLabel(p.gemCount,"颗宝石","颗宝石"),(p.gemCount||0)===0?"#f85149":"#3fb950"),
       statRow("消耗品",snapshotBuffSummaryText(p),snapshotBuffEntries(p).length?"#8fd0ff":"#8b949e"),
-      statRow("缺失准备",buildPrepIssues(p).length?buildPrepIssues(p).join(" · "):"Ready to Raid!",buildPrepIssues(p).length?"#ffdd75":"#3fb950")
+      statRow("缺失准备",buildPrepIssues(p).length?buildPrepIssues(p).join(" · "):"准备就绪！",buildPrepIssues(p).length?"#ffdd75":"#3fb950")
     ].join("");
-    html+=`<div class="modal-section"><h4>Build + Ready</h4>${buildLinks}<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div>${prepRows}</div><div>${statRow("就位确认+",p.readyText||"No snapshot",p.readyStatus==="good"?"#3fb950":p.readyStatus==="bad"?"#f85149":"#ffdd75")}</div></div><div style="margin-top:10px">${snapshotBuffsHtml(p,false)}</div></div>`;
+    html+=`<div class="modal-section"><h4>构建与就位</h4>${buildLinks}<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div>${prepRows}</div><div>${statRow("就位确认+",p.readyText||"无快照",p.readyStatus==="good"?"#3fb950":p.readyStatus==="bad"?"#f85149":"#ffdd75")}</div></div><div style="margin-top:10px">${snapshotBuffsHtml(p,false)}</div></div>`;
   }
   if(p.auraSnapshotAvailable||p.pots||p.hs){
-    html+=`<div class="modal-section"><h4>消耗品 Snapshot</h4>${buildConsumableStatusCards(p)}</div>`;
+    html+=`<div class="modal-section"><h4>消耗品快照</h4>${buildConsumableStatusCards(p)}</div>`;
   }
   if((p.damageBuckets&&p.damageBuckets.some(v=>v>0))||(p.healBuckets&&p.healBuckets.some(v=>v>0))){
-    html+=`<div class="modal-section"><h4>Fight Graph</h4>${renderPlayerFocusGraph(p,window._raidLensFightMs||0,window._raidLensBossRows||[],true)}</div>`;
+    html+=`<div class="modal-section"><h4>战斗曲线</h4>${renderPlayerFocusGraph(p,window._raidLensFightMs||0,window._raidLensBossRows||[],true)}</div>`;
   }
   if(p.deaths.length){html+=`<div class="modal-section"><h4>死亡</h4><div class="spell-grid">${p.deaths.map(d=>spellChip(`${d.timeStr||"?"} — ${d.killer}`,null,d.killerId||findAbilityIdByName(d.killer),"danger","death cause")).join("")}</div></div>`;}
   if(p.avoidableSpells?.length){
     const avoidableMap=Object.fromEntries(p.avoidableSpells.map(s=>[s.name,{id:s.id||findAbilityIdByName(s.name),amount:s.amount||0,hits:s.hits||0}]));
-    html+=`<div class="modal-section"><h4>可避免 Pressure</h4><div style="font-size:12px;color:#8b949e;margin-bottom:10px">Likely avoidable boss-window damage only. Use this with 次死亡 and timeline context, not as a blame chart by itself.</div>${renderSpellBreakdown(avoidableMap,p.avoidableTaken||0,"danger","likely avoidable boss pressure")}</div>`;
+    html+=`<div class="modal-section"><h4>可避免伤害</h4><div style="font-size:12px;color:#8b949e;margin-bottom:10px">仅统计疑似可避免的 Boss 技能窗口伤害。请结合死亡和时间轴判断，不要单独用于归责。</div>${renderSpellBreakdown(avoidableMap,p.avoidableTaken||0,"danger","疑似可避免伤害")}</div>`;
   }
-  if(Object.keys(p.dmgBySpell||{}).length){html+=`<div class="modal-section"><h4>Damage Done Breakdown</h4>${renderSpellBreakdown(p.dmgBySpell,p.ddealt,"cool","damage done")}</div>`;}
-  if(Object.keys(p.healBySpell||{}).length){html+=`<div class="modal-section"><h4>Healing Breakdown</h4>${renderHealingBreakdown(p.healBySpell,p.healed)}</div>`;}
-  if(Object.keys(p.takenBySpell||{}).length){html+=`<div class="modal-section"><h4>Damage Taken Breakdown</h4>${renderSpellBreakdown(p.takenBySpell,p.dtaken,"danger","damage taken")}</div>`;}
-  if(defs.length){html+=`<div class="modal-section"><h4>减伤 Cooldowns</h4><div class="spell-grid">${tagList(defs,"gold","defensive cooldown")}</div></div>`;}
-  if(offs.length){html+=`<div class="modal-section"><h4>爆发 Cooldowns</h4><div class="spell-grid">${tagList(offs,"cool","offensive cooldown")}</div></div>`;}
-  if(ints.length){html+=`<div class="modal-section"><h4>Interrupts</h4><div class="spell-grid">${tagList(ints,"cool","interrupt")}</div></div>`;}
-  if(disps.length){html+=`<div class="modal-section"><h4>Dispels</h4><div class="spell-grid">${tagList(disps,"good","dispel")}</div></div>`;}
-  if(cc.length){html+=`<div class="modal-section"><h4>Crowd Control</h4><div class="spell-grid">${tagList(cc,"cool","crowd control")}</div></div>`;}
-  if(Object.keys(p.debuffs||{}).length){html+=`<div class="modal-section"><h4>Mechanic Debuffs</h4><div class="spell-grid">${Object.entries(p.debuffs).sort((a,b)=>(b[1].totalMs||0)-(a[1].totalMs||0)).map(([n,v])=>spellChip(`${n} ${v.totalMs?`(${Math.round(v.totalMs/1000)}s)`:`×${v.applications||1}`}`,null,v.id,"danger","mechanic debuff")).join("")}</div></div>`;}
+  if(Object.keys(p.dmgBySpell||{}).length){html+=`<div class="modal-section"><h4>伤害分解</h4>${renderSpellBreakdown(p.dmgBySpell,p.ddealt,"cool","造成伤害")}</div>`;}
+  if(Object.keys(p.healBySpell||{}).length){html+=`<div class="modal-section"><h4>治疗分解</h4>${renderHealingBreakdown(p.healBySpell,p.healed)}</div>`;}
+  if(Object.keys(p.takenBySpell||{}).length){html+=`<div class="modal-section"><h4>承伤分解</h4>${renderSpellBreakdown(p.takenBySpell,p.dtaken,"danger","承受伤害")}</div>`;}
+  if(defs.length){html+=`<div class="modal-section"><h4>减伤冷却</h4><div class="spell-grid">${tagList(defs,"gold","减伤冷却")}</div></div>`;}
+  if(offs.length){html+=`<div class="modal-section"><h4>爆发技能</h4><div class="spell-grid">${tagList(offs,"cool","爆发技能")}</div></div>`;}
+  if(ints.length){html+=`<div class="modal-section"><h4>打断</h4><div class="spell-grid">${tagList(ints,"cool","打断")}</div></div>`;}
+  if(disps.length){html+=`<div class="modal-section"><h4>驱散</h4><div class="spell-grid">${tagList(disps,"good","驱散")}</div></div>`;}
+  if(cc.length){html+=`<div class="modal-section"><h4>控制</h4><div class="spell-grid">${tagList(cc,"cool","控制")}</div></div>`;}
+  if(Object.keys(p.debuffs||{}).length){html+=`<div class="modal-section"><h4>机制减益</h4><div class="spell-grid">${Object.entries(p.debuffs).sort((a,b)=>(b[1].totalMs||0)-(a[1].totalMs||0)).map(([n,v])=>spellChip(`${n} ${v.totalMs?`(${Math.round(v.totalMs/1000)}s)`:`×${v.applications||1}`}`,null,v.id,"danger","机制减益")).join("")}</div></div>`;}
   html=localizeModalCopy(html);
   document.getElementById("modalContent").innerHTML=html;
   document.getElementById("playerModal").style.display="flex";
@@ -3429,13 +3429,13 @@ async function analyze(){
         dtaken:0,ddealt:0,healed:0,overheal:0,absorbs:0,deaths:[],rio:null,
         dmgBySpell:{},takenBySpell:{},healBySpell:{},
         ilvl:ci.ilvl||0,talentNames:ci.talentNames||[],buildCode:null,readyIssues:ci.readyIssues||[],
-        readyStatus:ci.readyStatus||"warn",readyText:ci.readyText||"No readiness data",
+        readyStatus:ci.readyStatus||"warn",readyText:ci.readyText||"无就位数据",
         enchantCount:ci.enchants||0,gemCount:ci.gems||0,weaponBuffs:ci.weaponBuffs||[],
         passiveBuffs:ci.passiveBuffs||[],stats:ci.stats||null,pets:[],
         auraSnapshotAvailable:!!ci.auraSnapshotAvailable,foodBuff:ci.foodBuff||null,flaskBuff:ci.flaskBuff||null,runeBuff:ci.runeBuff||null,weaponBuff:ci.weaponBuff||null,
         damageBuckets:new Array(bucketCount).fill(0),healBuckets:new Array(bucketCount).fill(0),timelineMarkers:[]};
     });});
-    log(`👥 ${Object.keys(P).length} players`);
+    log(`👥 ${Object.keys(P).length} 名玩家`);
     let phaseInfo=[],petOwnerMap={},friendlyPetNames={},bossTimelineRows=[],coverageSummary=[];
     try{
       const fightMeta=await gql(token,`{reportData{report(code:"${reportCode}"){fights(fightIDs:[${fight.id}]){id phaseTransitions{id startTime} friendlyPets{id petOwner gameID}}}}}`);
@@ -3581,9 +3581,9 @@ async function analyze(){
         const missingWeapon=snapshotPlayers.filter(p=>!p.weaponBuff).map(p=>p.name).slice(0,3);
         buildReadySummaryGrid.innerHTML=[
           `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">就绪 ${readyGood}/${sorted.length} · 查看 ${readyWarn}/${sorted.length} · 修复 ${readyBad}/${sorted.length}</div><div class="summary-note-sub">${prep查看.length?`重点关注：${prep查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"本场未发现明确的就位缺口。"} </div></div>`,
-          `<div class="summary-note-card"><div class="summary-note-title">Consumable Snapshot</div><div class="summary-note-body">${snapshotPlayers.length?`Food ${snapshotPlayers.filter(p=>p.foodBuff).length}/${snapshotPlayers.length} · Phial ${snapshotPlayers.filter(p=>p.flaskBuff).length}/${snapshotPlayers.length} · Rune ${snapshotPlayers.filter(p=>p.runeBuff).length}/${snapshotPlayers.length} · Weapon ${snapshotPlayers.filter(p=>p.weaponBuff).length}/${snapshotPlayers.length}`:"This log did not expose usable prep-aura snapshots."}<br>药水 ${sorted.filter(p=>p.pots>0).length}/${sorted.length} · 治疗石s ${sorted.filter(p=>p.hs).length}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFood.length?`Missing food: ${missingFood.join(", ")}`:"Food snapshot looked good."}${missingPhial.length?` · Missing phial: ${missingPhial.join(", ")}`:""}${missingRune.length?` · Missing rune: ${missingRune.join(", ")}`:""}${missingWeapon.length?` · Missing weapon buff: ${missingWeapon.join(", ")}`:""}`:"Snapshot buff checks stay informational if Warcraft Logs didn’t expose them."}</div></div>`,
-          `<div class="summary-note-card"><div class="summary-note-title">Gear Snapshot</div><div class="summary-note-body">${avgIlvl?`Avg 装等 ${fmtIlvl(avgIlvl)} · Highest ${fmtIlvl(Math.max(...sorted.map(p=>Number(p.ilvl)||0)))} · Lowest ${fmtIlvl(Math.min(...sorted.filter(p=>p.ilvl).map(p=>Number(p.ilvl)||0)))}`:"Item level snapshot unavailable."}</div><div class="summary-note-sub">${sorted.filter(p=>p.gemCount>0).length} players had socketed gems in the snapshot · ${sorted.filter(p=>p.enchantCount>0).length} had at least one enchant reported.</div></div>`,
-          `<div class="summary-note-card"><div class="summary-note-title">构建链接</div><div class="summary-note-body">${sorted.filter(p=>p.buildCode).length?`${sorted.filter(p=>p.buildCode).length}/${sorted.length} players have a build string ready to copy.`:"Warcraft Logs did not expose any build strings for this pull."}</div><div class="summary-note-sub">Use Copy Build for fast sharing and Calc ↗ when you want the full talent tree outside RaidLens.</div></div>`
+          `<div class="summary-note-card"><div class="summary-note-title">消耗品快照</div><div class="summary-note-body">${snapshotPlayers.length?`食物 ${snapshotPlayers.filter(p=>p.foodBuff).length}/${snapshotPlayers.length} · 合剂 ${snapshotPlayers.filter(p=>p.flaskBuff).length}/${snapshotPlayers.length} · 符文 ${snapshotPlayers.filter(p=>p.runeBuff).length}/${snapshotPlayers.length} · 武器增益 ${snapshotPlayers.filter(p=>p.weaponBuff).length}/${snapshotPlayers.length}`:"该日志未提供可用的战前增益快照。"}<br>药水 ${sorted.filter(p=>p.pots>0).length}/${sorted.length} · 治疗石 ${sorted.filter(p=>p.hs).length}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFood.length?`缺少食物：${missingFood.join(", ")}`:"食物快照正常。"}${missingPhial.length?` · 缺少合剂：${missingPhial.join(", ")}`:""}${missingRune.length?` · 缺少符文：${missingRune.join(", ")}`:""}${missingWeapon.length?` · 缺少武器增益：${missingWeapon.join(", ")}`:""}`:"若 WCL 未提供本次战斗的相关光环，则仅展示已确认信息，不作推测。"}</div></div>`,
+          `<div class="summary-note-card"><div class="summary-note-title">装备快照</div><div class="summary-note-body">${avgIlvl?`平均装等 ${fmtIlvl(avgIlvl)} · 最高 ${fmtIlvl(Math.max(...sorted.map(p=>Number(p.ilvl)||0)))} · 最低 ${fmtIlvl(Math.min(...sorted.filter(p=>p.ilvl).map(p=>Number(p.ilvl)||0)))}`:"暂无装等快照。"}</div><div class="summary-note-sub">快照中 ${sorted.filter(p=>p.gemCount>0).length} 名玩家装有宝石 · ${sorted.filter(p=>p.enchantCount>0).length} 名玩家至少有一项附魔。</div></div>`,
+          `<div class="summary-note-card"><div class="summary-note-title">构建链接</div><div class="summary-note-body">${sorted.filter(p=>p.buildCode).length?`${sorted.filter(p=>p.buildCode).length}/${sorted.length} 名玩家已有可复制的构建字符串。`:"WCL 未提供本次尝试的构建字符串。"}</div><div class="summary-note-sub">使用“复制构建”快速分享；需要在战镜外查看完整天赋树时，使用“计算器 ↗”。</div></div>`
         ].join("");
       }
       sorted.forEach(p=>{
@@ -3598,7 +3598,7 @@ async function analyze(){
           p.buildCode?`<button class="mini-link" onclick="event.stopPropagation();copyTiny(this,'${escJs(p.buildCode)}','✓ Copied')">Copy Build</button>`:"",
           `<a href="${escAttr(calcUrl)}" target="_blank" class="mini-link" onclick="event.stopPropagation()">Calc ↗</a>`
         ].filter(Boolean).join("");
-        tr.innerHTML=`<td ${cs(p)}>${p.name}</td><td ${cs2(p)}>${spec(p)}</td><td class="num build-ilvl-cell" data-val="${p.ilvl||0}" style="color:${p.ilvl? "#c9d1d9":"#6e7681"}">${fmtIlvl(p.ilvl)}</td><td class="num" data-val="${p.enchantCount||0}" style="color:${(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"};font-weight:600">${countLabel(p.enchantCount,"enchant","enchants")}</td><td class="num" data-val="${p.gemCount||0}" style="color:${(p.gemCount||0)===0?"#f85149":"#3fb950"};font-weight:600">${countLabel(p.gemCount,"gem","gems")}</td><td data-val="${snapshotBuffEntries(p).length}" style="font-size:12px">${snapshotBuffsHtml(p,true)}</td><td data-val="${prepIssues.length}" style="font-size:12px;color:${prepIssues.length?"#ffdd75":"#3fb950"}">${prepIssues.length?escAttr(prepIssues.slice(0,2).join(" · ")):"准备就绪"}</td><td data-val="${readySortVal}" style="text-align:center">${readyHtml}</td><td style="text-align:center">${links||'<span class="none-t">—</span>'}</td>`;
+        tr.innerHTML=`<td ${cs(p)}>${p.name}</td><td ${cs2(p)}>${spec(p)}</td><td class="num build-ilvl-cell" data-val="${p.ilvl||0}" style="color:${p.ilvl? "#c9d1d9":"#6e7681"}">${fmtIlvl(p.ilvl)}</td><td class="num" data-val="${p.enchantCount||0}" style="color:${(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"};font-weight:600">${countLabel(p.enchantCount,"个附魔","个附魔")}</td><td class="num" data-val="${p.gemCount||0}" style="color:${(p.gemCount||0)===0?"#f85149":"#3fb950"};font-weight:600">${countLabel(p.gemCount,"颗宝石","颗宝石")}</td><td data-val="${snapshotBuffEntries(p).length}" style="font-size:12px">${snapshotBuffsHtml(p,true)}</td><td data-val="${prepIssues.length}" style="font-size:12px;color:${prepIssues.length?"#ffdd75":"#3fb950"}">${prepIssues.length?escAttr(prepIssues.slice(0,2).join(" · ")):"准备就绪"}</td><td data-val="${readySortVal}" style="text-align:center">${readyHtml}</td><td style="text-align:center">${links||'<span class="none-t">—</span>'}</td>`;
         bindRowAction(tr,()=>openPlayerModal(p,fSec),"Open player details");
         bBuilds.appendChild(tr);
       });
@@ -3777,28 +3777,28 @@ drows.forEach(d=>{
     const bMechDebuffs=document.getElementById("bMechDebuffs");
     if(mechanicSummaryGrid&&bMechDebuffs){
       const mechCause=pick灭团Cause(drows);
-      const deathLead=real死亡?`${real死亡} death${real死亡===1?"":"s"}. First: ${mechCause?.firstDeath?.name||"—"} @ ${mechCause?.firstDeath?.timeStr||"—"}.`:"Clean pull — nobody died.";
+      const deathLead=real死亡?`${real死亡} 次死亡。首次：${mechCause?.firstDeath?.name||"—"} @ ${mechCause?.firstDeath?.timeStr||"—"}。`:"本次尝试无人死亡。";
       const debuffOffenders=mechanicRows.filter(r=>r.watch).slice(0,3);
       const nonTankPressure=sorted.filter(p=>p.role!=="tanks").sort((a,b)=>(b.avoidableTaken||0)-(a.avoidableTaken||0)).slice(0,3);
       mechanicSummaryGrid.innerHTML=[
-        `<div class="summary-note-card"><div class="summary-note-title">Start With 死亡</div><div class="summary-note-body">${deathLead}</div><div class="summary-note-sub">${mechCause&&mechCause.top击杀er?`主要杀手： ${mechCause.top击杀er.name} ×${mechCause.top击杀er.count}`:"No repeat killer identified yet."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Mechanic Failures</div><div class="summary-note-body">${debuffOffenders.length?debuffOffenders.map(r=>`${r.name} hit ${r.playersCount} players`).join(" · "):"No repeated debuff failure pattern jumped out on this pull."}</div><div class="summary-note-sub">${debuffOffenders.length?`Fix next pull: ${mechanicFixText(debuffOffenders[0])}.`:"Raid debuff handling looked clean."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">可避免 Pressure 查看</div><div class="summary-note-body">${nonTankPressure.filter(p=>(p.avoidableTaken||0)>0).length?nonTankPressure.filter(p=>(p.avoidableTaken||0)>0).map(p=>`${p.name} ${fmt(p.avoidableTaken)}`).join(" · "):"No non-tank avoidable pressure spike data."}</div><div class="summary-note-sub">Use this with 次死亡 and boss-ability timeline, not as a raw blame chart.</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Cooldown Coverage</div><div class="summary-note-body">${coverageSummary.length?coverageSummary.map(r=>`${r.name}: ${r.covered}/${r.total} covered`).join(" · "):"No major boss-event windows were detected for a coverage pass."}</div><div class="summary-note-sub">${coverageSummary.find(r=>r.uncovered>0)?.note||"Raid and personal CDs were lining up with the shown boss hits."}</div></div>`
+        `<div class="summary-note-card"><div class="summary-note-title">从死亡开始</div><div class="summary-note-body">${deathLead}</div><div class="summary-note-sub">${mechCause&&mechCause.top击杀er?`主要杀手：${mechCause.top击杀er.name} ×${mechCause.top击杀er.count}`:"暂未发现重复致死来源。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">机制失误</div><div class="summary-note-body">${debuffOffenders.length?debuffOffenders.map(r=>`${r.name} 命中 ${r.playersCount} 名玩家`).join(" · "):"本次尝试未发现反复出现的减益机制失误。"}</div><div class="summary-note-sub">${debuffOffenders.length?`下次尝试修正：${mechanicFixText(debuffOffenders[0])}。`:"团队减益机制处理良好。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">可避免伤害检查</div><div class="summary-note-body">${nonTankPressure.filter(p=>(p.avoidableTaken||0)>0).length?nonTankPressure.filter(p=>(p.avoidableTaken||0)>0).map(p=>`${p.name} ${fmt(p.avoidableTaken)}`).join(" · "):"暂无非坦克玩家的可避免伤害峰值数据。"}</div><div class="summary-note-sub">请结合死亡记录和 Boss 技能时间轴判断，不要将其作为单纯追责表。</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">冷却覆盖</div><div class="summary-note-body">${coverageSummary.length?coverageSummary.map(r=>`${r.name}: ${r.covered}/${r.total} 已覆盖`).join(" · "):"未检测到可供检查覆盖情况的主要 Boss 技能窗口。"}</div><div class="summary-note-sub">${coverageSummary.find(r=>r.uncovered>0)?.note||"团队减伤和个人减伤已与显示的 Boss 技能对齐。"}</div></div>`
       ].join("");
       bMechDebuffs.innerHTML="";
       mechanicRows.slice(0,16).forEach(row=>{
         const touched死亡=[...row.players].filter(name=>(Object.values(P).find(px=>px.name===name)?.deaths?.length||0)>0).length;
         const tr=document.createElement("tr");
-        const whyParts=[`${row.playersCount} players got it`,`${row.applications} total apps`];
-        if(row.longestMs>=4000)whyParts.push(`longest hold ${row.longestPlayer} ${Math.round(row.longestMs/1000)}s`);
-        if(touched死亡)whyParts.push(`${touched死亡} affected player${touched死亡===1?"":"s"} died later`);
-        const why=`Why it matters: ${whyParts.join(" · ")}.`;
-        const fixLine=`Fix next pull: ${mechanicFixText(row)}.`;
+        const whyParts=[`${row.playersCount} 名玩家命中`, `共 ${row.applications} 次`];
+        if(row.longestMs>=4000)whyParts.push(`最长承受 ${row.longestPlayer} ${Math.round(row.longestMs/1000)} 秒`);
+        if(touched死亡)whyParts.push(`${touched死亡} 名受影响玩家随后死亡`);
+        const why=`影响：${whyParts.join(" · ")}。`;
+        const fixLine=`下次尝试修正：${mechanicFixText(row)}。`;
         tr.innerHTML=`<td>${spellChip(row.name,null,row.id,"danger","mechanic debuff")}</td><td class="num" data-val="${row.playersCount}" style="color:${row.playersCount>=4?"#f85149":row.playersCount>=2?"#ffdd75":"#8b949e"};font-weight:700">${row.playersCount}</td><td class="num" data-val="${row.applications}" style="color:#79c0ff">${row.applications}</td><td data-val="${row.longestMs}" style="color:${row.longestMs>=8000?"#f85149":row.longestMs>=5000?"#ffdd75":"#8b949e"}">${row.longestPlayer} · ${Math.round(row.longestMs/1000)}s</td><td style="font-size:12px;line-height:1.7">${row.topPlayers.join(" · ")||"—"}<div style="color:#ffdd75;font-size:11px;margin-top:4px">${fixLine}</div><div style="color:#8b949e;font-size:11px;margin-top:4px">${why}</div></td>`;
         bMechDebuffs.appendChild(tr);
       });
-      if(!mechanicRows.length)bMechDebuffs.innerHTML="<tr><td colspan='5' style='color:#6e7681;text-align:center;padding:20px'>No meaningful debuff mechanics were found for this pull.</td></tr>";
+      if(!mechanicRows.length)bMechDebuffs.innerHTML="<tr><td colspan='5' style='color:#6e7681;text-align:center;padding:20px'>本次尝试未发现值得关注的减益机制。</td></tr>";
       bindSortSelect("mechanicSort","tMechDebuffs",{
         players:{col:1,desc:true},
         apps:{col:2,desc:true},
@@ -3861,10 +3861,10 @@ drows.forEach(d=>{
       block.style="margin-bottom:14px";
       const markers=row.clusters.map(cl=>{
         const pct=(cl.t/fightMs*100).toFixed(2);
-        const tip=`${row.name} @ ${Math.floor(cl.t/1000)}s${row.kind==="damage"?` · ${fmtNum(row.damage)} raid dmg`:` · ${row.applications} apps`}`;
+        const tip=`${row.name} @ ${Math.floor(cl.t/1000)} 秒${row.kind==="damage"?` · 团队伤害 ${fmtNum(row.damage)}`:` · ${row.applications} 次减益`}`;
         return `<div class="timeline-marker" data-kind="boss" data-tip="${tip}" style="left:${pct}%;background:${row.kind==="damage"?"#f85149":"#ffb86c"};width:10px" title="${tip}"></div>`;
       }).join("");
-      block.innerHTML=`<div class="timeline-label"><span>${spellChip(row.name,null,row.id,"danger","boss ability")}</span><span class="timeline-boss-pill">${row.targetsCount} players</span><span style="color:#8b949e;font-size:10px">${row.kind==="damage"?`${fmtNum(row.damage)} raid dmg`:`${row.applications} debuff apps`}</span></div><div class="timeline-track" style="position:relative">${markers}</div>`;
+      block.innerHTML=`<div class="timeline-label"><span>${spellChip(row.name,null,row.id,"danger","boss ability")}</span><span class="timeline-boss-pill">${row.targetsCount} 名玩家</span><span style="color:#8b949e;font-size:10px">${row.kind==="damage"?`团队伤害 ${fmtNum(row.damage)}`:`${row.applications} 次减益`}</span></div><div class="timeline-track" style="position:relative">${markers}</div>`;
       tlCanvas.appendChild(block);
     });
     const colors=["#79c0ff","#3fb950","#ffd700","#f85149","#e3a008","#A330C9","#33937F","#FF7C0A"];
@@ -3880,7 +3880,7 @@ drows.forEach(d=>{
       block.innerHTML=`<div class="timeline-label" style="color:${clr}">${name} <span style="color:#6e7681;font-size:10px">${znSpec(player.spec)||znCls(player.cls)}</span></div><div class="timeline-track" style="position:relative">${markers}</div>`;
       tlCanvas.appendChild(block);
     });
-    if(!Object.keys(tlByPlayer).length&&!bossTimelineRows.length){tlContent.innerHTML='<div style="color:#6e7681;text-align:center;padding:20px">No cooldown or boss-ability timeline data detected</div>';}
+    if(!Object.keys(tlByPlayer).length&&!bossTimelineRows.length){tlContent.innerHTML='<div style="color:#6e7681;text-align:center;padding:20px">未检测到冷却或 Boss 技能时间轴数据</div>';}
     const tlSel=document.getElementById("tlPlayerSel");
     if(tlSel){tlSel.innerHTML='<option value="all">全部玩家</option>';Object.keys(tlByPlayer).sort().forEach(n=>{const o=document.createElement("option");o.value=n;o.textContent=n;tlSel.appendChild(o);});}
     window._raidLensTimelineData={fightMs,bossRows:bossTimelineRows,playersByName:Object.fromEntries(sorted.map(p=>[p.name,p]))};
@@ -4048,14 +4048,14 @@ drows.forEach(d=>{
         const attemptNo=bossSeen[f.name];
         const bDur=f.endTime-f.startTime;
         const statusClass=f.kill?"kill":"wipe";
-        const hpLabel=!f.kill&&f.bossPercentage!=null?`${f.bossPercentage.toFixed(1)}%`:"击杀ed";
+        const hpLabel=!f.kill&&f.bossPercentage!=null?`${f.bossPercentage.toFixed(1)}%`:"已击杀";
         const bossIcon=f.encounterID?`<img class="mplus-boss-icon" src="https://assets.rpglogs.com/img/warcraft/bosses/${f.encounterID}-icon.jpg" alt="" onerror="this.style.display='none'">`:`<div class="mplus-boss-icon" style="display:flex;align-items:center;justify-content:center;color:#ffd700;font-size:16px">⚔</div>`;
         return `<div class="mplus-boss-card">
           <div class="mplus-boss-head">
             ${bossIcon}
             <div style="flex:1;min-width:0">
               <div class="mplus-boss-title">${znEnc(f.encounterID,f.name)}</div>
-              <div class="mplus-boss-meta">Attempt ${attemptNo}${!f.kill&&f.bossPercentage!=null?` · 灭团 at ${f.bossPercentage.toFixed(1)}%`:""}</div>
+              <div class="mplus-boss-meta">尝试 ${attemptNo}${!f.kill&&f.bossPercentage!=null?` · 灭团于 ${f.bossPercentage.toFixed(1)}%`:""}</div>
             </div>
             <span class="mplus-boss-status ${statusClass}">${f.kill?"击杀":"灭团"}</span>
           </div>
@@ -4092,7 +4092,7 @@ drows.forEach(d=>{
       <div style="font-size:28px;font-weight:700;color:${enrageColor}">${fightDurStr}</div>
       <div style="display:flex;flex-direction:column;gap:2px">
         <div style="font-size:15px;font-weight:600;color:#c9d1d9">${fightDisplayName}</div>
-        <div style="font-size:12px;color:#8b949e">${isMPlus?`+${fight.keystoneLevel} Mythic+`:(fight.kill?"击杀":"灭团")} &nbsp;·&nbsp; ${Object.keys(P).length} players${isMPlus?"":` &nbsp;·&nbsp; Pull ${fight.pull}`}</div>
+        <div style="font-size:12px;color:#8b949e">${isMPlus?`+${fight.keystoneLevel} 大秘境`:(fight.kill?"击杀":"灭团")} &nbsp;·&nbsp; ${Object.keys(P).length} 名玩家${isMPlus?"":` &nbsp;·&nbsp; 尝试 ${fight.pull}`}</div>
       </div>
     </div>`;
     // band is rendered after pullHist is populated below -- dont call it here
@@ -4145,7 +4145,7 @@ drows.forEach(d=>{
       const issueLine=_sev.issues.length?`<div class="issue-reasons">${_sev.issueText}</div>`:"";
       const tr=document.createElement("tr");tr.className="clickable-row";
       tr.dataset.role=p.role;tr.dataset.hasIssue=_sev.issues.length?"1":"0";tr.dataset.player=p.name;
-      tr.innerHTML=`<td style="font-weight:600;color:${CC[p.cls]||"#c9d1d9"}">${p.name}${_badge}${_sev.issues.length?` <span class="issue-chip" title="${escAttr(_sev.issueText)}">Issue</span>`:""}${issueLine}</td><td style="font-size:12px">${roleDisplay(p.role)}</td><td style="text-align:center;padding:0 4px"><a href="https://wowanalyzer.com/report/${reportCode}/${fightId}/${encodeURIComponent(p.name)}" target="_blank" onclick="event.stopPropagation()" style="color:#79c0ff;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;background:#0d1a2e;border:1px solid #4a9eff30;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px" title="Open in WoWAnalyzer">🔬 WoWAnalyzer</a></td><td class="num" style="color:${deaths>0?"#f85149":"#3fb950"}">${deaths}</td><td class="num">${ints}</td><td class="num">${disps}</td><td class="num">${defTotal}</td><td class="num" style="color:#79c0ff">${dpsNum?fmtNum(dpsNum):"—"}</td><td class="num" style="color:#3fb950">${hpsNum?fmtNum(hpsNum):"—"}</td><td class="num" title="${p.pots?'药水 used in-fight or detected as a prepot':'No potion detected during the tracked window'}"><span style="color:${p.pots?'#3fb950':'#6e7681'}">${p.pots?(p.potName?`✓ ${p.potName}`:"✓ Yes"):"— n/a"}</span></td><td style="text-align:center"><span class="sev-${_sev.sev}" title="${escAttr(_sev.issueText||'No flagged issues')}">${grade}</span></td>`;
+      tr.innerHTML=`<td style="font-weight:600;color:${CC[p.cls]||"#c9d1d9"}">${p.name}${_badge}${_sev.issues.length?` <span class="issue-chip" title="${escAttr(_sev.issueText)}">问题</span>`:""}${issueLine}</td><td style="font-size:12px">${roleDisplay(p.role)}</td><td style="text-align:center;padding:0 4px"><a href="https://wowanalyzer.com/report/${reportCode}/${fightId}/${encodeURIComponent(p.name)}" target="_blank" onclick="event.stopPropagation()" style="color:#79c0ff;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;background:#0d1a2e;border:1px solid #4a9eff30;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px" title="在 WoWAnalyzer 中打开">🔬 WoWAnalyzer</a></td><td class="num" style="color:${deaths>0?"#f85149":"#3fb950"}">${deaths}</td><td class="num">${ints}</td><td class="num">${disps}</td><td class="num">${defTotal}</td><td class="num" style="color:#79c0ff">${dpsNum?fmtNum(dpsNum):"—"}</td><td class="num" style="color:#3fb950">${hpsNum?fmtNum(hpsNum):"—"}</td><td class="num" title="${p.pots?'战斗中或开战前检测到药水':'统计时间窗内未检测到药水'}"><span style="color:${p.pots?'#3fb950':'#6e7681'}">${p.pots?(p.potName?`✓ ${p.potName}`:"✓ 是"):"— 不适用"}</span></td><td style="text-align:center"><span class="sev-${_sev.sev}" title="${escAttr(_sev.issueText||'未发现问题')}">${grade}</span></td>`;
       bindRowAction(tr,()=>openPlayerModal(p,fSec),_sev.issues.length?`Open player details · ${_sev.issueText}`:"Open player details");
       tSumBody.appendChild(tr);
     });
@@ -4171,7 +4171,7 @@ drows.forEach(d=>{
     // nothing worse than popping lust when half the raid is dead
     const blDiv=document.getElementById("bloodlustContent");blDiv.innerHTML="";
     if(!bloodlusts.length){
-      blDiv.innerHTML='<div class="bl-missing">⚠️ No 嗜血 / Heroism / Time Warp detected this fight.</div>';
+      blDiv.innerHTML='<div class="bl-missing">⚠️ 本次战斗未检测到嗜血 / 英勇 / 时间扭曲。</div>';
     } else {
       const aliveAtBL=bloodlusts.map(bl=>{
         const aliveNames=sorted.filter(p=>!p.deaths.some(d=>d.time<bl.t)).map(p=>p.name);
@@ -4179,8 +4179,8 @@ drows.forEach(d=>{
       });
       blDiv.innerHTML=aliveAtBL.map(bl=>`
         <div class="bl-used">
-          ⚡ <strong>${bl.spell}</strong> cast by <strong style="color:#ffd700">${bl.caster}</strong>
-          at <strong>${ftime(bl.t)}</strong> — <strong>${bl.alive}</strong> players alive to receive it
+          ⚡ <strong style="color:#ffd700">${bl.caster}</strong> 施放了 <strong>${bl.spell}</strong>
+          ，时间 <strong>${ftime(bl.t)}</strong> — <strong>${bl.alive}</strong> 名存活玩家获得效果
           <div style="margin-top:4px;font-size:12px;color:#8b949e">${bl.aliveList.map(n=>{const px=Object.values(P).find(x=>x.name===n);return`<span style="color:${CC[px?.cls]||'#c9d1d9'};margin-right:8px">${n}</span>`;}).join("")}</div>
         </div>`).join("");
     }
@@ -4344,27 +4344,27 @@ drows.forEach(d=>{
       .map(p=>p.name+" "+fmtNum(Math.round(p.healed/fSec))).join(" · ");
     const wipeSummaryLines=[
       "📋 战斗总结 — "+fightDisplayName,
-      (fight.kill?"✅ 击杀":"❌ 灭团")+" | Duration: "+fdur(fight.endTime-fight.startTime)+" | "+Object.keys(P).length+" players",
+      (fight.kill?"✅ 击杀":"❌ 灭团")+" | 时长："+fdur(fight.endTime-fight.startTime)+" | "+Object.keys(P).length+" 名玩家",
       "",
       "💀 死亡 ("+deathList2.length+"):",
-      ...(deathList2.length?deathList2.map(d=>"   "+d.name+" ["+d.cls+"] @ "+d.timeStr+" — "+d.killer):["   None — clean pull!"]),
+      ...(deathList2.length?deathList2.map(d=>"   "+d.name+" ["+d.cls+"] @ "+d.timeStr+" — "+d.killer):["   无——本次尝试很干净！"]),
       "",
       blLine,
       "",
-      "⚔️ Missed 爆发 CDs: "+(漏掉Off全部.length?
+      "⚔️ 遗漏爆发技能："+(漏掉Off全部.length?
         漏掉Off全部.map(p=>{
           const exp=SPEC_OFFS[(p.cls||"")+"|"+(p.spec||"")]||null;
           const 漏掉=exp?exp.filter(cd=>!p.offs[cd]):[];
           return p.name+": "+漏掉.join(", ");
         }).join(" | ")
-        :"None ✓"),
+        :"无 ✓"),
       "",
-      noPotDps.length?"🧪 No 药水 used: "+noPotDps.join(", "):"🧪 全部 DPS used potions ✓",
+      noPotDps.length?"🧪 未用药水："+noPotDps.join(", "):"🧪 全部 DPS 均使用药水 ✓",
       "",
-      "⚔️ DPS Top 3: "+topDps,
-      "💚 HPS Top 3: "+topHps,
+      "⚔️ DPS 前三："+topDps,
+      "💚 HPS 前三："+topHps,
       "",
-      "Generated by 🔭 RaidLens · raidlens.org",
+      "由 🔭 战镜生成 · raidlens.org",
     ];
     const _topDps=Object.values(P).filter(p=>p.ddealt>0).sort((a,b)=>b.ddealt-a.ddealt).slice(0,3).map(p=>p.name+" "+fmtNum(Math.round(p.ddealt/fSec))).join(" · ");
     const _topHps=Object.values(P).filter(p=>p.healed>0).sort((a,b)=>b.healed-a.healed).slice(0,3).map(p=>p.name+" "+fmtNum(Math.round(p.healed/fSec))).join(" · ");
@@ -4572,9 +4572,9 @@ function getRepeatBadge(name){
   const m=getMem();const pm=m.players?.[name.toLowerCase()];
   if(!pm||pm.fights<3)return '';
   // only show chronic badge if pattern is consistent across 3+ pulls
-  if(pm.deaths/pm.fights>=1.5)return ' <span class="repeat-badge" title="Avg '+(pm.deaths/pm.fights).toFixed(1)+' 次死亡/pull over '+pm.fights+' pulls">💀 repeat</span>';
+  if(pm.deaths/pm.fights>=1.5)return ' <span class="repeat-badge" title="'+pm.fights+' 次尝试中平均 '+(pm.deaths/pm.fights).toFixed(1)+' 次死亡">💀 重复</span>';
   // removed noPot chronic badge -- potion visibility can vary, so this was too noisy
-  if(pm.漏掉Off/pm.fights>=1.5)return ' <span class="repeat-badge" title="Avg '+(pm.漏掉Off/pm.fights).toFixed(1)+' 漏掉 CDs/pull">⚔ misses CDs</span>';
+  if(pm.漏掉Off/pm.fights>=1.5)return ' <span class="repeat-badge" title="每次尝试平均遗漏 '+(pm.漏掉Off/pm.fights).toFixed(1)+' 个爆发技能">⚔ 遗漏爆发技能</span>';
   return '';
 }
 
@@ -4739,47 +4739,47 @@ function build灭团SummaryText(ctx,mode){
   const outcome=fight.kill?'✅ 击杀':'❌ 灭团';
   const deathList=drows.filter(d=>d.dcount>0).sort((a,b)=>a.time-b.time);
   const cause=pick灭团Cause(drows);
-  const blLine=bloodlusts.length?'⚡ 嗜血: '+bloodlusts.map(bl=>bl.spell+' @ '+ftime(bl.t)).join(', '):'⚠️ No 嗜血 used';
+  const blLine=bloodlusts.length?'⚡ 嗜血：'+bloodlusts.map(bl=>bl.spell+' @ '+ftime(bl.t)).join(', '):'⚠️ 未使用嗜血';
   if(mode==='short'){
     const lines=['📋 '+fightDisplayName+' · '+outcome+' · '+dur+' · '+deathList.length+' 次死亡'];
     if(cause&&cause.top击杀er&&cause.top击杀er.count>=2)lines.push('💀 主要杀手： '+cause.top击杀er.name+' ×'+cause.top击杀er.count);
     if(漏掉OffTotal>0)lines.push('⚔️ 漏技能: '+漏掉OffTotal);
-    if(noPotDps.length)lines.push('🧪 No pot: '+noPotDps.join(', '));
-    lines.push('Generated by 🔭 RaidLens · raidlens.org');
+    if(noPotDps.length)lines.push('🧪 未用药水：'+noPotDps.join(', '));
+    lines.push('由 🔭 战镜生成 · raidlens.org');
     return lines.join('\n');
   }
   if(mode==='officer'){
     const plines=sorted.map(p=>{
       const iss=[];if(p.deaths.length)iss.push(p.deaths.length+' 次死亡');
-      if(p.role==='dps'&&!p.pots)iss.push('no pot');
+      if(p.role==='dps'&&!p.pots)iss.push('未用药水');
       const exp=SPEC_OFFS[(p.cls||'')+'|'+(p.spec||'')]||null;
       if(exp){const mc=exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]);if(mc.length)iss.push('漏掉: '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', '));}
       return iss.length?'  '+p.name+': '+iss.join(', '):null;
     }).filter(Boolean);
     return['=== '+fightDisplayName+' · '+outcome+' · '+dur+' ===',
-      cause&&cause.firstDeath?'First death: '+cause.firstDeath.name+' @ '+cause.firstDeath.timeStr+' — '+cause.firstDeath.killer:'No 次死亡',
-      'Issues ('+plines.length+' players):',...plines,
-      'Missed off CDs: '+漏掉OffTotal+' · No pots: '+noPotDps.length,
-      'Top DPS: '+topDps+' · Top HPS: '+topHps,
+      cause&&cause.firstDeath?'首次死亡：'+cause.firstDeath.name+' @ '+cause.firstDeath.timeStr+' — '+cause.firstDeath.killer:'无死亡',
+      '问题（'+plines.length+' 名玩家）：',...plines,
+      '遗漏爆发技能：'+漏掉OffTotal+' · 未用药水：'+noPotDps.length,
+      'DPS 最高：'+topDps+' · HPS 最高：'+topHps,
     ].join('\n');
   }
   if(mode==='pings'){
     const pings=sorted.map(p=>{
       const iss=[];if(p.deaths.length)iss.push(p.deaths.length+' 次死亡');
-      if(p.role==='dps'&&!p.pots)iss.push('no pot');
+      if(p.role==='dps'&&!p.pots)iss.push('未用药水');
       const exp=SPEC_OFFS[(p.cls||'')+'|'+(p.spec||'')]||null;
       if(exp){const mc=exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]);if(mc.length)iss.push('漏掉: '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', '));}
       return iss.length?'@'+p.name+': '+iss.join(', '):null;
     }).filter(Boolean);
     return[outcome+' — '+fightDisplayName+' · '+dur,...pings].join('\n');
   }
-  return['📋 战斗总结 — '+fightDisplayName,outcome+' | 时长: '+dur+' | '+sorted.length+' players','',
-    '💀 死亡 ('+deathList.length+'):',...(deathList.length?deathList.map(d=>'   '+d.name+' ['+d.cls+'] @ '+d.timeStr+' — '+d.killer):['   None — clean pull!']),
+  return['📋 战斗总结 — '+fightDisplayName,outcome+' | 时长：'+dur+' | '+sorted.length+' 名玩家','',
+    '💀 死亡（'+deathList.length+'）：',...(deathList.length?deathList.map(d=>'   '+d.name+' ['+d.cls+'] @ '+d.timeStr+' — '+d.killer):['   无——本次尝试很干净！']),
     '',blLine,'',
-    '⚔️ Missed 爆发 CDs: '+(漏掉Off全部.length?漏掉Off全部.map(p=>{const exp=SPEC_OFFS[(p.cls||'')+'|'+(p.spec||'')]||null;const mc=exp?exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]):[];return p.name+': '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', ');}).join(' | '):'None ✓'),'',
-    noPotDps.length?'🧪 No 药水: '+noPotDps.join(', '):'🧪 全部 DPS used potions ✓','',
-    '⚔️ DPS Top 3: '+topDps,'💚 HPS Top 3: '+topHps,'',
-    'Generated by 🔭 RaidLens · raidlens.org',
+    '⚔️ 遗漏爆发技能：'+(漏掉Off全部.length?漏掉Off全部.map(p=>{const exp=SPEC_OFFS[(p.cls||'')+'|'+(p.spec||'')]||null;const mc=exp?exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]):[];return p.name+': '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', ');}).join(' | '):'无 ✓'),'',
+    noPotDps.length?'🧪 未用药水：'+noPotDps.join(', '):'🧪 全部 DPS 均使用药水 ✓','',
+    '⚔️ DPS 前三：'+topDps,'💚 HPS 前三：'+topHps,'',
+    '由 🔭 战镜生成 · raidlens.org',
   ].join('\n');
 }
 
