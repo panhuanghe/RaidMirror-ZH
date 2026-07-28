@@ -2356,7 +2356,7 @@ async function startPKCELogin(){
 
 // called on page load if ?code= is in URL -- exchange code for token
 async function handlePKCECallback(){
-  const params=new URL搜索Params(window.location.search);
+  const params=new URLSearchParams(window.location.search);
   const code=params.get("code");
   const state=params.get("state");
   if(!code) return false;
@@ -2369,7 +2369,7 @@ async function handlePKCECallback(){
     const res=await fetch("https://www.warcraftlogs.com/oauth/token",{
       method:"POST",
       headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body:new URL搜索Params({
+      body:new URLSearchParams({
         grant_type:"authorization_code",
         client_id:PKCE_CLIENT_ID,
         redirect_uri:PKCE_REDIRECT,
@@ -2427,7 +2427,7 @@ async function refreshPKCEToken(){
   const res=await fetch("https://www.warcraftlogs.com/oauth/token",{
     method:"POST",
     headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:new URL搜索Params({
+    body:new URLSearchParams({
       grant_type:"refresh_token",
       client_id:PKCE_CLIENT_ID,
       refresh_token:refresh

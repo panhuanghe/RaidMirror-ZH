@@ -882,6 +882,11 @@ try:
 except Exception as _e:
     print(f"[9c] WebP 生成失败(已回退 PNG): {_e}")
 
+# 9d. 防止中文文案替换误伤 JS 内置构造器名
+#     e.g. URLSearchParams 被 "Search"→"搜索" 规则污染成 URL搜索Params
+content = content.replace("URL搜索Params", "URLSearchParams")
+print("[9d] 修复 URLSearchParams 标识符被误替换问题")
+
 # ══════════════════════════════════════════════════════════
 #  ⑩ PKCE 兼容修复：crypto.subtle 不可用时提供 SHA-256 fallback
 # ══════════════════════════════════════════════════════════
