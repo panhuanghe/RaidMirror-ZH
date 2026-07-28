@@ -1,93 +1,96 @@
-# 战镜 ZhanJing 部署指南
+# 战镜 ZhanJing 部署详细教程
 
-## 一、上传到 GitHub
+本文档覆盖从发布到上线的完整流程：上传站点、申请 WarcraftLogs Client ID、替换代码、验证登录、排查常见问题。
 
-### 1. 创建仓库
-在 github.com 登录你的账号，点击右上角 `+` → `New repository`：
-- **Repository name**: `RaidMirror-ZH`（或你喜欢的名字）
-- **Description**: 战镜 ZhanJing — 全中文魔兽世界战斗日志分析工具
-- **Public** ✓（建议公开，GPLv3 协议）
-- **不要勾选** "Add a README file" / "Add .gitignore" / "Choose a license"
-- 点击 **Create repository**
+## 0. 先确认仓库地址
 
-### 2. 推送代码
-创建仓库后，GitHub 会显示推送命令。在你的命令行执行：
+本项目仓库：<https://github.com/panhuanghe/RaidMirror-ZH>
 
-```bash
-cd zhanjing
-git remote add origin https://github.com/你的用户名/RaidMirror-ZH.git
-git push -u origin main
-```
+## 1. 准备部署文件
 
-第一次推送会要求登录 GitHub（用户名 + Personal Access Token）。
+站点最少需要这些文件/目录：
 
-> ⚠️ 注意：`data/spells.json` 有 21MB，推送可能需要几分钟。
+- `index.html`
+- `assets/`（至少 `logo.svg`、`favicon.svg`）
+- `data/meta.json`
+- `data/spells.json`（建议带上，全量中文技能名；缺失不影响基础功能）
 
----
+注意：必须通过 HTTP/HTTPS 访问，不能直接用 `file://` 打开本地 `index.html`。
 
-## 二、部署到宝塔面板
+## 2. 宝塔面板部署
 
-### 方案 A：上传 ZIP 包（推荐）
+### 2.1 创建站点
 
-1. **准备部署包**：
-   ```bash
-   cd zhanjing
-   mkdir ../deploy
-   cp index.html ../deploy/
-   cp -r assets/ ../deploy/
-   cp -r data/ ../deploy/
-   cp -r data_core/ ../deploy/
-   cd ../deploy
-   zip -r ../zhanjing-deploy.zip .
-   ```
+1. 登录宝塔面板。
+2. 打开「网站」→「添加站点」。
+3. 新建纯静态站点并绑定你的域名（例如 `https://your-domain.com`）。
 
-2. **宝塔面板操作**：
-   - 登录宝塔面板 → **网站** → **添加站点**
-   - 填写你的域名（如 zhanjing.你的域名.com）
-   - 创建后进入**网站目录**
-   - 上传 `zhanjing-deploy.zip` 并解压到网站根目录
+### 2.2 上传文件
 
-### 方案 B：Git 克隆部署
+1. 进入该站点根目录。
+2. 上传第 1 步准备的文件。
+3. 确认站点根目录存在 `index.html`。
 
-如果你服务器装了 git：
-```bash
-cd /www/wwwroot/你的网站目录
-git clone https://github.com/你的用户名/RaidMirror-ZH.git .
-# 只保留生产文件
-rm -rf vendor/ build_zh.py README.md .git/
-```
+可选优化：在宝塔里开启 gzip/br 压缩，能减少 `data/spells.json` 传输体积。
 
-### 3. 配置 WarcraftLogs API（重要！）
+## 3. 申请 WarcraftLogs Client ID（PKCE）
 
-部署后还需要在 WCL 注册 API Client：
-1. 打开 https://www.warcraftlogs.com/api/clients/
-2. 点击 **+ Create Client**
+战镜使用 PKCE OAuth，需要一个 Public Client。
+
+1. 打开 <https://www.warcraftlogs.com/api/clients/> 并登录。
+2. 点击右上角 `Create Client`（或 `+ Create Client`）。
 3. 填写：
-   - **Name**: 战镜 ZhanJing
-   - **Redirect URL**: `https://你的域名/`
-   - 勾选 **Public Client**
-4. 创建后会显示 **Client ID**，修改 `index.html` 里的：
-   - `PKCE_CLIENT_ID` → 你的 Client ID
-   - `PKCE_REDIRECT` → 你的域名
 
-### 4. 验证部署
+- `Application Name`：例如 `战镜 ZhanJing`
+- `Redirect URL`：你的实际站点地址（例如 `https://your-domain.com`）
+- 勾选 `Public Client`
 
-访问你的域名，点击「连接 WarcraftLogs 账号」测试 OAuth 登录是否正常。
+4. 创建后复制 `Client ID`（UUID 格式）。
 
----
+如果看不到 `Create Client`，通常是未登录，或页面太窄导致按钮不明显。
 
-## 项目结构（部署后）
+## 4. 在代码中替换 Client ID
 
+必须修改：
+
+- `index.html` 里的 `PKCE_CLIENT_ID`
+- `index.html` 里的 `PKCE_REDIRECT`
+
+示例：
+
+```js
+const PKCE_CLIENT_ID="你的ClientID";
+const PKCE_REDIRECT="https://你的域名";
 ```
-/
-├── index.html           # 主页面（427KB）
-├── assets/
-│   ├── favicon.svg      # 网站图标
-│   ├── hero-gnome.png   # 装饰图（2.6MB）
-│   └── logo.svg         # 战镜 Logo
-├── data/
-│   ├── spells.json      # 法术中英文对照（21MB）
-│   └── meta.json        # 副本/Boss 元数据（37KB）
-└── data_core/
-    └── spell_zh_core.json  # 核心技能翻译（163条）
-```
+
+如果你会重新执行 `build_zh.py` 生成 `index.html`，还要同步改 `build_zh.py` 中对应替换值，否则会被构建覆盖。
+
+## 5. 上线后验证
+
+1. 用浏览器打开你的域名。
+2. 点击「连接 WarcraftLogs 账号」。
+3. 预期行为：跳到 WCL 授权页 → 授权后跳回你域名并登录成功。
+
+## 6. 常见问题排查
+
+### 6.1 点击登录后不回跳 / 回调失败
+
+重点检查：
+
+- `PKCE_REDIRECT` 是否与 WCL 后台 `Redirect URL` 一致
+- 协议是否一致（`http`/`https`）
+- 域名是否一致（含子域名）
+- 末尾斜杠是否一致（建议统一）
+
+### 6.2 本地能开，线上异常
+
+优先检查：
+
+- 是否缺少 `data/meta.json`
+- 是否把文件传错目录（不是站点根目录）
+- 是否通过 `file://` 打开（这会触发 CORS 导致数据加载失败）
+
+### 6.3 重构建后 Client ID 被改回旧值
+
+说明只改了 `index.html`，没改 `build_zh.py`。按第 4 节同步修改后再构建。
+

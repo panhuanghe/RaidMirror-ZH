@@ -742,16 +742,35 @@ if 'function initV5(){' in content:
 # ══════════════════════════════════════════════════════════
 content = content.replace(
     'const PKCE_CLIENT_ID = "a15ff79c-4eb3-49a8-9aa5-8ff9049308df"',
-    'const PKCE_CLIENT_ID = "YOUR_CLIENT_ID_HERE" // ⬅ 请替换为你在 https://www.warcraftlogs.com/api/clients 注册的 Client ID'
+    'const PKCE_CLIENT_ID = "019fa737-306d-73f6-9327-1225f5b6edc6"'
 )
 content = content.replace(
     'const PKCE_REDIRECT = "https://raidlens.org"',
     'const PKCE_REDIRECT = window.location.origin // ⬅ 自动取当前域名，或改为你的实际域名如 "https://your-domain.com"'
 )
 
+# ══════════════════════════════════════════════════════════
+#  ⑦ 仓库链接替换（统一指向当前项目）
+# ══════════════════════════════════════════════════════════
+OWN_REPO = "https://github.com/panhuanghe/RaidMirror-ZH"
+OWN_README = OWN_REPO + "#readme"
+content = content.replace(
+    "https://github.com/Fisheye3D/Raidlenshosted/blob/main/README.md",
+    OWN_README
+)
+content = content.replace(
+    "https://github.com/Fisheye3D/Raidlenshosted",
+    OWN_REPO
+)
+content = re.sub(
+    r'\s*<a href="https://buymeacoffee\.com/Raidlens"[^>]*>☕ Support RaidLens</a>\s*',
+    '',
+    content
+)
+
 
 # ══════════════════════════════════════════════════════════
-#  ⑦ 页面元信息更新
+#  ⑧ 页面元信息更新
 # ══════════════════════════════════════════════════════════
 content = content.replace(
     '<title>RaidLens</title>',

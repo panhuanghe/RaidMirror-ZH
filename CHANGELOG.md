@@ -10,6 +10,32 @@
 
 - 暂无（下一次修改后继续迭代版本）
 
+## [v1.0.3] - 2026-07-28
+
+### 链接与页面
+
+- 将页面中的 GitHub 链接统一更新为当前仓库 `panhuanghe/RaidMirror-ZH`。
+- 删除页面中的 `☕ Support RaidLens` 入口。
+
+### 文档
+
+- README 调整为精简结构：部署详细步骤迁移到 `DEPLOY.md`，README 仅保留入口链接。
+- 重写 `DEPLOY.md`，补充 Client ID 申请、代码替换、上线验证与常见问题排查。
+
+### 构建脚本
+
+- 更新 `build_zh.py`，确保重构建后链接替换与 Support 链接移除可持续生效。
+
+## [v1.0.2] - 2026-07-28
+
+### 配置
+
+- 更新 index.html 与 build_zh.py 中的 PKCE_CLIENT_ID 为当前发布使用的 WarcraftLogs Public Client。
+
+### 仓库与发布
+
+- 迭代源码版本到 v1.0.2，用于本次配置更新发布。
+
 ## [v1.0.1] - 2026-07-28
 
 ### UI

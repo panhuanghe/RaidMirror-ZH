@@ -3,8 +3,10 @@
 > 专业战斗日志分析与团队复盘工具 · 魔兽世界（WarcraftLogs）全中文版
 
 **战镜** 是一个全中文的魔兽世界团本战斗日志分析工具，复刻自开源项目
-[RaidLens](https://github.com/Fisheye3D/Raidlenshosted)（© Fisheye3D），
+RaidLens（© Fisheye3D），
 并进行了**完整中文化**与 **UI 美化**。
+
+当前源码版本：**v1.0.3**（2026-07-28）
 
 - 连接 WarcraftLogs 账号，一键分析最近一次（或任意指定）团本战斗日志
 - 防御 / 进攻大招时间轴、减伤覆盖、打断 / 驱散统计、Boss 机制复盘建议
@@ -90,34 +92,10 @@ python -m http.server 8080
 
 ---
 
-## 宝塔面板部署教程
+## 部署教程
 
-1. 登录 **宝塔面板** → 「网站」→「添加站点」，创建一个**纯静态**站点（绑定你的域名 / 端口）。
-2. 将 `zhanjing/` 目录下的全部内容上传到站点**根目录**：
-   - `index.html`
-   - `assets/`（logo.svg、favicon.svg）
-   - `data/`（spells.json、meta.json）
-   - （可选）`build_zh.py`、`vendor/`、`data_core/` 等源码，便于后续二次构建
-3. 确认站点根目录存在 `index.html`（默认首页）。
-4. **可选优化**：在「网站 → 设置 → 配置文件」中开启 `gzip` / `br` 压缩，`data/spells.json`（21MB）压缩后传输更小。
-5. 浏览器访问你的域名即可使用。
-6. **PKCE 回调无需配置**：代码已设为 `PKCE_REDIRECT = window.location.origin`，自动使用当前域名。
-
----
-
-## 配置 WarcraftLogs API Client（获取 Client ID）
-
-战镜通过 WarcraftLogs OAuth（PKCE，公开客户端）登录，需要一个 **Client ID**：
-
-1. 打开 <https://www.warcraftlogs.com/api/clients> 并登录。
-2. 点击 **Create Client**。
-3. Application Name 填你的站点名（如 `战镜`）。
-4. Redirect URL 可填任意合法 URL（如 `https://your-domain.com`），
-   部署后会被 `window.location.origin` **自动覆盖**，无需精确匹配。
-5. 记下生成的 Client ID（形如 UUID）。
-6. 替换站点中的占位符：
-   - 直接改 `index.html`：把 `const PKCE_CLIENT_ID = "YOUR_CLIENT_ID_HERE"` 换成你的 Client ID；
-   - 或改 `build_zh.py` 中对应的占位字符串后重新构建。
+详细部署步骤（含宝塔发布、Client ID 申请、代码替换、常见问题）见：
+[DEPLOY.md](DEPLOY.md)
 
 ---
 
@@ -146,7 +124,7 @@ python build_zh.py     # 输出 index.html, 并自动提取 assets/hero-gnome.pn
 
 ## 版本发布流程（约定）
 
-- 只要仓库有修改（代码 / 样式 / 文档），就迭代版本（建议语义化版本号，如 `v1.0.2`）。
+- 只要仓库有修改（代码 / 样式 / 文档），就迭代版本（建议语义化版本号，如 `v1.0.4`）。
 - 发布时同步更新三处：
   - `CHANGELOG.md`
   - `README.md`（若本次改动影响说明）
@@ -163,8 +141,8 @@ python build_zh.py     # 输出 index.html, 并自动提取 assets/hero-gnome.pn
 
 ## 许可证与致谢
 
-- **原项目**：RaidLens © Fisheye3D，开源地址 <https://github.com/Fisheye3D/Raidlenshosted>。
-  本中文本地化（战镜 / RaidMirror-ZH）基于原项目复刻，遵循原项目许可证。
+- **项目仓库**：<https://github.com/panhuanghe/RaidMirror-ZH>
+- **原项目**：RaidLens © Fisheye3D。本中文本地化（战镜 / RaidMirror-ZH）基于原项目复刻，遵循原项目许可证。
 - 原版源码存放于本仓库 `vendor/RaidLens_public.html`，以保留署名与许可证。
 - 中文法术 / 副本 / 首领映射数据来自社区整理的 zhCN 本地化数据，仅用于本地显示。
 
