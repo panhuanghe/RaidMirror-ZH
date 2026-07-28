@@ -20,7 +20,7 @@
 ## 1.1 部署包命名规范（统一）
 
 - 统一命名：`zhanjing-deploy-vX.Y.Z.zip`
-- 示例：`zhanjing-deploy-v1.0.12.zip`
+- 示例：`zhanjing-deploy-v1.0.13.zip`
 - 不再使用旧命名：`zhanjing-release.zip`
 
 可直接用脚本打包（自动读取 README 里的当前版本号）：

@@ -632,6 +632,14 @@ button:not(.connect-cta):hover,.card:hover,.fi:hover,.roster-card:hover,.tab:hov
 .fi:hover,.card:hover,.roster-card:hover{
   border-color:var(--ui-border-strong) !important;
 }
+.card.selected,.fi.selected,.mplus-dung-hdr.selected{
+  border-color:#ffd700 !important;
+  background:linear-gradient(180deg,rgba(255,215,0,.10),rgba(255,215,0,.05)),var(--ui-surface) !important;
+  box-shadow:0 0 0 1px #ffd70066,0 0 18px #ffd7002e !important;
+}
+.card.selected .c-date,.fi.selected .fi-name{
+  color:#ffe97e !important;
+}
 
 .summary-note-title,.detail-title,.target-header,.hero-stat-k,.hero-preview-label,.hero-mini-k{
   color:var(--ui-muted) !important;
@@ -982,7 +990,7 @@ th{
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#1a0e2e;border:1px solid #9580ff;border-radius:6px">
             <span style="font-size:20px">⏱️</span>
-            <div><div style="font-size:12px;font-weight:600;color:#9580ff">自动扫描: On</div><div style="font-size:10px;color:#8b949e">开团期间每 90 秒自动检测新战斗</div></div>
+            <div><div style="font-size:12px;font-weight:600;color:#9580ff">自动扫描: 开</div><div style="font-size:10px;color:#8b949e">开团期间每 90 秒自动检测新战斗</div></div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#161b22;border:1px solid #30363d;border-radius:6px">
             <span style="font-size:20px">🎯</span>
@@ -1222,10 +1230,10 @@ th{
 
 <!-- READY BAR -->
 <div id="readyBar" style="display:none" class="readybar">
-  <span id="readyLabel">✓ Ready</span>
+  <span id="readyLabel">✓ 已连接</span>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <button class="agent-btn" id="agentBtn" onclick="agentLatest()">🤖 自动: 最新一场</button>
-    <button class="agent-btn" id="watchBtn" onclick="toggle查看()">⏱️ 自动扫描: Off</button>
+    <button class="agent-btn" id="watchBtn" onclick="toggle查看()">⏱️ 自动扫描: 关</button>
     <button class="agent-btn" id="focusBtn" onclick="toggleFocus()">🎯 聚焦模式</button>
     <button class="btn-red" style="padding:4px 10px;font-size:11px" onclick="resetSetup()">重置设置</button>
   </div>
@@ -1235,7 +1243,7 @@ th{
 <div id="mainArea" style="display:none">
   <div class="sh"><span class="sn2">2</span> 选择日志来源</div>
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('mine',this)">⭐ My Logs</div>
+    <div class="tab active" onclick="switchTab('mine',this)">⭐ 我的日志</div>
     <div class="tab" onclick="switchTab('url',this)">粘贴 URL</div>
     <div class="tab" onclick="switchTab('searchguild',this)">公会搜索</div>
   </div>
@@ -1257,8 +1265,8 @@ th{
 
   <div class="tab-panel" id="panel-searchguild">
     <div class="row">
-      <input type="text" id="guildName" placeholder="Guild name" style="width:180px" />
-      <input type="text" id="serverName" placeholder="Server (e.g. Thrall)" style="width:160px" />
+      <input type="text" id="guildName" placeholder="公会名" style="width:180px" />
+      <input type="text" id="serverName" placeholder="服务器（如 霜之哀伤）" style="width:160px" />
       <select id="regionSel" style="width:80px">
         <option value="US">US</option><option value="EU">EU</option>
         <option value="TW">TW</option><option value="KR">KR</option><option value="CN">CN</option>
@@ -1333,11 +1341,11 @@ th{
   </div>
   <div class="rtab-panel active" id="rtab-defensives"><div class="tw"><table id="tDef"><thead><tr><th onclick="srt('tDef',0)">玩家 ↕</th><th onclick="srt('tDef',1)">职业/专精 ↕</th><th title="战斗中使用的个人减伤技能 — 来源于战斗日志事件">减伤技能 ⓘ</th><th onclick="srt('tDef',3)" class="num">总计 ↕</th></tr></thead><tbody id="bDef"></tbody></table></div></div>
   <div class="rtab-panel" id="rtab-consumables"><div class="sn">每位玩家的药水/治疗石使用情况</div><div class="tw"><table id="tCons"><thead><tr><th onclick="srt('tCons',0)">玩家 ↕</th><th onclick="srt('tCons',1)">职业/专精 ↕</th><th style="text-align:center">药水</th><th style="text-align:center">治疗石</th></tr></thead><tbody id="bCons"></tbody></table></div></div>
-<div class="rtab-panel" id="rtab-builds"><div class="sn">Readiness snapshot from Warcraft Logs combatant info. This stays on the reliable side: item level, enchant count, socketed gems, consumable auras that actually appeared in the snapshot, readiness notes, and quick build links.</div><div id="buildReadySummaryGrid" class="summary-grid-2"></div><div class="table-tools"><div class="table-tools-note">数据来自 Warcraft Logs 快照中的记录，并非最大可能槽位数。消耗品仅显示该次战斗中 WCL 实际出现的光环</div><div class="table-sort"><span>排序:</span><select id="buildSort"><option value="ready">就位确认+</option><option value="missing">缺失准备</option><option value="buffs">消耗品</option><option value="ilvl">装等</option><option value="gems">镶嵌宝石</option><option value="enchants">附魔数</option><option value="player">Player</option></select></div></div><div class="tw"><table id="tBuilds"><thead><tr><th onclick="srt('tBuilds',0)">玩家 ↕</th><th onclick="srt('tBuilds',1)">职业/专精 ↕</th><th onclick="srt('tBuilds',2)" class="num">装等 ↕</th><th onclick="srt('tBuilds',3)" class="num">附魔数 ↕</th><th onclick="srt('tBuilds',4)" class="num">镶嵌宝石 ↕</th><th onclick="srt('tBuilds',5)">消耗品 ↕</th><th onclick="srt('tBuilds',6)">缺失准备 ↕</th><th onclick="srt('tBuilds',7)">就位确认+ ↕</th><th>构建链接</th></tr></thead><tbody id="bBuilds"></tbody></table></div></div>
-  <div class="rtab-panel" id="rtab-deaths"><div class="sn">按时间排序的全部玩家死亡记录，致命一击若可用则显示</div><div id="cleanPullBanner" style="display:none"></div><div id="top击杀ersBox" style="display:none;margin-bottom:12px"></div><div class="table-tools"><div class="table-tools-note">从第一次死亡开始，若同一玩家或同一机制反复导致灭团，再切换到重复死亡</div><div class="table-sort"><span>排序:</span><select id="deathSort"><option value="time">Time</option><option value="deaths">死亡</option><option value="player">Player</option></select></div></div><div class="tw"><table id="tDeath"><thead><tr><th onclick="srt('tDeath',0)">玩家 ↕</th><th onclick="srt('tDeath',1)">职业/专精 ↕</th><th onclick="srt('tDeath',2)">时间 ↕</th><th>致命一击</th><th onclick="srt('tDeath',4)" class="num">死亡 ↕</th><th></th></tr></thead><tbody id="bDeath"></tbody></table></div></div>
+  <div class="rtab-panel" id="rtab-builds"><div class="sn">就位快照来自 Warcraft Logs 的 combatant 信息：装等、附魔、宝石、战斗中真实出现过的消耗品光环、就位提示与构建链接。</div><div id="buildReadySummaryGrid" class="summary-grid-2"></div><div class="table-tools"><div class="table-tools-note">数据来自 Warcraft Logs 快照中的记录，并非最大可能槽位数。消耗品仅显示该次战斗中 WCL 实际出现的光环</div><div class="table-sort"><span>排序:</span><select id="buildSort"><option value="ready">就位确认+</option><option value="missing">缺失准备</option><option value="buffs">消耗品</option><option value="ilvl">装等</option><option value="gems">镶嵌宝石</option><option value="enchants">附魔数</option><option value="player">玩家</option></select></div></div><div class="tw"><table id="tBuilds"><thead><tr><th onclick="srt('tBuilds',0)">玩家 ↕</th><th onclick="srt('tBuilds',1)">职业/专精 ↕</th><th onclick="srt('tBuilds',2)" class="num">装等 ↕</th><th onclick="srt('tBuilds',3)" class="num">附魔数 ↕</th><th onclick="srt('tBuilds',4)" class="num">镶嵌宝石 ↕</th><th onclick="srt('tBuilds',5)">消耗品 ↕</th><th onclick="srt('tBuilds',6)">缺失准备 ↕</th><th onclick="srt('tBuilds',7)">就位确认+ ↕</th><th>构建链接</th></tr></thead><tbody id="bBuilds"></tbody></table></div></div>
+  <div class="rtab-panel" id="rtab-deaths"><div class="sn">按时间排序的全部玩家死亡记录，致命一击若可用则显示</div><div id="cleanPullBanner" style="display:none"></div><div id="top击杀ersBox" style="display:none;margin-bottom:12px"></div><div class="table-tools"><div class="table-tools-note">从第一次死亡开始，若同一玩家或同一机制反复导致灭团，再切换到重复死亡</div><div class="table-sort"><span>排序:</span><select id="deathSort"><option value="time">时间</option><option value="deaths">死亡</option><option value="player">玩家</option></select></div></div><div class="tw"><table id="tDeath"><thead><tr><th onclick="srt('tDeath',0)">玩家 ↕</th><th onclick="srt('tDeath',1)">职业/专精 ↕</th><th onclick="srt('tDeath',2)">时间 ↕</th><th>致命一击</th><th onclick="srt('tDeath',4)" class="num">死亡 ↕</th><th></th></tr></thead><tbody id="bDeath"></tbody></table></div></div>
   <div class="rtab-panel" id="rtab-interrupts"><div class="sn">谁打断了什么，打断了多少次</div><div class="tw"><table id="tInt"><thead><tr><th onclick="srt('tInt',0)">玩家 ↕</th><th onclick="srt('tInt',1)">职业/专精 ↕</th><th>打断的法术</th><th onclick="srt('tInt',3)" class="num">总计 ↕</th></tr></thead><tbody id="bInt"></tbody></table></div></div>
   <div class="rtab-panel" id="rtab-dispels"><div class="sn">谁驱散了什么</div><div class="tw"><table id="tDisp"><thead><tr><th onclick="srt('tDisp',0)">玩家 ↕</th><th onclick="srt('tDisp',1)">职业/专精 ↕</th><th>驱散的法术</th><th onclick="srt('tDisp',3)" class="num">总计 ↕</th></tr></thead><tbody id="bDisp"></tbody></table></div></div>
-  <div class="rtab-panel" id="rtab-damage"><div class="sn">Total damage taken per player. 🟡 Tank · 🟢 Healer · 🔵 DPS. 可避免 tracks likely avoidable boss-pressure windows so raid leads can separate wipe-causing mistakes from unavoidable raid damage. Click a player for full breakdown.</div><div class="table-tools"><div class="table-tools-note">想快速给出教练建议时，先按可避免或可避免%排序</div><div class="table-sort"><span>排序:</span><select id="damageSort"><option value="avoidable">可避免</option><option value="avoidablePct">可避免%</option><option value="taken">总承受</option><option value="dtps">死亡/秒</option><option value="player">Player</option></select></div></div><div class="tw"><table id="tDmg"><thead><tr><th onclick="srt('tDmg',0)">玩家 ↕</th><th onclick="srt('tDmg',1)">职业/专精 ↕</th><th onclick="srt('tDmg',2)">定位 ↕</th><th>视觉化</th><th onclick="srt('tDmg',4)" class="num">总承受 ↕</th><th onclick="srt('tDmg',5)" class="num">死亡/秒 ↕</th><th onclick="srt('tDmg',6)" class="num">可避免 ↕</th><th onclick="srt('tDmg',7)" class="num">可避免% ↕</th><th onclick="srt('tDmg',8)" class="num">团队占比 ↕</th><th>查看</th></tr></thead><tbody id="bDmg"></tbody></table></div></div>
+  <div class="rtab-panel" id="rtab-damage"><div class="sn">逐玩家承伤总览。🟡 坦克 · 🟢 治疗 · 🔵 输出。可避免用于标记更可能由机制处理失误导致的压力窗口，便于区分“可改进失误”与“不可避免团伤”。点击玩家可看完整分解。</div><div class="table-tools"><div class="table-tools-note">想快速给出教练建议时，先按可避免或可避免%排序</div><div class="table-sort"><span>排序:</span><select id="damageSort"><option value="avoidable">可避免</option><option value="avoidablePct">可避免%</option><option value="taken">总承受</option><option value="dtps">死亡/秒</option><option value="player">玩家</option></select></div></div><div class="tw"><table id="tDmg"><thead><tr><th onclick="srt('tDmg',0)">玩家 ↕</th><th onclick="srt('tDmg',1)">职业/专精 ↕</th><th onclick="srt('tDmg',2)">定位 ↕</th><th>视觉化</th><th onclick="srt('tDmg',4)" class="num">总承受 ↕</th><th onclick="srt('tDmg',5)" class="num">死亡/秒 ↕</th><th onclick="srt('tDmg',6)" class="num">可避免 ↕</th><th onclick="srt('tDmg',7)" class="num">可避免% ↕</th><th onclick="srt('tDmg',8)" class="num">团队占比 ↕</th><th>查看</th></tr></thead><tbody id="bDmg"></tbody></table></div></div>
   <div class="rtab-panel" id="rtab-dps"><div class="sn">战斗 DPS 。点击玩家名查看详细分解</div><div class="tw"><table id="tDps"><thead><tr><th onclick="srt('tDps',0)">玩家 ↕</th><th onclick="srt('tDps',1)">职业/专精 ↕</th><th>视觉化</th><th onclick="srt('tDps',3)" class="num">总伤害 ↕</th><th onclick="srt('tDps',4)" class="num">DPS ↕</th></tr></thead><tbody id="bDps"></tbody></table></div></div>
   <div class="rtab-panel" id="rtab-dpsbreak">
     <div class="sn">DPS 玩家详细分解 — 总伤害/DPS/承伤/关键技能一览无饾</div>
@@ -1930,7 +1938,7 @@ function extractCombatantInfo(entry){
   return{
     ilvl:ilvl||0,enchants,gems,weaponBuffs,passiveBuffs,talentNames:talents,
     readyIssues:issues,readyStatus,
-    readyText:issues.length?issues.slice(0,2).join(" · "):"Ready to Raid!",
+    readyText:issues.length?issues.slice(0,2).join(" · "):"准备就绪",
     stats:ci?.stats||null,
     auraSnapshotAvailable:auraNames.length>0,
     foodBuff,flaskBuff,runeBuff,weaponBuff
@@ -2140,7 +2148,7 @@ function summarizePullTrends(pullHistory){
   });
   return{
     pulls:pullHistory.length,
-    次死亡:trend(last.deaths,first.deaths,true),
+    deaths:trend(last.deaths,first.deaths,true),
     raidDps:trend(last.raidDps||0,first.raidDps||0,false),
     漏掉:trend(last.漏掉OffTotal||0,first.漏掉OffTotal||0,true),
     pots:trend(last.noPotDps||0,first.noPotDps||0,true)
@@ -2616,14 +2624,14 @@ function showMainUI(){
   document.body.classList.toggle('focus-mode',!!_v5UI.focusMode);
   const fb=document.getElementById('focusBtn');
   if(fb){
-    fb.textContent=_v5UI.focusMode?'🎯 Focus: On':'🎯 聚焦模式';
+    fb.textContent=_v5UI.focusMode?'🎯 聚焦: 开':'🎯 聚焦模式';
     fb.classList.toggle('focus-on',!!_v5UI.focusMode);
   }
-  const labels={user:isPKCEAuthed()?"✓ Connected via WarcraftLogs":`✓ Personal logs (user #${localStorage.getItem(K_USERID)})`,manual:"✓ Manual mode — paste a URL to load reports"};
-  let label=labels[type]||"✓ Ready";
-  if(type==="guild"){try{const g=JSON.parse(localStorage.getItem(K_GUILD));label=`✓ Guild: ${g.name} — ${g.server} (${g.region})`;}catch{}}
+  const labels={user:isPKCEAuthed()?"✓ 已连接 WarcraftLogs":`✓ 我的日志（用户 #${localStorage.getItem(K_USERID)}）`,manual:"✓ 手动模式（粘贴 URL 加载）"};
+  let label=labels[type]||"✓ 已连接";
+  if(type==="guild"){try{const g=JSON.parse(localStorage.getItem(K_GUILD));label=`✓ 公会：${g.name} — ${g.server}（${g.region}）`;}catch{}}
   document.getElementById("readyLabel").textContent=label;
-  const hints={user:"Your logs — refreshed automatically.",guild:"Guild logs — pulled fresh each time.",manual:"Reports you've loaded this session."};
+  const hints={user:"你的日志会自动刷新。",guild:"每次都会拉取公会最新日志。",manual:"当前会话里你加载过的报告。"};
   document.getElementById("myLogsHint").textContent=hints[type]||"";
 }
 
@@ -2846,8 +2854,8 @@ async function searchGuild(){
   if(!token)token=await getValidToken();
   // 按需预热法术字典(异步, 不阻塞)
   kickSpellDictLoad();
-  reportCode=code;log(`📋 Loading fights for ${code}...`);
-  const data=await gql(token,`{reportData{report(code:"${code}"){title startTime endTime zone{id,name} fights{id startTime endTime name kill bossPercentage encounterID keystoneLevel keystoneAffixes keystoneTime} masterData(translate:true){abilities{gameID name}}}}}`);
+  reportCode=code;log(`📋 正在加载战斗：${code}...`);
+  const data=await gql(token,`{reportData{report(code:"${code}", translate:true){title startTime endTime zone{id,name} fights{id startTime endTime name kill bossPercentage encounterID keystoneLevel keystoneAffixes keystoneTime} masterData(translate:true){abilities{gameID name}}}}}`);
   const rpt=data?.reportData?.report;
   if(!rpt)throw new Error("can't find that report — is it set to public on WCL?");
   abilities=rpt.masterData.abilities;
@@ -2857,7 +2865,7 @@ async function searchGuild(){
   const pc2={};
   allFights=rawFights.map(f=>{pc2[f.name]=(pc2[f.name]||0)+1;return{...f,pull:pc2[f.name]};});
   if(!allFights.length)throw new Error("no boss fights in here — is this the right log?");
-  log(`✅ ${allFights.length} fights loaded`);
+  log(`✅ 已加载 ${allFights.length} 场战斗`);
   saveRpt(buildRptObj({...rpt,code}));
   const dungeonFights=allFights.filter(f=>f.keystoneLevel>0);
   const isMythicPlus=dungeonFights.length>0;
@@ -2881,7 +2889,7 @@ async function searchGuild(){
       const hdr=document.createElement("div");
       hdr.style="background:#0d1f33;border:1px solid #1f6feb;border-radius:8px;padding:10px 14px;margin-bottom:6px;cursor:pointer";
       hdr.dataset.fightId=dFight.id;
-      hdr.innerHTML=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:14px;font-weight:700;color:#ffd700">+${dFight.keystoneLevel}</span><span style="font-size:13px;font-weight:600;color:#c9d1d9">${dFight.name}</span><span style="color:#8b949e;font-size:12px">${runDur}</span>${timerHtml}<span style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap">${affixes}</span></div><div style="font-size:10px;color:#6e7681;margin-top:4px">Click to analyze full run · ${bossFights.length} boss${bossFights.length!==1?"es":""} below</div>`;
+      hdr.innerHTML=`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:14px;font-weight:700;color:#ffd700">+${dFight.keystoneLevel}</span><span style="font-size:13px;font-weight:600;color:#c9d1d9">${znInst(rpt.zone?.id,dFight.name)}</span><span style="color:#8b949e;font-size:12px">${runDur}</span>${timerHtml}<span style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap">${affixes}</span></div><div style="font-size:10px;color:#6e7681;margin-top:4px">点击分析整趟大秘境 · 下方 ${bossFights.length} 个 Boss</div>`;
       hdr.onclick=()=>selectFightById(dFight.id,false);
       hdr.classList.add("mplus-dung-hdr");
       list.appendChild(hdr);
@@ -3151,6 +3159,39 @@ function openPlayerModalByName(name){
   if(p)openPlayerModal(p,window._raidLensFightSec||0);
 }
 
+function localizeModalCopy(html){
+  const pairs=[
+    ["Role","定位"],
+    ["None detected","未检测到"],
+    ["Used","已使用"],
+    ["No snapshot","无快照"],
+    ["Snapshot 装等","快照装等"],
+    ["Total Damage","总伤害"],
+    ["Total Healing","总治疗"],
+    ["Overheal","过量治疗"],
+    ["Damage Taken","总承伤"],
+    ["Interrupts","打断"],
+    ["Dispels","驱散"],
+    ["Def CDs Used","减伤次数"],
+    ["Off CDs Used","爆发次数"],
+    ["可避免 Pressure","可避免压力"],
+    ["Pets Counted","宠物统计"],
+    ["Quick Coaching","简要建议"],
+    ["Build + Ready","构建与就位"],
+    ["消耗品 Snapshot","消耗品快照"],
+    ["Fight Graph","战斗曲线"],
+    ["Damage Done Breakdown","伤害分解"],
+    ["Healing Breakdown","治疗分解"],
+    ["Damage Taken Breakdown","承伤分解"],
+    ["Crowd Control","控制"],
+    ["Mechanic Debuffs","机制减益"],
+    ["Ready to Raid!","准备就绪"],
+    ["No recent defensive","最近无减伤"],
+    ["No potion detected during the tracked window","在统计时间窗内未检测到药水"]
+  ];
+  return pairs.reduce((acc,[en,zh])=>acc.split(en).join(zh),html);
+}
+
 function renderSpellBreakdown(map,total,variant,context){
   const rows=Object.entries(map||{}).map(([name,v])=>({name,id:v.id||findAbilityIdByName(name),amount:v.amount||0,hits:v.hits||0})).sort((a,b)=>b.amount-a.amount).slice(0,12);
   if(!rows.length)return`<div class="detail-empty">No spell breakdown available.</div>`;
@@ -3259,6 +3300,7 @@ function openPlayerModal(p,fSec){
   if(disps.length){html+=`<div class="modal-section"><h4>Dispels</h4><div class="spell-grid">${tagList(disps,"good","dispel")}</div></div>`;}
   if(cc.length){html+=`<div class="modal-section"><h4>Crowd Control</h4><div class="spell-grid">${tagList(cc,"cool","crowd control")}</div></div>`;}
   if(Object.keys(p.debuffs||{}).length){html+=`<div class="modal-section"><h4>Mechanic Debuffs</h4><div class="spell-grid">${Object.entries(p.debuffs).sort((a,b)=>(b[1].totalMs||0)-(a[1].totalMs||0)).map(([n,v])=>spellChip(`${n} ${v.totalMs?`(${Math.round(v.totalMs/1000)}s)`:`×${v.applications||1}`}`,null,v.id,"danger","mechanic debuff")).join("")}</div></div>`;}
+  html=localizeModalCopy(html);
   document.getElementById("modalContent").innerHTML=html;
   document.getElementById("playerModal").style.display="flex";
   refreshWowheadTooltips();
@@ -3355,8 +3397,9 @@ async function analyze(){
   const btn=document.getElementById("analyzeBtn");btn.disabled=true;btn.innerHTML='<span class="spin"></span>正在分析...';
   try{
     const fight=allFights.find(f=>f.id===fightId),fSec=(fight.endTime-fight.startTime)/1000,fightMs=fight.endTime-fight.startTime;
+    const fightDisplayName=znEnc(fight.encounterID,fight.name);
     const bucketMs=5000,bucketCount=Math.max(1,Math.ceil(fightMs/bucketMs));
-    log(`⚔️  Analyzing: ${fight.name} (${fdur(fight.endTime-fight.startTime)})`);
+    log(`⚔️  正在分析：${fightDisplayName}（${fdur(fight.endTime-fight.startTime)}）`);
     const aName={},aNameEN={},potIDs=new Set();
     abilities.forEach(a=>{aNameEN[a.gameID]=a.name;aName[a.gameID]=zn(a.gameID,a.name);const n=(a.name||"").toLowerCase();if(n.includes("potion"))potIDs.add(a.gameID);});
     log("👥 Fetching roster...");
@@ -3486,14 +3529,14 @@ async function analyze(){
     window._raidLensFightMs=fightMs;
     window._raidLensBossRows=bossTimelineRows;
     log("🎉 Done!");
-    document.getElementById("resultTitle").textContent=fight.name;
+    document.getElementById("resultTitle").textContent=fightDisplayName;
     var rlcnt=parseInt(localStorage.getItem('rl_count')||'0')+1;
     localStorage.setItem('rl_count',String(rlcnt));
     updateHeroCounter();
     const rh=document.getElementById("resultHeader");
     if(rh){rh.style.animation="none";rh.offsetHeight;rh.style.animation=fight.kill?"killPulse 1s ease 2":"wipePulse 1s ease 2";rh.style.borderColor=fight.kill?"#3fb950":"#f85149";}
     const kb=document.getElementById("result击杀");kb.textContent=fight.kill?"击杀":"灭团";kb.className=`kb ${fight.kill?"kill":"wipe"}`;
-    document.getElementById("resultMeta").textContent=`Duration: ${fdur(fight.endTime-fight.startTime)} · ${Object.keys(P).length} players`;
+    document.getElementById("resultMeta").textContent=`时长：${fdur(fight.endTime-fight.startTime)} · ${Object.keys(P).length} 人`;
     const clr=p=>CC[p.cls]||"#c9d1d9",cs=p=>`style="font-weight:600;color:${clr(p)}"`,cs2=p=>`style="color:${clr(p)};font-size:12px"`,spec=p=>`${znCls(p.cls)||"?"}${p.spec?" · "+znSpec(p.spec):""}`,cb=v=>`<span class="badge ${v?"yes":"no"}">${v?"✓":"✗"}</span>`;
     const bindRowAction=(tr,handler,title)=>{
       tr.classList.add("clickable-row");
@@ -3537,7 +3580,7 @@ async function analyze(){
         const missingRune=snapshotPlayers.filter(p=>!p.runeBuff).map(p=>p.name).slice(0,3);
         const missingWeapon=snapshotPlayers.filter(p=>!p.weaponBuff).map(p=>p.name).slice(0,3);
         buildReadySummaryGrid.innerHTML=[
-          `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">Ready ${readyGood}/${sorted.length} · 查看 ${readyWarn}/${sorted.length} · Fix ${readyBad}/${sorted.length}</div><div class="summary-note-sub">${prep查看.length?`Prep watch: ${prep查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"Nobody is flagged for reliable prep gaps on this pull."}</div></div>`,
+          `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">就绪 ${readyGood}/${sorted.length} · 查看 ${readyWarn}/${sorted.length} · 修复 ${readyBad}/${sorted.length}</div><div class="summary-note-sub">${prep查看.length?`重点关注：${prep查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"本场未发现明确的就位缺口。"} </div></div>`,
           `<div class="summary-note-card"><div class="summary-note-title">Consumable Snapshot</div><div class="summary-note-body">${snapshotPlayers.length?`Food ${snapshotPlayers.filter(p=>p.foodBuff).length}/${snapshotPlayers.length} · Phial ${snapshotPlayers.filter(p=>p.flaskBuff).length}/${snapshotPlayers.length} · Rune ${snapshotPlayers.filter(p=>p.runeBuff).length}/${snapshotPlayers.length} · Weapon ${snapshotPlayers.filter(p=>p.weaponBuff).length}/${snapshotPlayers.length}`:"This log did not expose usable prep-aura snapshots."}<br>药水 ${sorted.filter(p=>p.pots>0).length}/${sorted.length} · 治疗石s ${sorted.filter(p=>p.hs).length}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFood.length?`Missing food: ${missingFood.join(", ")}`:"Food snapshot looked good."}${missingPhial.length?` · Missing phial: ${missingPhial.join(", ")}`:""}${missingRune.length?` · Missing rune: ${missingRune.join(", ")}`:""}${missingWeapon.length?` · Missing weapon buff: ${missingWeapon.join(", ")}`:""}`:"Snapshot buff checks stay informational if Warcraft Logs didn’t expose them."}</div></div>`,
           `<div class="summary-note-card"><div class="summary-note-title">Gear Snapshot</div><div class="summary-note-body">${avgIlvl?`Avg 装等 ${fmtIlvl(avgIlvl)} · Highest ${fmtIlvl(Math.max(...sorted.map(p=>Number(p.ilvl)||0)))} · Lowest ${fmtIlvl(Math.min(...sorted.filter(p=>p.ilvl).map(p=>Number(p.ilvl)||0)))}`:"Item level snapshot unavailable."}</div><div class="summary-note-sub">${sorted.filter(p=>p.gemCount>0).length} players had socketed gems in the snapshot · ${sorted.filter(p=>p.enchantCount>0).length} had at least one enchant reported.</div></div>`,
           `<div class="summary-note-card"><div class="summary-note-title">构建链接</div><div class="summary-note-body">${sorted.filter(p=>p.buildCode).length?`${sorted.filter(p=>p.buildCode).length}/${sorted.length} players have a build string ready to copy.`:"Warcraft Logs did not expose any build strings for this pull."}</div><div class="summary-note-sub">Use Copy Build for fast sharing and Calc ↗ when you want the full talent tree outside RaidLens.</div></div>`
@@ -3549,13 +3592,13 @@ async function analyze(){
         const readyClass=p.readyStatus||"warn";
         const readySortVal=readyClass==="bad"?3:readyClass==="warn"?2:1;
         const prepIssues=buildPrepIssues(p);
-        const readyHtml=`<span class="ready-pill ${readyClass}" title="${escAttr(p.readyText||"No readiness snapshot")}">${readyClass==="good"?"Ready to Raid":readyClass==="warn"?"查看":"Fix"}</span>`;
+        const readyHtml=`<span class="ready-pill ${readyClass}" title="${escAttr(p.readyText||"无就位快照")}">${readyClass==="good"?"准备就绪":readyClass==="warn"?"查看":"修复"}</span>`;
         const calcUrl=wowheadTalentCalcUrl(p);
         const links=[
           p.buildCode?`<button class="mini-link" onclick="event.stopPropagation();copyTiny(this,'${escJs(p.buildCode)}','✓ Copied')">Copy Build</button>`:"",
           `<a href="${escAttr(calcUrl)}" target="_blank" class="mini-link" onclick="event.stopPropagation()">Calc ↗</a>`
         ].filter(Boolean).join("");
-        tr.innerHTML=`<td ${cs(p)}>${p.name}</td><td ${cs2(p)}>${spec(p)}</td><td class="num build-ilvl-cell" data-val="${p.ilvl||0}" style="color:${p.ilvl? "#c9d1d9":"#6e7681"}">${fmtIlvl(p.ilvl)}</td><td class="num" data-val="${p.enchantCount||0}" style="color:${(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"};font-weight:600">${countLabel(p.enchantCount,"enchant","enchants")}</td><td class="num" data-val="${p.gemCount||0}" style="color:${(p.gemCount||0)===0?"#f85149":"#3fb950"};font-weight:600">${countLabel(p.gemCount,"gem","gems")}</td><td data-val="${snapshotBuffEntries(p).length}" style="font-size:12px">${snapshotBuffsHtml(p,true)}</td><td data-val="${prepIssues.length}" style="font-size:12px;color:${prepIssues.length?"#ffdd75":"#3fb950"}">${prepIssues.length?escAttr(prepIssues.slice(0,2).join(" · ")):"Ready to Raid!"}</td><td data-val="${readySortVal}" style="text-align:center">${readyHtml}</td><td style="text-align:center">${links||'<span class="none-t">—</span>'}</td>`;
+        tr.innerHTML=`<td ${cs(p)}>${p.name}</td><td ${cs2(p)}>${spec(p)}</td><td class="num build-ilvl-cell" data-val="${p.ilvl||0}" style="color:${p.ilvl? "#c9d1d9":"#6e7681"}">${fmtIlvl(p.ilvl)}</td><td class="num" data-val="${p.enchantCount||0}" style="color:${(p.enchantCount||0)===0?"#f85149":(p.enchantCount||0)<2?"#ffdd75":"#3fb950"};font-weight:600">${countLabel(p.enchantCount,"enchant","enchants")}</td><td class="num" data-val="${p.gemCount||0}" style="color:${(p.gemCount||0)===0?"#f85149":"#3fb950"};font-weight:600">${countLabel(p.gemCount,"gem","gems")}</td><td data-val="${snapshotBuffEntries(p).length}" style="font-size:12px">${snapshotBuffsHtml(p,true)}</td><td data-val="${prepIssues.length}" style="font-size:12px;color:${prepIssues.length?"#ffdd75":"#3fb950"}">${prepIssues.length?escAttr(prepIssues.slice(0,2).join(" · ")):"准备就绪"}</td><td data-val="${readySortVal}" style="text-align:center">${readyHtml}</td><td style="text-align:center">${links||'<span class="none-t">—</span>'}</td>`;
         bindRowAction(tr,()=>openPlayerModal(p,fSec),"Open player details");
         bBuilds.appendChild(tr);
       });
@@ -3901,8 +3944,8 @@ drows.forEach(d=>{
     const cards=[
       {val:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"✓ Timed":"✗ Depleted"):(fight.kill?"✓ 击杀":"✗ 灭团"),lbl:isMPlus?"Timer Result":"结果",cls:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"good":"bad"):(fight.kill?"good":"bad")},
       {val:total死亡,lbl:"Total 死亡",cls:total死亡===0?"good":total死亡<=3?"warn":"bad"},
-      {val:totalInts,lbl:"Interrupts",cls:totalInts>=5?"good":totalInts>=2?"warn":"bad"},
-      {val:totalDisps,lbl:"Dispels",cls:""},
+      {val:totalInts,lbl:"打断",cls:totalInts>=5?"good":totalInts>=2?"warn":"bad"},
+      {val:totalDisps,lbl:"驱散",cls:""},
       {val:totalCC,lbl:"控制使用",cls:""},
       {val:`${potUsers}/${sorted.length}`,lbl:"药水 Users",cls:potUsers===sorted.length?"good":potUsers>=sorted.length*.7?"warn":"bad"},
       {val:`${hsUsers}/${sorted.length}`,lbl:"治疗石 Users",cls:""},
@@ -3952,7 +3995,7 @@ drows.forEach(d=>{
       overview:[
         `<div class="summary-note-card"><div class="summary-note-title">干部笔记</div><div class="summary-note-body">${officerNotes.length?officerNotes.map((n,i)=>`${i+1}. ${n}`).join(" · "):"No obvious raid-lead action items on this pull."}</div><div class="summary-note-sub">This is the short list to talk through before diving into raw tables.</div></div>`,
         `<div class="summary-note-card"><div class="summary-note-title">Death Context+</div><div class="summary-note-body">${firstDeathNote?`${firstDeathNote.name} @ ${firstDeathNote.timeStr} — ${firstDeathNote.killer}`:"No player 次死亡 on this pull."}</div><div class="summary-note-sub">${firstDeathNote?.ctx||"Clean pull. Nobody died, so there is no first-death context to review."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">Ready ${readyGoodCount}/${sorted.length} · 查看 ${readyWarnCount}/${sorted.length} · Fix ${readyBadCount}/${sorted.length}</div><div class="summary-note-sub">${readiness查看.length?`Prep watch: ${readiness查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"Everybody with combatant data looked ready enough for this pull."}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">就绪 ${readyGoodCount}/${sorted.length} · 查看 ${readyWarnCount}/${sorted.length} · 修复 ${readyBadCount}/${sorted.length}</div><div class="summary-note-sub">${readiness查看.length?`重点关注：${readiness查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"本场 combatant 数据中，大部分成员就位情况良好。"} </div></div>`,
         `<div class="summary-note-card"><div class="summary-note-title">Consumable Snapshot</div><div class="summary-note-body">${snapshotPlayers.length?`Food ${snapshotFood}/${snapshotPlayers.length} · Phial ${snapshotFlask}/${snapshotPlayers.length} · Rune ${snapshotRune}/${snapshotPlayers.length} · Weapon ${snapshotWeapon}/${snapshotPlayers.length}`:"This log did not expose usable prep-aura snapshots."}<br>药水 ${potUsers}/${sorted.length} · 治疗石s ${hsUsers}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFoodNames.length?`Missing food: ${missingFoodNames.join(", ")}`:"Food snapshot looked good."}${missingPhialNames.length?` · Missing phial: ${missingPhialNames.join(", ")}`:""}${missingRuneNames.length?` · Missing rune: ${missingRuneNames.join(", ")}`:""}${missingWeaponNames.length?` · Missing weapon buff: ${missingWeaponNames.join(", ")}`:""}`:"If Warcraft Logs does not expose those auras for the pull, RaidLens keeps this informational instead of guessing."}</div></div>`
       ],
       execution:[
@@ -3972,7 +4015,7 @@ drows.forEach(d=>{
       ]
     };
     window._raidLensSummaryDecks=summaryDecks;
-    const summaryInsightsHTML=`<div class="table-tools summary-deck-tools"><div class="table-tools-note">Quick summary deck. Show one focused row at a time instead of reading every card at once.</div><div class="table-sort"><span>显示:</span><select id="summaryDeckSel" onchange="changeSummaryDeck(this.value)"><option value="overview">Overview</option><option value="execution">Execution</option><option value="performance">Performance</option><option value="trends">Trends</option></select></div></div><div id="summaryDeckHost"></div>`;
+    const summaryInsightsHTML=`<div class="table-tools summary-deck-tools"><div class="table-tools-note">速览卡片：一次聚焦一行，比逐卡片阅读更快。</div><div class="table-sort"><span>显示:</span><select id="summaryDeckSel" onchange="changeSummaryDeck(this.value)"><option value="overview">总览</option><option value="execution">执行</option><option value="performance">表现</option><option value="trends">趋势</option></select></div></div><div id="summaryDeckHost"></div>`;
     // big duration at top of summary -- raid leaders think in terms of fight length
     // green = kill, red = wipe. obvious but useful at a glance
     const fightDurStr=fdur(runMs);
@@ -4011,7 +4054,7 @@ drows.forEach(d=>{
           <div class="mplus-boss-head">
             ${bossIcon}
             <div style="flex:1;min-width:0">
-              <div class="mplus-boss-title">${f.name}</div>
+              <div class="mplus-boss-title">${znEnc(f.encounterID,f.name)}</div>
               <div class="mplus-boss-meta">Attempt ${attemptNo}${!f.kill&&f.bossPercentage!=null?` · 灭团 at ${f.bossPercentage.toFixed(1)}%`:""}</div>
             </div>
             <span class="mplus-boss-status ${statusClass}">${f.kill?"击杀":"灭团"}</span>
@@ -4022,13 +4065,13 @@ drows.forEach(d=>{
             <div class="mplus-mini-box"><div class="mplus-mini-k">HP Left</div><div class="mplus-mini-v">${hpLabel}</div></div>
           </div>
           <div class="mplus-actions">
-            <button class="mplus-action gold" onclick="event.stopPropagation();selectFightById(${f.id},true)">Analyze Boss</button>
-            <a class="mplus-action" href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()">Open WCL ↗</a>
+            <button class="mplus-action gold" onclick="event.stopPropagation();selectFightById(${f.id},true)">分析此 Boss</button>
+            <a class="mplus-action" href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()">打开 WCL ↗</a>
           </div>
         </div>`;
       }).join("");
       const bossBreakdown=bossRows.length?`<div class="mplus-boss-summary">
-        <div class="mplus-boss-summary-copy">You’re looking at the full key overall here. Use the boss cards below when you want to snap from run-level context into a single boss attempt without leaving the app’s easier-to-read summary flow.</div>
+        <div class="mplus-boss-summary-copy">这里是整趟大秘境总览。需要深入时，可直接点下方 Boss 卡片进入单场尝试分析。</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="affix-chip active">${bossRows.length} boss attempt${bossRows.length!==1?"s":""}</span>
           <span class="affix-chip ${boss击杀s===bossRows.length&&bossRows.length?"active":""}">${boss击杀s}/${bossRows.length||0} kills</span>
@@ -4037,7 +4080,7 @@ drows.forEach(d=>{
       mplusBanner=`<div style="background:#0d1f33;border:1px solid #1f6feb;border-radius:8px;padding:14px 18px;margin-bottom:14px">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <span style="font-size:22px;font-weight:700;color:#ffd700">+${fight.keystoneLevel}</span>
-          <span style="font-size:15px;font-weight:600;color:#c9d1d9">${fight.name}</span>
+          <span style="font-size:15px;font-weight:600;color:#c9d1d9">${fightDisplayName}</span>
           <span style="color:#8b949e;font-size:12px">${fightDurStr}</span>
           <span style="margin-left:auto;display:flex;gap:4px;flex-wrap:wrap"></span>
         </div>
@@ -4048,7 +4091,7 @@ drows.forEach(d=>{
     const summaryHeader=`${mplusBanner}<div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;padding:14px 18px;background:#161b22;border:1px solid #30363d;border-radius:8px;flex-wrap:wrap">
       <div style="font-size:28px;font-weight:700;color:${enrageColor}">${fightDurStr}</div>
       <div style="display:flex;flex-direction:column;gap:2px">
-        <div style="font-size:15px;font-weight:600;color:#c9d1d9">${fight.name}</div>
+        <div style="font-size:15px;font-weight:600;color:#c9d1d9">${fightDisplayName}</div>
         <div style="font-size:12px;color:#8b949e">${isMPlus?`+${fight.keystoneLevel} Mythic+`:(fight.kill?"击杀":"灭团")} &nbsp;·&nbsp; ${Object.keys(P).length} players${isMPlus?"":` &nbsp;·&nbsp; Pull ${fight.pull}`}</div>
       </div>
     </div>`;
@@ -4057,19 +4100,19 @@ drows.forEach(d=>{
     const scoreHTML=`${_v5Band}${summaryHeader}${phaseSummaryHTML}<div class="scorecard">${cards.map(c=>`<div class="score-card ${c.cls}"><div class="sc-val" style="color:${c.cls==="good"?"#3fb950":c.cls==="bad"?"#f85149":c.cls==="warn"?"#e3a008":"#ffd700"}">${c.val}</div><div class="sc-lbl">${c.lbl}</div></div>`).join("")}</div>${summaryInsightsHTML}`;
 
     // Per-player summary table
-    const perPlayerHtml=`<div style="font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px">Per Player</div>
-    <div class="table-tools"><div class="table-tools-note">Quick sort for the scorecard.</div><div class="table-sort"><span>排序:</span><select id="summarySort"><option value="deaths">死亡</option><option value="grade">Grade</option><option value="dps">DPS</option><option value="hps">HPS</option><option value="def">Def CDs</option><option value="ints">Interrupts</option><option value="player">Player</option></select></div></div>
+    const perPlayerHtml=`<div style="font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px">逐人概览</div>
+    <div class="table-tools"><div class="table-tools-note">评分表快速排序。</div><div class="table-sort"><span>排序:</span><select id="summarySort"><option value="deaths">死亡</option><option value="grade">评级</option><option value="dps">DPS</option><option value="hps">HPS</option><option value="def">减伤</option><option value="ints">打断</option><option value="player">玩家</option></select></div></div>
     <div class="tw"><table id="tSum"><thead><tr>
       <th onclick="srt('tSum',0)">玩家 ↕</th><th onclick="srt('tSum',1)">定位 ↕</th>
       <th style="width:110px"></th>
       <th onclick="srt('tSum',2)" class="num">死亡 ↕</th>
-      <th onclick="srt('tSum',3)" class="num">Ints ↕</th>
-      <th onclick="srt('tSum',4)" class="num">Disps ↕</th>
-      <th onclick="srt('tSum',5)" class="num">Def CDs ↕</th>
+      <th onclick="srt('tSum',3)" class="num">打断 ↕</th>
+      <th onclick="srt('tSum',4)" class="num">驱散 ↕</th>
+      <th onclick="srt('tSum',5)" class="num">减伤 ↕</th>
       <th onclick="srt('tSum',6)" class="num">DPS ↕</th>
       <th onclick="srt('tSum',7)" class="num">HPS ↕</th>
-      <th onclick="srt('tSum',8)" class="num" title="Counts an in-fight potion, and also credits a prepot when Warcraft Logs exposes it">Pot ⓘ ↕</th>
-      <th onclick="srt('tSum',9)">Grade ↕</th>
+      <th onclick="srt('tSum',8)" class="num" title="统计战斗内药水；如果 Warcraft Logs 提供开怪前药水记录，也会计入">药水 ⓘ ↕</th>
+      <th onclick="srt('tSum',9)">评级 ↕</th>
     </tr></thead><tbody id="tSumBody"></tbody></table></div>`;
     summaryDiv.innerHTML=scoreHTML+perPlayerHtml;
     renderSummaryDeck();
@@ -4277,7 +4320,7 @@ drows.forEach(d=>{
     pullHist=pullHist.filter(ph=>ph.pull!==thisPull.pull);
     pullHist.push(thisPull);pullHist.sort((a,b)=>a.pull-b.pull);
     sessionStorage.setItem(pullKey,JSON.stringify(pullHist.slice(-10)));
-    renderPullCompare(pullHist,fight.name);
+    renderPullCompare(pullHist,fightDisplayName);
 
     // now that pullHist is populated, backfill it and prepend the band to summaryDiv
     // this is why the context was built with pullHistory:null above -- order of operations nightmare
@@ -4300,7 +4343,7 @@ drows.forEach(d=>{
     const topHps=Object.values(P).filter(p=>p.healed>0).sort((a,b)=>b.healed-a.healed).slice(0,3)
       .map(p=>p.name+" "+fmtNum(Math.round(p.healed/fSec))).join(" · ");
     const wipeSummaryLines=[
-      "📋 RaidLens Pull Summary — "+fight.name,
+      "📋 战斗总结 — "+fightDisplayName,
       (fight.kill?"✅ 击杀":"❌ 灭团")+" | Duration: "+fdur(fight.endTime-fight.startTime)+" | "+Object.keys(P).length+" players",
       "",
       "💀 死亡 ("+deathList2.length+"):",
@@ -4446,7 +4489,7 @@ function toggleFocus(){
   _v5UI.focusMode=!_v5UI.focusMode;saveV5UI();
   document.body.classList.toggle('focus-mode',!!_v5UI.focusMode);
   const fb=document.getElementById('focusBtn');
-  if(fb){fb.textContent=_v5UI.focusMode?'🎯 Focus: On':'🎯 聚焦模式';fb.classList.toggle('focus-on',!!_v5UI.focusMode);}
+  if(fb){fb.textContent=_v5UI.focusMode?'🎯 聚焦: 开':'🎯 聚焦模式';fb.classList.toggle('focus-on',!!_v5UI.focusMode);}
 }
 
 function setCopyMode(m){
@@ -4691,13 +4734,14 @@ function v5RoleFilter(role){
 
 function build灭团SummaryText(ctx,mode){
   const{fight,sorted,fSec,drows,bloodlusts,noPotDps,漏掉Off全部,topDps,topHps,漏掉OffTotal}=ctx;
+  const fightDisplayName=znEnc(fight.encounterID,fight.name);
   const dur=fdur(fight.endTime-fight.startTime);
   const outcome=fight.kill?'✅ 击杀':'❌ 灭团';
   const deathList=drows.filter(d=>d.dcount>0).sort((a,b)=>a.time-b.time);
   const cause=pick灭团Cause(drows);
   const blLine=bloodlusts.length?'⚡ 嗜血: '+bloodlusts.map(bl=>bl.spell+' @ '+ftime(bl.t)).join(', '):'⚠️ No 嗜血 used';
   if(mode==='short'){
-    const lines=['📋 '+fight.name+' · '+outcome+' · '+dur+' · '+deathList.length+' 次死亡'];
+    const lines=['📋 '+fightDisplayName+' · '+outcome+' · '+dur+' · '+deathList.length+' 次死亡'];
     if(cause&&cause.top击杀er&&cause.top击杀er.count>=2)lines.push('💀 主要杀手： '+cause.top击杀er.name+' ×'+cause.top击杀er.count);
     if(漏掉OffTotal>0)lines.push('⚔️ 漏技能: '+漏掉OffTotal);
     if(noPotDps.length)lines.push('🧪 No pot: '+noPotDps.join(', '));
@@ -4712,7 +4756,7 @@ function build灭团SummaryText(ctx,mode){
       if(exp){const mc=exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]);if(mc.length)iss.push('漏掉: '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', '));}
       return iss.length?'  '+p.name+': '+iss.join(', '):null;
     }).filter(Boolean);
-    return['=== '+fight.name+' · '+outcome+' · '+dur+' ===',
+    return['=== '+fightDisplayName+' · '+outcome+' · '+dur+' ===',
       cause&&cause.firstDeath?'First death: '+cause.firstDeath.name+' @ '+cause.firstDeath.timeStr+' — '+cause.firstDeath.killer:'No 次死亡',
       'Issues ('+plines.length+' players):',...plines,
       'Missed off CDs: '+漏掉OffTotal+' · No pots: '+noPotDps.length,
@@ -4727,9 +4771,9 @@ function build灭团SummaryText(ctx,mode){
       if(exp){const mc=exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]);if(mc.length)iss.push('漏掉: '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', '));}
       return iss.length?'@'+p.name+': '+iss.join(', '):null;
     }).filter(Boolean);
-    return[outcome+' — '+fight.name+' · '+dur,...pings].join('\n');
+    return[outcome+' — '+fightDisplayName+' · '+dur,...pings].join('\n');
   }
-  return['📋 RaidLens Pull Summary — '+fight.name,outcome+' | Duration: '+dur+' | '+sorted.length+' players','',
+  return['📋 战斗总结 — '+fightDisplayName,outcome+' | 时长: '+dur+' | '+sorted.length+' players','',
     '💀 死亡 ('+deathList.length+'):',...(deathList.length?deathList.map(d=>'   '+d.name+' ['+d.cls+'] @ '+d.timeStr+' — '+d.killer):['   None — clean pull!']),
     '',blLine,'',
     '⚔️ Missed 爆发 CDs: '+(漏掉Off全部.length?漏掉Off全部.map(p=>{const exp=SPEC_OFFS[(p.cls||'')+'|'+(p.spec||'')]||null;const mc=exp?exp.filter(cd=>Array.isArray(cd)?!cd.some(o=>p.offs[o]):!p.offs[cd]):[];return p.name+': '+mc.map(cd=>Array.isArray(cd)?cd[0]:cd).join(', ');}).join(' | '):'None ✓'),'',
@@ -4788,7 +4832,7 @@ function toggle查看(){
 }
 function update查看Btn(){
   const wb=document.getElementById('watchBtn');
-  if(wb){wb.textContent=_watchInterval?'⏱️ 自动扫描: On':'⏱️ 自动扫描: Off';wb.classList.toggle('watch-on',!!_watchInterval);}
+  if(wb){wb.textContent=_watchInterval?'⏱️ 自动扫描: 开':'⏱️ 自动扫描: 关';wb.classList.toggle('watch-on',!!_watchInterval);}
 }
 
 
@@ -4797,9 +4841,47 @@ const SPELL_ZH = {"99":"削弱咆哮","118":"变形术","339":"纠缠根须","40
 function zn(id, fallback) { return SPELL_ZH[id] || (fallback ?? ""); }
 function znName(en) { /* EN→ZH fallback for SPEC_OFFS matches */ const m={"Recklessness":"鲁莽","Avenging Wrath":"复仇之怒","Arcane Power":"奥术强化","Tranquility":"宁静","Bloodlust":"嗜血","Heroism":"英勇","Time Warp":"时间扭曲","Power Infusion":"力量灌注","Dark Ascension":"黑暗飞升","Celestial Alignment":"星辰连结","Guardian of Azeroth":"艾泽拉斯的守护者","Synod Synapse":"突触神经","Barkskin":"树皮术","Survival Instincts":"生存本能","Frenzied Regeneration":"狂暴恢复","Shield Wall":"盾墙","Last Stand":"破釜沉舟","Icebound Fortitude":"冰封之韧","Divine Shield":"圣盾术","Metamorphosis":"恶魔变形"}; return m[en] || (en || ""); }
 var ZN_ENC={}, ZN_ENC_NAME={}, ZN_INST={}, ZN_INST_NAME={};
-function _fill(map,nameMap,obj){ if(!obj) return; for(var k in obj){ var v=obj[k]; if(k) map[k]=v; if(v) nameMap[v]=v; } }
-function znEnc(id,en){ return (id&&ZN_ENC[id])||(en&&ZN_ENC_NAME[en])||(en||""); }
-function znInst(id,en){ return (id&&ZN_INST[id])||(en&&ZN_INST_NAME[en])||(en||""); }
+const WCL_ZONE_ZH_OVERRIDES={
+  "liberation of undermine":"解放安德麦",
+  "manaforge omega":"法力熔炉：欧米伽",
+  "sanctum of domination":"统御圣所",
+  "sepulcher of the first ones":"初诞者圣墓",
+  "vault of the incarnates":"化身巨龙牢窟",
+  "aberrus, the shadowed crucible":"亚贝鲁斯，焰影熔炉",
+  "amirdrassil, the dream's hope":"阿梅达希尔，梦境之愿",
+  "nerub-ar palace":"尼鲁巴尔王宫"
+};
+const WCL_ENCOUNTER_ZH_OVERRIDES={
+  "rik reverb":"里克·混响",
+  "cauldron of carnage":"血腥大熔炉",
+  "vexie and the geargrinders":"维克茜与磨轮帮",
+  "vexie & the geargrinders":"维克茜与磨轮帮"
+};
+function _normName(v){
+  return String(v||"")
+    .trim()
+    .toLowerCase()
+    .replace(/[’´]/g,"'")
+    .replace(/\s+/g," ");
+}
+function _fill(map,nameMap,obj){
+  if(!obj) return;
+  for(var k in obj){
+    var v=obj[k];
+    if(k) map[k]=v;
+    if(v) nameMap[_normName(v)]=v;
+  }
+}
+function _fromOverride(dict,en){
+  var k=_normName(en);
+  return k?dict[k]:"";
+}
+function znEnc(id,en){
+  return (id&&ZN_ENC[id])||_fromOverride(WCL_ENCOUNTER_ZH_OVERRIDES,en)||(en&&ZN_ENC_NAME[_normName(en)])||(en||"");
+}
+function znInst(id,en){
+  return (id&&ZN_INST[id])||_fromOverride(WCL_ZONE_ZH_OVERRIDES,en)||(en&&ZN_INST_NAME[_normName(en)])||(en||"");
+}
 // ===== 职业/专精 → 国服中文名 (显示层, 不改 SPEC_OFFS 逻辑键) =====
 const CLS_ZH={"Warrior":"战士","Paladin":"圣骑士","Hunter":"猎人","Rogue":"盗贼","Priest":"牧师","DeathKnight":"死亡骑士","Death Knight":"死亡骑士","Shaman":"萨满祭司","Mage":"法师","Warlock":"术士","Monk":"武僧","Druid":"德鲁伊","DemonHunter":"恶魔猎手","Demon Hunter":"恶魔猎手","Evoker":"唤魔师"};
 const SPEC_ZH={"Arms":"武器","Fury":"狂怒","Protection":"防护","Retribution":"惩戒","Holy":"神圣","Discipline":"戒律","Beast Mastery":"野兽控制","Marksmanship":"射击","Survival":"生存","Outlaw":"狂徒","Assassination":"刺杀","Subtlety":"敏锐","Shadow":"暗影","Unholy":"邪恶","Frost":"冰霜","Blood":"鲜血","Enhancement":"增强","Elemental":"元素","Restoration":"恢复","Fire":"火焰","Arcane":"奥术","Affliction":"痛苦","Demonology":"恶魔学识","Destruction":"毁灭","Windwalker":"踏风","Mistweaver":"织雾","Brewmaster":"酒仙","Balance":"平衡","Feral":"野性","Guardian":"守护","Havoc":"浩劫","Vengeance":"复仇","Devourer":"噬灭","Devastation":"毁灭","Augmentation":"增辉","Preservation":"恩护"};
