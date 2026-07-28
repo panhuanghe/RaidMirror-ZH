@@ -144,6 +144,15 @@ python build_zh.py     # 输出 index.html, 并自动提取 assets/hero-gnome.pn
 > `hero-gnome.png`；`spells.json` 为可选的全量法术名覆盖（站点内置 163 条核心映射可独立运行），
 > 可从本地部署包复制或自行生成，缺失不影响基础功能。
 
+## 版本发布流程（约定）
+
+- 只要仓库有修改（代码 / 样式 / 文档），就迭代版本（建议语义化版本号，如 `v1.0.2`）。
+- 发布时同步更新三处：
+  - `CHANGELOG.md`
+  - `README.md`（若本次改动影响说明）
+  - GitHub Releases（新 tag + release notes）
+- 部署压缩包作为发布产物放在 GitHub Releases，不直接留在仓库根目录长期跟踪。
+
 转换包含：146 条 UI 文案、47 条 JS 字符串、CSS 美化注入、Logo 替换、SPELL_ZH 映射层
 （163 条内嵌 + 外部 41 万+ 法术加载）、`meta.json` 副本 / 首领加载、PKCE 占位符。
 

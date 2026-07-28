@@ -20,3 +20,6 @@ assets/hero-gnome.png
 
 # 可选运行时数据(21MB; 站点内置 163 条核心法术映射可独立运行, 部署包 deploy/ 内含)
 data/spells.json
+
+# release artifacts
+zhanjing-deploy-*.zip
