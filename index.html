@@ -648,6 +648,12 @@ th{
   background:#141c29 !important;
 }
 
+@media(max-width:1640px){
+  .hero-gnome{
+    display:none !important;
+  }
+}
+
 @media(max-width:900px){
   .hero{padding:20px 16px 16px !important;}
   .hero-gnome{
@@ -870,10 +876,10 @@ th{
           <div style="background:#1a1400;border-left:3px solid #e3a008;border-radius:0 4px 4px 0;padding:6px 10px;font-size:12px;color:#c9d1d9">🧪 战斗中未使用药水: Sumanis, Frostbolt (开战药水无法跟踪)</div>
           <div style="background:#0d1f33;border-left:3px solid #79c0ff;border-radius:0 4px 4px 0;padding:6px 10px;font-size:12px;color:#79c0ff"><strong>下一次尝试重点:</strong> 定义坦克减伤覆盖 · 强化爆发技能使用 — 5 漏掉</div>
         </div>
-        <!-- Pull trend line -->
-        <div style="font-size:11px;color:#6e7681">战斗时长: <span style="color:#c9d1d9;font-weight:600">3:51</span> · 上一次: 3:44 <span style="color:#e3a008;font-weight:600">(+7s)</span></div>
+        <!-- 尝试趋势 -->
+        <div style="font-size:11px;color:#6e7681">战斗时长：<span style="color:#c9d1d9;font-weight:600">3:51</span> · 上一次：3:44 <span style="color:#e3a008;font-weight:600">(+7 秒)</span></div>
       </div>
-      <div style="padding:0 14px 10px;font-size:11px;color:#6e7681;font-style:italic">Boss 血量、坦克死亡标志、趋势、下一次建议 — 一眹全知</div>
+      <div style="padding:0 14px 10px;font-size:11px;color:#6e7681;font-style:italic">Boss 血量、坦克死亡标志、趋势、下一次建议 — 一目了然</div>
     </div>
 
     <!-- DEATHS — grouped + context -->
@@ -939,17 +945,17 @@ th{
       <div style="padding:12px">
         <div style="display:flex;gap:8px;margin-bottom:8px">
           <div style="flex:1;background:#0d2318;border:1px solid #3fb950;border-radius:6px;padding:8px;text-align:center;font-size:11px">
-            <div style="color:#3fb950;font-weight:700">Pull 3 — 击杀</div>
+            <div style="color:#3fb950;font-weight:700">尝试 3 — 击杀</div>
             <div style="color:#c9d1d9;font-size:13px;font-weight:700;margin:3px 0">4:33</div>
             <div style="color:#8b949e">0 次死亡 · 4.2M DPS</div>
           </div>
           <div style="flex:1;background:#2d1b1b;border:1px solid #f85149;border-radius:6px;padding:8px;text-align:center;font-size:11px">
-            <div style="color:#f85149;font-weight:700">Pull 2 — 灭团</div>
+            <div style="color:#f85149;font-weight:700">尝试 2 — 灭团</div>
             <div style="color:#c9d1d9;font-size:13px;font-weight:700;margin:3px 0">3:51</div>
             <div style="color:#8b949e">4 次死亡 · 3.8M DPS</div>
           </div>
         </div>
-        <div style="background:#21262d;border-radius:4px;padding:6px 10px;font-size:11px;color:#3fb950">↑ DPS ↑ 10.5% · 次死亡 down 4 — 趋势良好</div>
+        <div style="background:#21262d;border-radius:4px;padding:6px 10px;font-size:11px;color:#3fb950">↑ DPS 10.5% · 死亡减少 4 次 — 趋势良好</div>
       </div>
       <div style="padding:0 12px 12px;font-size:11px;color:#6e7681;font-style:italic">看看团队是否在逐次进步</div>
     </div>
@@ -1017,7 +1023,7 @@ th{
         </div>
         <div style="font-size:10px;color:#6e7681;line-height:1.6;padding:4px 0">WoWAnalyzer 直接打开该玩家日志进行深入分析。英雄段/Raider.io/Raidbots 同样一键到位</div>
       </div>
-      <div style="padding:0 12px 12px;font-size:11px;color:#6e7681;font-style:italic">WCL · WoWAnalyzer · Raider.io · Raidbots · Armory — every player, one click</div>
+      <div style="padding:0 12px 12px;font-size:11px;color:#6e7681;font-style:italic">WCL · WoWAnalyzer · Raider.io · Raidbots · 英雄榜 — 每位玩家，一键直达</div>
     </div>
 
     <!-- MECHANIC DEATHS -->
@@ -2901,7 +2907,7 @@ async function searchGuild(){
         const div=document.createElement("div");div.className="fi";
         div.dataset.fightId=f.id;
         const bossIcon=f.encounterID?`<img src="https://assets.rpglogs.com/img/warcraft/bosses/${f.encounterID}-icon.jpg" onerror="this.style.display='none'" style="width:28px;height:28px;border-radius:4px;object-fit:cover;flex-shrink:0;margin-right:6px" alt="">`:"";
-        div.innerHTML=`${bossIcon}<span class="kb ${f.kill?"kill":"wipe"}">${f.kill?"击杀":"灭团"}</span><span class="fi-name">${znEnc(f.encounterID,f.name)}</span><span class="fi-pull">Pull ${bpc[f.name]}${pct}</span><span class="fi-dur">${d}</span><a href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()" style="margin-left:8px;background:#0d1117;border:1px solid #30363d;color:#6e7681;padding:4px 10px;border-radius:4px;font-size:11px;text-decoration:none;flex-shrink:0" title="Open in WarcraftLogs">WCL ↗</a>`;
+        div.innerHTML=`${bossIcon}<span class="kb ${f.kill?"kill":"wipe"}">${f.kill?"击杀":"灭团"}</span><span class="fi-name">${znEnc(f.encounterID,f.name)}</span><span class="fi-pull">尝试 ${bpc[f.name]}${pct}</span><span class="fi-dur">${d}</span><a href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()" style="margin-left:8px;background:#0d1117;border:1px solid #30363d;color:#6e7681;padding:4px 10px;border-radius:4px;font-size:11px;text-decoration:none;flex-shrink:0" title="在 WarcraftLogs 中打开">WCL ↗</a>`;
         div.onclick=()=>selectFightById(f.id,false);
         bossWrap.appendChild(div);
       });
@@ -2927,7 +2933,7 @@ async function searchGuild(){
       // boss icon from rpglogs CDN -- uses WCL encounter IDs, NOT JournalEncounterID
       // zamimg uses JournalEncounterID which is a completely different number -- wasted an hour on that
       const bossIcon=f.encounterID?`<img src="https://assets.rpglogs.com/img/warcraft/bosses/${f.encounterID}-icon.jpg" onerror="this.style.display='none'" style="width:32px;height:32px;border-radius:4px;object-fit:cover;flex-shrink:0;margin-right:6px" alt="">`:"";
-      div.innerHTML=`${bossIcon}<span class="kb ${f.kill?"kill":"wipe"}">${f.kill?"击杀":"灭团"}</span><span class="fi-name">${znEnc(f.encounterID,f.name)}</span><span class="fi-pull">Pull ${f.pull}${pct}</span><span class="fi-dur">${d}</span><a href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()" style="margin-left:8px;background:#0d1f33;border:1px solid #4a9eff;color:#4a9eff;padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;text-decoration:none;flex-shrink:0;white-space:nowrap;box-shadow:0 0 6px #4a9eff30" title="Open in WarcraftLogs">📊 WCL ↗</a>`;
+      div.innerHTML=`${bossIcon}<span class="kb ${f.kill?"kill":"wipe"}">${f.kill?"击杀":"灭团"}</span><span class="fi-name">${znEnc(f.encounterID,f.name)}</span><span class="fi-pull">尝试 ${f.pull}${pct}</span><span class="fi-dur">${d}</span><a href="https://www.warcraftlogs.com/reports/${reportCode}#fight=${f.id}" target="_blank" onclick="event.stopPropagation()" style="margin-left:8px;background:#0d1f33;border:1px solid #4a9eff;color:#4a9eff;padding:5px 12px;border-radius:5px;font-size:12px;font-weight:700;text-decoration:none;flex-shrink:0;white-space:nowrap;box-shadow:0 0 6px #4a9eff30" title="在 WarcraftLogs 中打开">📊 WCL ↗</a>`;
       div.onclick=()=>selectFightById(f.id,false);
       list.appendChild(div);
     });
