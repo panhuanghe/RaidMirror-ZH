@@ -23,3 +23,5 @@ data/spells.json
 
 # release artifacts
 zhanjing-deploy-*.zip
+deploy
+deploy_pkg_*/
