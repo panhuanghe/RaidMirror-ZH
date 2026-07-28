@@ -22,6 +22,8 @@ assets/hero-gnome.png
 data/spells.json
 
 # release artifacts
-zhanjing-deploy-*.zip
+zhanjing-deploy-v*.zip
+# legacy package name (kept ignored to avoid accidental commit)
+zhanjing-release.zip
 deploy
 deploy_pkg_*/

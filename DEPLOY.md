@@ -17,6 +17,24 @@
 
 注意：必须通过 HTTP/HTTPS 访问，不能直接用 `file://` 打开本地 `index.html`。
 
+## 1.1 部署包命名规范（统一）
+
+- 统一命名：`zhanjing-deploy-vX.Y.Z.zip`
+- 示例：`zhanjing-deploy-v1.0.4.zip`
+- 不再使用旧命名：`zhanjing-release.zip`
+
+可直接用脚本打包（自动读取 README 里的当前版本号）：
+
+```powershell
+.package_release.ps1
+```
+
+也可手动指定版本号：
+
+```powershell
+.package_release.ps1 -Version 1.0.4
+```
+
 ## 2. 宝塔面板部署
 
 ### 2.1 创建站点
@@ -93,4 +111,3 @@ const PKCE_REDIRECT="https://你的域名";
 ### 6.3 重构建后 Client ID 被改回旧值
 
 说明只改了 `index.html`，没改 `build_zh.py`。按第 4 节同步修改后再构建。
-
