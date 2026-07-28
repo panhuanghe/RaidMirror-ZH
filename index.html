@@ -3942,18 +3942,18 @@ drows.forEach(d=>{
     const timed=isMPlus&&fight.kill&&(!fight.keystoneTime||runMs<=fight.keystoneTime);
 
     const cards=[
-      {val:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"✓ Timed":"✗ Depleted"):(fight.kill?"✓ 击杀":"✗ 灭团"),lbl:isMPlus?"Timer Result":"结果",cls:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"good":"bad"):(fight.kill?"good":"bad")},
-      {val:total死亡,lbl:"Total 死亡",cls:total死亡===0?"good":total死亡<=3?"warn":"bad"},
+      {val:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"✓ 限时完成":"✗ 超时"):(fight.kill?"✓ 击杀":"✗ 灭团"),lbl:isMPlus?"限时结果":"结果",cls:isMPlus?((fight.endTime-fight.startTime)<=fight.keystoneTime?"good":"bad"):(fight.kill?"good":"bad")},
+      {val:total死亡,lbl:"死亡总数",cls:total死亡===0?"good":total死亡<=3?"warn":"bad"},
       {val:totalInts,lbl:"打断",cls:totalInts>=5?"good":totalInts>=2?"warn":"bad"},
       {val:totalDisps,lbl:"驱散",cls:""},
       {val:totalCC,lbl:"控制使用",cls:""},
-      {val:`${potUsers}/${sorted.length}`,lbl:"药水 Users",cls:potUsers===sorted.length?"good":potUsers>=sorted.length*.7?"warn":"bad"},
-      {val:`${hsUsers}/${sorted.length}`,lbl:"治疗石 Users",cls:""},
-      {val:fmtNum(avgDps),lbl:"Avg DPS",cls:""},
+      {val:`${potUsers}/${sorted.length}`,lbl:"药水使用",cls:potUsers===sorted.length?"good":potUsers>=sorted.length*.7?"warn":"bad"},
+      {val:`${hsUsers}/${sorted.length}`,lbl:"治疗石使用",cls:""},
+      {val:fmtNum(avgDps),lbl:"平均 DPS",cls:""},
       {val:fmtNum(raidDps),lbl:"团队 DPS",cls:""},
-      {val:fmtNum(avgHps),lbl:"Avg HPS",cls:""},
+      {val:fmtNum(avgHps),lbl:"平均 HPS",cls:""},
       {val:fmtNum(raidHps),lbl:"团队 HPS",cls:""},
-      {val:漏掉OffTotal,lbl:"Missed 爆发 CDs",cls:漏掉OffTotal===0?"good":漏掉OffTotal<=3?"warn":"bad"},
+      {val:漏掉OffTotal,lbl:"遗漏爆发技能",cls:漏掉OffTotal===0?"good":漏掉OffTotal<=3?"warn":"bad"},
     ];
     const phaseSummaryHTML="";
     const readiness查看=sorted.filter(p=>p.readyStatus!=="good").slice(0,4);
@@ -3975,7 +3975,7 @@ drows.forEach(d=>{
     const topDispels=sorted.map(p=>({name:p.name,total:sumCounts(p.disps)})).filter(p=>p.total>0).sort((a,b)=>b.total-a.total).slice(0,2);
     const topCrowdControl=sorted.map(p=>({name:p.name,total:sumCounts(p.cc)})).filter(p=>p.total>0).sort((a,b)=>b.total-a.total).slice(0,2);
     const topRaidCDs=sorted.map(p=>({name:p.name,total:safeArr(p.timelineMarkers).filter(m=>m.kind==="raid").length})).filter(p=>p.total>0).sort((a,b)=>b.total-a.total).slice(0,2);
-    const bossWindowHighlights=bossTimelineRows.slice(0,3).map(row=>`${row.name} · ${row.kind==="damage"?`${fmtNum(row.damage)} raid dmg`:`${row.applications} apps`} · ${safeArr(row.clusters).length} window${safeArr(row.clusters).length===1?"":"s"}`);
+    const bossWindowHighlights=bossTimelineRows.slice(0,3).map(row=>`${row.name} · ${row.kind==="damage"?`${fmtNum(row.damage)} 团队伤害`:`${row.applications} 次影响`} · ${safeArr(row.clusters).length} 个窗口`);
     const tankLens=sorted.filter(p=>p.role==="tanks").sort((a,b)=>b.dtaken-a.dtaken)[0]||null;
     const healerLens=sorted.filter(p=>p.role==="healers").sort((a,b)=>b.healed-a.healed)[0]||null;
     const dpsLens=sorted.filter(p=>p.role==="dps").sort((a,b)=>b.ddealt-a.ddealt)[0]||null;
@@ -3989,29 +3989,29 @@ drows.forEach(d=>{
       avoidable查看
     });
     const pullTrend=summarizePullTrends(_summaryPullHist);
-    const defensiveGap死亡=drows.filter(d=>d.dcount>0&&String(d.ctx||"").includes("No recent defensive")).slice(0,3);
+    const defensiveGap死亡=drows.filter(d=>d.dcount>0&&String(d.ctx||"").includes("最近未使用减伤")).slice(0,3);
     const coverageGapRows=coverageSummary.filter(r=>r.uncovered>0).slice(0,2);
     const summaryDecks={
       overview:[
-        `<div class="summary-note-card"><div class="summary-note-title">干部笔记</div><div class="summary-note-body">${officerNotes.length?officerNotes.map((n,i)=>`${i+1}. ${n}`).join(" · "):"No obvious raid-lead action items on this pull."}</div><div class="summary-note-sub">This is the short list to talk through before diving into raw tables.</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Death Context+</div><div class="summary-note-body">${firstDeathNote?`${firstDeathNote.name} @ ${firstDeathNote.timeStr} — ${firstDeathNote.killer}`:"No player 次死亡 on this pull."}</div><div class="summary-note-sub">${firstDeathNote?.ctx||"Clean pull. Nobody died, so there is no first-death context to review."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">就绪 ${readyGoodCount}/${sorted.length} · 查看 ${readyWarnCount}/${sorted.length} · 修复 ${readyBadCount}/${sorted.length}</div><div class="summary-note-sub">${readiness查看.length?`重点关注：${readiness查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"本场 combatant 数据中，大部分成员就位情况良好。"} </div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Consumable Snapshot</div><div class="summary-note-body">${snapshotPlayers.length?`Food ${snapshotFood}/${snapshotPlayers.length} · Phial ${snapshotFlask}/${snapshotPlayers.length} · Rune ${snapshotRune}/${snapshotPlayers.length} · Weapon ${snapshotWeapon}/${snapshotPlayers.length}`:"This log did not expose usable prep-aura snapshots."}<br>药水 ${potUsers}/${sorted.length} · 治疗石s ${hsUsers}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFoodNames.length?`Missing food: ${missingFoodNames.join(", ")}`:"Food snapshot looked good."}${missingPhialNames.length?` · Missing phial: ${missingPhialNames.join(", ")}`:""}${missingRuneNames.length?` · Missing rune: ${missingRuneNames.join(", ")}`:""}${missingWeaponNames.length?` · Missing weapon buff: ${missingWeaponNames.join(", ")}`:""}`:"If Warcraft Logs does not expose those auras for the pull, RaidLens keeps this informational instead of guessing."}</div></div>`
+        `<div class="summary-note-card"><div class="summary-note-title">干部笔记</div><div class="summary-note-body">${officerNotes.length?officerNotes.map((n,i)=>`${i+1}. ${n}`).join(" · "):"本次尝试未发现明确的团队指挥事项。"}</div><div class="summary-note-sub">本区域列出进入原始表格前最值得讨论的事项。</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">死亡上下文+</div><div class="summary-note-body">${firstDeathNote?`${firstDeathNote.name} @ ${firstDeathNote.timeStr} — ${firstDeathNote.killer}`:"本次尝试无人死亡。"}</div><div class="summary-note-sub">${firstDeathNote?.ctx||"本次尝试无人死亡，无需复盘首次死亡上下文。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">就位确认+</div><div class="summary-note-body">就绪 ${readyGoodCount}/${sorted.length} · 查看 ${readyWarnCount}/${sorted.length} · 修复 ${readyBadCount}/${sorted.length}</div><div class="summary-note-sub">${readiness查看.length?`重点关注：${readiness查看.map(p=>`${p.name} (${p.readyText})`).join(" · ")}`:"本场战斗人员数据中，大部分成员就位情况良好。"} </div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">消耗品快照</div><div class="summary-note-body">${snapshotPlayers.length?`食物 ${snapshotFood}/${snapshotPlayers.length} · 合剂 ${snapshotFlask}/${snapshotPlayers.length} · 符文 ${snapshotRune}/${snapshotPlayers.length} · 武器增益 ${snapshotWeapon}/${snapshotPlayers.length}`:"该日志未提供可用的战前增益快照。"}<br>药水 ${potUsers}/${sorted.length} · 治疗石 ${hsUsers}/${sorted.length}</div><div class="summary-note-sub">${snapshotPlayers.length?`${missingFoodNames.length?`缺少食物：${missingFoodNames.join(", ")}`:"食物快照正常。"}${missingPhialNames.length?` · 缺少合剂：${missingPhialNames.join(", ")}`:""}${missingRuneNames.length?` · 缺少符文：${missingRuneNames.join(", ")}`:""}${missingWeaponNames.length?` · 缺少武器增益：${missingWeaponNames.join(", ")}`:""}`:"若 WCL 未提供本次战斗的相关光环，则仅展示已确认信息，不作推测。"}</div></div>`
       ],
       execution:[
-        `<div class="summary-note-card"><div class="summary-note-title">Utility 查看</div><div class="summary-note-body">${topInterrupts.length?`Interrupts: ${topInterrupts.map(p=>`${p.name} ${p.total}`).join(" · ")}`:"No interrupts recorded."}<br>${topDispels.length?`Dispels: ${topDispels.map(p=>`${p.name} ${p.total}`).join(" · ")}`:"No dispels recorded."}${topCrowdControl.length?`<br>CC: ${topCrowdControl.map(p=>`${p.name} ${p.total}`).join(" · ")}`:""}${topRaidCDs.length?`<br>Raid CDs: ${topRaidCDs.map(p=>`${p.name} ${p.total}`).join(" · ")}`:""}</div><div class="summary-note-sub">Use this as the quick accountability pass for stops, dispels, control, and visible raid cooldown ownership.</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Mechanic 查看list</div><div class="summary-note-body">${mechanicRows.filter(r=>r.watch).slice(0,3).map(r=>`${r.name} · ${r.playersCount} players`).join(" · ")||"No repeated debuff mechanic stood out on this pull."}</div><div class="summary-note-sub">${mechanicRows.filter(r=>r.watch).length?mechanicFixText(mechanicRows.filter(r=>r.watch)[0]):(bossTimelineRows.length?`Boss timeline is tracking ${bossTimelineRows.length} major ability lane${bossTimelineRows.length===1?"":"s"} for cooldown alignment.`:"Boss timeline did not find major repeated boss abilities this pull.")}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Danger Windows</div><div class="summary-note-body">${bossWindowHighlights.length?bossWindowHighlights.join(" · "):"No major boss windows were highlighted for this pull."}</div><div class="summary-note-sub">${bossWindowHighlights.length?"These are the moments to line personals, externals, and raid CDs up with on the timeline.":"If the boss lane is empty, this pull did not surface repeated boss windows clearly enough for a summary callout."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Cooldown Coverage</div><div class="summary-note-body">${coverageSummary.length?coverageSummary.map(r=>`${r.name}: ${r.covered}/${r.total}`).join(" · "):"No clear boss-event coverage windows were detected for this pull."}</div><div class="summary-note-sub">${coverageSummary.find(r=>r.uncovered>0)?.note||"Use the timeline tab to line raid CDs and personals up against the boss-ability lane."}</div></div>`
+        `<div class="summary-note-card"><div class="summary-note-title">功能技能检查</div><div class="summary-note-body">${topInterrupts.length?`打断：${topInterrupts.map(p=>`${p.name} ${p.total}`).join(" · ")}`:"无打断记录。"}<br>${topDispels.length?`驱散：${topDispels.map(p=>`${p.name} ${p.total}`).join(" · ")}`:"无驱散记录。"}${topCrowdControl.length?`<br>控制：${topCrowdControl.map(p=>`${p.name} ${p.total}`).join(" · ")}`:""}${topRaidCDs.length?`<br>团队减伤：${topRaidCDs.map(p=>`${p.name} ${p.total}`).join(" · ")}`:""}</div><div class="summary-note-sub">快速核对打断、驱散、控制和团队减伤的使用情况。</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">机制观察</div><div class="summary-note-body">${mechanicRows.filter(r=>r.watch).slice(0,3).map(r=>`${r.name} · ${r.playersCount} 名玩家`).join(" · ")||"本次战斗未发现反复出现的减益机制问题。"}</div><div class="summary-note-sub">${mechanicRows.filter(r=>r.watch).length?mechanicFixText(mechanicRows.filter(r=>r.watch)[0]):(bossTimelineRows.length?`Boss 时间轴正在跟踪 ${bossTimelineRows.length} 条主要技能轨道，用于对齐冷却。`:"本次尝试未发现反复出现的主要 Boss 技能。")}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">危险窗口</div><div class="summary-note-body">${bossWindowHighlights.length?bossWindowHighlights.join(" · "):"本次尝试未标出主要 Boss 技能窗口。"}</div><div class="summary-note-sub">${bossWindowHighlights.length?"这些时间点应在时间轴上对齐个人减伤、外部减伤和团队减伤。":"Boss 技能轨道为空，本次尝试没有足够清晰的重复技能窗口。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">冷却覆盖</div><div class="summary-note-body">${coverageSummary.length?coverageSummary.map(r=>`${r.name}: ${r.covered}/${r.total}`).join(" · "):"本次战斗未识别到明确的 Boss 技能覆盖窗口。"}</div><div class="summary-note-sub">${coverageSummary.find(r=>r.uncovered>0)?.note||"在时间轴中将团队减伤和个人减伤与 Boss 技能轨道对齐。"}</div></div>`
       ],
       performance:[
-        `<div class="summary-note-card"><div class="summary-note-title">Throughput Leaders</div><div class="summary-note-body">${sorted.filter(p=>p.ddealt>0).sort((a,b)=>b.ddealt-a.ddealt).slice(0,3).map(p=>`${p.name} ${fmtNum(Math.round(p.ddealt/fSec||0))} DPS`).join(" · ")||"No DPS data for this pull."}</div><div class="summary-note-sub">${sorted.filter(p=>p.healed>0).sort((a,b)=>b.healed-a.healed).slice(0,2).map(p=>`${p.name} ${fmtNum(Math.round(p.healed/fSec||0))} HPS`).join(" · ")||"No HPS data for this pull."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">Role Lenses</div><div class="summary-note-body">${tankLens?`Tank: ${tankLens.name} ${fmtNum(Math.round((tankLens.dtaken||0)/Math.max(fSec,1)))} 死亡/秒 · ${sumCounts(tankLens.defs)} defs`:"Tank lens unavailable."}<br>${healerLens?`Healer: ${healerLens.name} ${fmtNum(Math.round((healerLens.healed||0)/Math.max(fSec,1)))} HPS · ${sumCounts(healerLens.disps)} dispels`:"Healer lens unavailable."}<br>${dpsLens?`DPS: ${dpsLens.name} ${fmtNum(Math.round((dpsLens.ddealt||0)/Math.max(fSec,1)))} DPS · ${dpsLens.deaths.length||0} 次死亡`:"DPS lens unavailable."}</div><div class="summary-note-sub">Quick per-role read before filtering the scorecard or drilling into the deep tabs.</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">减伤 查看</div><div class="summary-note-body">${defensiveGap死亡.length?defensiveGap死亡.map(d=>`${d.name} @ ${d.timeStr}`).join(" · "):"No recent-defensive gaps stood out in the recorded 次死亡."}</div><div class="summary-note-sub">${coverageGapRows.length?`Coverage watch: ${coverageGapRows.map(r=>`${r.name} ${r.uncovered}/${r.total} uncovered`).join(" · ")}`:"Most tracked boss windows had some defensive or raid-CD coverage nearby."}</div></div>`,
-        `<div class="summary-note-card"><div class="summary-note-title">可避免 Pressure</div><div class="summary-note-body">${avoidable查看.length?avoidable查看.map(p=>`${p.name} ${fmt(p.avoidableTaken)} · ${p.avoidableHits} hit${p.avoidableHits===1?"":"s"}`).join(" · "):"No repeated avoidable pressure stood out on this pull."}</div><div class="summary-note-sub">This only tracks likely avoidable boss windows, so start with 次死亡 first and use this as coaching context.</div></div>`
+        `<div class="summary-note-card"><div class="summary-note-title">输出领先者</div><div class="summary-note-body">${sorted.filter(p=>p.ddealt>0).sort((a,b)=>b.ddealt-a.ddealt).slice(0,3).map(p=>`${p.name} ${fmtNum(Math.round(p.ddealt/fSec||0))} DPS`).join(" · ")||"本次尝试无 DPS 数据。"}</div><div class="summary-note-sub">${sorted.filter(p=>p.healed>0).sort((a,b)=>b.healed-a.healed).slice(0,2).map(p=>`${p.name} ${fmtNum(Math.round(p.healed/fSec||0))} HPS`).join(" · ")||"本次尝试无 HPS 数据。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">职责概览</div><div class="summary-note-body">${tankLens?`坦克：${tankLens.name} ${fmtNum(Math.round((tankLens.dtaken||0)/Math.max(fSec,1)))} 承伤/秒 · ${sumCounts(tankLens.defs)} 次减伤`:"无坦克数据。"}<br>${healerLens?`治疗：${healerLens.name} ${fmtNum(Math.round((healerLens.healed||0)/Math.max(fSec,1)))} HPS · ${sumCounts(healerLens.disps)} 次驱散`:"无治疗数据。"}<br>${dpsLens?`DPS：${dpsLens.name} ${fmtNum(Math.round((dpsLens.ddealt||0)/Math.max(fSec,1)))} DPS · ${dpsLens.deaths.length||0} 次死亡`:"无 DPS 数据。"}</div><div class="summary-note-sub">筛选评分卡或查看详细标签页前，先快速核对各职责表现。</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">减伤检查</div><div class="summary-note-body">${defensiveGap死亡.length?defensiveGap死亡.map(d=>`${d.name} @ ${d.timeStr}`).join(" · "):"已记录的死亡中未发现明显的近期减伤空缺。"}</div><div class="summary-note-sub">${coverageGapRows.length?`覆盖关注：${coverageGapRows.map(r=>`${r.name} ${r.uncovered}/${r.total} 未覆盖`).join(" · ")}`:"大多数已跟踪的 Boss 技能窗口附近都有个人或团队减伤覆盖。"}</div></div>`,
+        `<div class="summary-note-card"><div class="summary-note-title">可避免伤害</div><div class="summary-note-body">${avoidable查看.length?avoidable查看.map(p=>`${p.name} ${fmt(p.avoidableTaken)} · ${p.avoidableHits} 次命中`).join(" · "):"本次尝试未发现反复出现的可避免伤害。"}</div><div class="summary-note-sub">这里只跟踪疑似可避免的 Boss 技能窗口；先复盘死亡，再将此处作为指导参考。</div></div>`
       ],
       trends:[
-        `<div class="summary-note-card"><div class="summary-note-title">Pull Trend Summary</div><div class="summary-note-body">${pullTrend?`死亡 ${pullTrend.deaths.flat?"±0":(pullTrend.deaths.diff>0?"+":"")+pullTrend.deaths.diff} · 团队 DPS ${pullTrend.raidDps.flat?"±0":(pullTrend.raidDps.diff>0?"+":"")+fmtNum(Math.abs(pullTrend.raidDps.diff))} · 漏技能 ${pullTrend.漏掉.flat?"±0":(pullTrend.漏掉.diff>0?"+":"")+pullTrend.漏掉.diff}`:"Analyze at least two pulls of this boss to unlock trend context."}</div><div class="summary-note-sub">${pullTrend?(pullTrend.deaths.good||pullTrend.漏掉.good||pullTrend.pots.good?"You’re trending in the right direction. Keep the improvements that stuck.":"No obvious trend improvement yet — look at 次死亡 and mechanic failures first."):"Trends stay scoped to this boss within the current report/session."}</div></div>`
+        `<div class="summary-note-card"><div class="summary-note-title">尝试趋势</div><div class="summary-note-body">${pullTrend?`死亡 ${pullTrend.deaths.flat?"±0":(pullTrend.deaths.diff>0?"+":"")+pullTrend.deaths.diff} · 团队 DPS ${pullTrend.raidDps.flat?"±0":(pullTrend.raidDps.diff>0?"+":"")+fmtNum(Math.abs(pullTrend.raidDps.diff))} · 漏技能 ${pullTrend.漏掉.flat?"±0":(pullTrend.漏掉.diff>0?"+":"")+pullTrend.漏掉.diff}`:"至少分析该 Boss 的两次尝试后，才会显示趋势。"}</div><div class="summary-note-sub">${pullTrend?(pullTrend.deaths.good||pullTrend.漏掉.good||pullTrend.pots.good?"趋势正在改善，请保持已奏效的调整。":"暂未出现明显改善；优先检查死亡和机制失误。序列趋势仅统计当前报告或会话中的同一 Boss。"):"趋势仅统计当前报告或会话中的同一 Boss。"}</div></div>`
       ]
     };
     window._raidLensSummaryDecks=summaryDecks;
@@ -4590,12 +4590,12 @@ function getV5Sev(p,shortPull,meta){
   const avg可避免NonTank=meta?.avg可避免NonTank||0;
   if(p.role!=="tanks"&&p.deaths.length&&((p.avoidableTaken||0)>Math.max(avg可避免NonTank*1.5,1500000)||(p.avoidableHits||0)>=3))issues.push('avoidable');
   const sev=p.deaths.length>=2||issues.includes('avoidable')?'crit':issues.length?'warn':'ok';
-  return{issues,issueText:issues.length?issues.map(getIssueReasonLabel).join(' · '):'No flagged issues',sev};
+  return{issues,issueText:issues.length?issues.map(getIssueReasonLabel).join(' · '):'未发现问题',sev};
 }
 
 function buildDeathCtx(p,deathTs,casts,dmgT,aName,fightStart,bossRows){
   const rd=casts.filter(ev=>ev.sourceID===p.id&&DEFS[ev.abilityGameID]&&ev.timestamp<=deathTs).sort((a,b)=>b.timestamp-a.timestamp)[0];
-  const ds=rd&&((deathTs-rd.timestamp)<=15000)?'最后减伤: '+DEFS[rd.abilityGameID]+' (-'+Math.round((deathTs-rd.timestamp)/1000)+'s)':'No recent defensive';
+  const ds=rd&&((deathTs-rd.timestamp)<=15000)?'最后减伤: '+DEFS[rd.abilityGameID]+' (-'+Math.round((deathTs-rd.timestamp)/1000)+'s)':'最近未使用减伤';
   const recentHits=safeArr(dmgT).filter(ev=>ev.targetID===p.id&&ev.timestamp<=deathTs&&ev.timestamp>=deathTs-8000).sort((a,b)=>b.timestamp-a.timestamp).slice(0,2).map(ev=>{
     const amt=(ev.amount||0)+(ev.absorbed||0);
     const name=aName[ev.abilityGameID]||`Spell#${ev.abilityGameID}`;
@@ -4612,9 +4612,9 @@ function buildDeathCtx(p,deathTs,casts,dmgT,aName,fightStart,bossRows){
       const kind=detectRaidCD(nm,sid);
       return (kind==="def"||kind==="raid")&&Math.abs((ev.timestamp-fightStart)-nearBoss.t)<=6000;
     });
-    cov=nearby.length?`Boss window: ${nearBoss.name} had coverage`:`Coverage gap near ${nearBoss.name}`;
+    cov=nearby.length?`Boss 技能窗口：${nearBoss.name} 有减伤覆盖`:`${nearBoss.name} 附近存在减伤空缺`;
   }
-  const bits=[ds,recentHits.length?`Recent hits: ${recentHits.join(' · ')}`:"No recent hit context",p.hs?'治疗石 ✓':'No HS',p.pots?'Pot ✓':'未使用战斗药水',cov];
+  const bits=[ds,recentHits.length?`死亡前承伤：${recentHits.join(' · ')}`:"无死亡前承伤记录",p.hs?'治疗石 ✓':'未使用治疗石',p.pots?'药水 ✓':'未使用战斗药水',cov];
   return bits.filter(Boolean).join(' · ');
 }
 
@@ -4654,7 +4654,7 @@ function buildSummaryBand(ctx){
     callouts.push({cls:漏掉OffTotal>=5?'crit':'warn',text:'⚔️ 关键技能遗漏: '+漏掉OffTotal+(offenders.length?' — '+offenders.join(', '):'')});
   }
   if(noPotDps.length)callouts.push({cls:'warn',text:'🧪 未检测到药水: '+noPotDps.join(', ')+' (开战药水可能不可见)'});
-  if(shortPull)callouts.push({cls:'',text:'ℹ️ 简洁 pull ('+Math.round((fight.endTime-fight.startTime)/1000)+'s)'});
+  if(shortPull)callouts.push({cls:'',text:'ℹ️ 短暂尝试 ('+Math.round((fight.endTime-fight.startTime)/1000)+'s)'});
   if(!callouts.length)callouts.push({primary:true,cls:'good',text:'✅ 干净战斗 — 未发现重大问题'});
 
   // --- pull duration trend ---
@@ -4667,7 +4667,7 @@ function buildSummaryBand(ctx){
     const cs=toSec(curr.duration),ps=toSec(prev.duration),diff=cs-ps;
     const sign=diff>0?'+':'';
     const color=diff<0?'#3fb950':diff>0?'#e3a008':'#8b949e';
-    trendLine='<div style="margin-top:6px;font-size:11px;color:#6e7681">战斗时长: <span style="color:#c9d1d9;font-weight:600">'+curr.duration+'</span> · 上一次: '+prev.duration+' <span style="color:'+color+';font-weight:600">('+sign+diff+'s)</span>'+(curr.kill?' 🏆 击杀!':diff<0?' 📈 Trending right':'')+'</div>';
+    trendLine='<div style="margin-top:6px;font-size:11px;color:#6e7681">战斗时长: <span style="color:#c9d1d9;font-weight:600">'+curr.duration+'</span> · 上一次: '+prev.duration+' <span style="color:'+color+';font-weight:600">('+sign+diff+'s)</span>'+(curr.kill?' 🏆 击杀!':diff<0?' 📈 趋势改善':'')+'</div>';
   }
   const pullTrend=summarizePullTrends(pullHistory);
   if(pullTrend){
@@ -4676,7 +4676,7 @@ function buildSummaryBand(ctx){
       '团队 DPS '+(pullTrend.raidDps.flat?'±0':(pullTrend.raidDps.diff>0?'+':'')+fmtNum(Math.abs(pullTrend.raidDps.diff))),
       '漏技能 '+(pullTrend.漏掉.flat?'±0':(pullTrend.漏掉.diff>0?'+':'')+pullTrend.漏掉.diff),
     ];
-    trendLine+='<div style="margin-top:6px;font-size:11px;color:#8b949e">Session trend: '+trendBits.join(' · ')+'</div>';
+    trendLine+='<div style="margin-top:6px;font-size:11px;color:#8b949e">本次会话趋势：'+trendBits.join(' · ')+'</div>';
   }
 
   // --- next pull focus: simple rule-based suggestion ---
@@ -4684,22 +4684,22 @@ function buildSummaryBand(ctx){
   if(!fight.kill){
     const tops=[];
     if(tank死亡.length)tops.push('定义坦克减伤覆盖');
-    else if(cause&&cause.top击杀er&&cause.top击杀er.count>=2)tops.push('coordinate defensives for '+cause.top击杀er.name);
+    else if(cause&&cause.top击杀er&&cause.top击杀er.count>=2)tops.push('为 '+cause.top击杀er.name+' 协调减伤');
     if(漏掉OffTotal>=3)tops.push('强化爆发技能使用 — '+漏掉OffTotal+' 漏掉');
-    if(noPotDps.length>2)tops.push('remind '+(noPotDps.length)+' players to pot');
+    if(noPotDps.length>2)tops.push('提醒 '+noPotDps.length+' 名玩家使用药水');
     if(tops.length)focusLine='<div style="margin-top:8px;padding:6px 10px;background:#0d1f33;border-left:3px solid #79c0ff;border-radius:0 4px 4px 0;font-size:11px;color:#79c0ff"><strong>下一次尝试重点:</strong> '+tops.slice(0,2).join(' · ')+'</div>';
   }
 
   const jumps=[
     {l:'💀 死亡',t:'deaths'},{l:'🧿 机制',t:'mechanics'},
-    {l:'⚔️ Off CDs',t:'offensive'},{l:'🔄 Timeline',t:'timeline'},
-    {l:'⏱️ 空档期',t:'downtime'},{l:'⚠️ Summary',t:'wipe'},
+    {l:'⚔️ 爆发技能',t:'offensive'},{l:'🔄 时间轴',t:'timeline'},
+    {l:'⏱️ 空档期',t:'downtime'},{l:'⚠️ 战斗总结',t:'wipe'},
   ].map(j=>'<button class="v5-chip jump" style="border:none;cursor:pointer;margin-right:4px" data-tab="'+j.t+'">'+j.l+'</button>').join('');
-  const filters=['all','tanks','healers','dps','issues'].map((f,i)=>'<span class="v5-chip'+(i===0?' on':'')+'" data-filter="'+f+'" id="v5f-'+f+'" title="'+(f==='issues'?'Shows players flagged for 次死亡, 漏掉 offensive CDs, bad readiness snapshots, or very heavy avoidable damage that ended in a death.':'')+'">'+(f==='all'?'全部':f==='tanks'?'🛡 Tanks':f==='healers'?'💚 Healers':f==='dps'?'⚔ DPS':'⚠️ Issues')+'</span>').join('');
+  const filters=['all','tanks','healers','dps','issues'].map((f,i)=>'<span class="v5-chip'+(i===0?' on':'')+'" data-filter="'+f+'" id="v5f-'+f+'" title="'+(f==='issues'?'显示存在死亡、遗漏爆发技能、就位问题或高额可避免致死伤害的玩家。':'')+'">'+(f==='all'?'全部':f==='tanks'?'🛡 坦克':f==='healers'?'💚 治疗':f==='dps'?'⚔ DPS':'⚠️ 问题')+'</span>').join('');
   return '<div class="v5-band">'
     +'<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">'
     +'<div style="flex:1;min-width:200px">'
-    +'<div class="v5-band-title">🔭 Raid Lead Summary</div>'
+    +'<div class="v5-band-title">🔭 团长摘要</div>'
     +callouts.map((o,i)=>{
       // first callout (primary issue) gets bigger treatment
       if(i===0&&o.primary)return '<div class="v5-callout-primary">'+o.text+'</div>';
@@ -4710,9 +4710,9 @@ function buildSummaryBand(ctx){
     +'<div style="margin-top:10px;display:flex;gap:4px;flex-wrap:wrap">'+jumps+'</div>'
     +'</div>'
     +'<div style="display:flex;flex-direction:column;gap:6px">'
-    +'<div style="font-size:10px;color:#79c0ff;font-weight:700;margin-bottom:2px">FILTER</div>'
+    +'<div style="font-size:10px;color:#79c0ff;font-weight:700;margin-bottom:2px">筛选</div>'
     +'<div style="display:flex;gap:4px;flex-wrap:wrap">'+filters+'</div>'
-    +'<div style="font-size:10px;color:#79c0ff;font-weight:700;margin-top:4px;margin-bottom:2px">COPY FORMAT</div>'
+    +'<div style="font-size:10px;color:#79c0ff;font-weight:700;margin-top:4px;margin-bottom:2px">复制格式</div>'
     +'<div style="display:flex;gap:4px;flex-wrap:wrap">'
     +'<button class="copy-mode-btn" id="bCM-short"    data-mode="short"   >简洁</button>'
     +'<button class="copy-mode-btn" id="bCM-detailed" data-mode="detailed">详细</button>'
