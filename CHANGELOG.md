@@ -10,6 +10,18 @@
 
 - 暂无（下一次修改后继续迭代版本）
 
+## [v1.0.5] - 2026-07-28
+
+### Release 资产自动化
+
+- 新增 GitHub Actions 工作流 `.github/workflows/release_assets.yml`。
+- 推送 `v*` tag 时，自动创建/更新 Release 并上传标准命名部署包 `zhanjing-deploy-vX.Y.Z.zip`。
+- 自动为历史 tag 回填标准命名 zip 资产，并清理旧命名（如 `zhanjing-release.zip`）以统一格式。
+
+### 文档与流程
+
+- README / DEPLOY 更新为“发布包走 GitHub Release 资产”的统一流程。
+
 ## [v1.0.4] - 2026-07-28
 
 ### 发布与命名规范

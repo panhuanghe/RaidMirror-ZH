@@ -20,7 +20,7 @@
 ## 1.1 部署包命名规范（统一）
 
 - 统一命名：`zhanjing-deploy-vX.Y.Z.zip`
-- 示例：`zhanjing-deploy-v1.0.4.zip`
+- 示例：`zhanjing-deploy-v1.0.5.zip`
 - 不再使用旧命名：`zhanjing-release.zip`
 
 可直接用脚本打包（自动读取 README 里的当前版本号）：
@@ -32,7 +32,7 @@
 也可手动指定版本号：
 
 ```powershell
-.package_release.ps1 -Version 1.0.4
+.\package_release.ps1 -Version 1.0.5
 ```
 
 ## 2. 宝塔面板部署

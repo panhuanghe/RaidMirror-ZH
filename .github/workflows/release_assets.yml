@@ -1,0 +1,86 @@
+name: Release Assets
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-release-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags --force
+
+      - name: Backfill and upload standardized assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          REPO="$GITHUB_REPOSITORY"
+          API="https://api.github.com/repos/$REPO"
+
+          mapfile -t TAGS < <(git tag -l 'v*' | sort -V)
+          if [ "${#TAGS[@]}" -eq 0 ]; then
+            echo "No v* tags found. Skip."
+            exit 0
+          fi
+
+          for TAG in "${TAGS[@]}"; do
+            ASSET="zhanjing-deploy-$TAG.zip"
+            echo "==> Processing $TAG ($ASSET)"
+
+            RELEASE_JSON="$(curl -fsSL +              -H "Authorization: Bearer $GH_TOKEN" +              -H "Accept: application/vnd.github+json" +              "$API/releases/tags/$TAG" || true)"
+
+            if [ -z "$RELEASE_JSON" ]; then
+              echo "Release for $TAG not found, creating..."
+              RELEASE_JSON="$(curl -fsSL -X POST +                -H "Authorization: Bearer $GH_TOKEN" +                -H "Accept: application/vnd.github+json" +                "$API/releases" +                -d "{\"tag_name\":\"$TAG\",\"name\":\"$TAG\",\"generate_release_notes\":true}")"
+            fi
+
+            RELEASE_ID="$(echo "$RELEASE_JSON" | jq -r '.id')"
+            if [ -z "$RELEASE_ID" ] || [ "$RELEASE_ID" = "null" ]; then
+              echo "Failed to resolve release id for $TAG"
+              echo "$RELEASE_JSON"
+              exit 1
+            fi
+
+            # Remove legacy zip names to keep naming unified.
+            echo "$RELEASE_JSON" | jq -r --arg keep "$ASSET" '
+              .assets[]?
+              | select(
+                  (.name | endswith(".zip"))
+                  and (.name != $keep)
+                  and (.name | test("^zhanjing-(release|deploy-)"))
+                )
+              | .id
+            ' | while read -r AID; do
+              if [ -n "$AID" ]; then
+                echo "Deleting legacy asset id=$AID for $TAG"
+                curl -fsSL -X DELETE +                  -H "Authorization: Bearer $GH_TOKEN" +                  -H "Accept: application/vnd.github+json" +                  "$API/releases/assets/$AID" >/dev/null
+              fi
+            done
+
+            EXISTS="$(echo "$RELEASE_JSON" | jq -r --arg n "$ASSET" '[.assets[]?.name == $n] | any')"
+            if [ "$EXISTS" = "true" ]; then
+              echo "Asset already exists for $TAG, skip upload."
+              continue
+            fi
+
+            git archive --format=zip --output "$ASSET" "$TAG" index.html assets data data_core
+
+            curl -fsSL -X POST +              -H "Authorization: Bearer $GH_TOKEN" +              -H "Content-Type: application/zip" +              --data-binary @"$ASSET" +              "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$ASSET" +              >/dev/null
+
+            echo "Uploaded $ASSET to release $TAG"
+          done
+
