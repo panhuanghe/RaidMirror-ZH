@@ -1,7 +1,7 @@
 # 战镜 ZhanJing（RaidMirror-ZH）
 
 > 专业战斗日志分析与团队复盘工具 · 魔兽世界（WarcraftLogs）全中文版
-Demo网站 http://raidlog.100zy.cn/
+Demo网站 https://raidlog.100zy.cn/
 **战镜** 是一个全中文的魔兽世界团本战斗日志分析工具，复刻自开源项目
 RaidLens（© Fisheye3D），
 并进行了**完整中文化**与 **UI 美化**。
